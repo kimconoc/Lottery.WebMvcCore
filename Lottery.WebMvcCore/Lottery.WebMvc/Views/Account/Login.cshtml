@@ -117,15 +117,15 @@
                 },
                 url: "@Url.Action("ExecuteLogin", "Account")",
                 success: function (data) {
+                    hideOverlay();
                     if (data.success && data.data) {
-                       
+                       window.location = "/Main/Menu"
                     }
                     else {
                         $('#alert_login').html(data.message);
                          $('#alert_login').fadeIn(500);
                          setTimeout("$('#alert_login').fadeOut(1500);", 5000);
                     }
-                    hideOverlay();
                 },
             })
         }

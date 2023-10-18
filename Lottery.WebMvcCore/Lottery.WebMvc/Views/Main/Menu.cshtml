@@ -1,1 +1,18 @@
-﻿
+﻿<div class="box-form-account">
+    <div class="box-login-form">
+        <div class="header">
+            Đăng nhập
+        </div>
+
+        <div id="box_login_form_account" class="box-input-login">
+            <input id="loginName" name="LoginName" required maxlength="10" placeholder="Tài khoản" value="">
+        </div>
+        <div id="box_login_form_password" class="box-input-login">
+            <input type="password" id="password" name="Password" required maxlength="50" placeholder="Mật Khẩu" value="" />
+            <i id="hide_password" class="icon-show-password fa fa-eye-slash" aria-hidden="true"></i>
+            <i id="show_password" style="display:none;" class="icon-show-password fa fa-eye" aria-hidden="true"></i>
+        </div>
+        <span class="validate-error" id="alert_login"></span>
+        <button onclick="executeLogin()" class="btn-login btn-core-accept">Đăng nhập</button>
+    </div>
+</div>

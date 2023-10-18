@@ -11,6 +11,11 @@ namespace Lottery.WebMvc.Controllers
     {
         public IActionResult Login()
         {
+            var userData = GetCurrentUser();
+            if (userData != null)
+            {
+                return RedirectToAction("Menu", "Main");
+            }
             return View();
         }
 
@@ -33,24 +38,13 @@ namespace Lottery.WebMvc.Controllers
                 else
                 {
                     ExecuteSaveCookies(userData);
-                    return RedirectToAction("Main", "Menu");
+                    return Json(Success_Request(true));
                 }
             }
             catch (Exception ex)
             {
-                ViewBag.Message = "Have error when login. Please check with our Administrator!";
-            }
-
-            return Json(Server_Error());
-        }
-
-        private void ExecuteSaveCookies(User userData)
-        {
-            
-        }
-        private void RemoteCookies()
-        {
-            
+                return Json(Server_Error("Have error when login. Please check with our Administrator!"));
+            }  
         }
     }
 }

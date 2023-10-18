@@ -6,6 +6,11 @@ namespace Lottery.WebMvc.Controllers
     {
         public IActionResult Menu()
         {
+            var userData = GetCurrentUser();
+            if (userData != null)
+            {
+                
+            }
             return View();
         }
     }
