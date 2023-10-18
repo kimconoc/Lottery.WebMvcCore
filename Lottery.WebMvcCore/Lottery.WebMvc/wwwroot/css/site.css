@@ -36,3 +36,8 @@ body {
     color: white;
     background: #e3165b;
 }
+
+.validate-error {
+    color: #D93025;
+    font-size: 13px;
+}

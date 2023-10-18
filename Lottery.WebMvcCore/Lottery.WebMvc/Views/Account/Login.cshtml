@@ -1,5 +1,5 @@
 ﻿@{
-    //Layout = null;
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <html>
 <head>
+    <link href="~/css/login.css" rel="stylesheet" />
     <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
     <script src="~/js/constant.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -14,6 +15,7 @@
     @*master-plan*@
     <script src="~/assets/helpers/master-plan/adr_common.js"></script>
     <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>
+    <link href="~/assets//helpers/master-plan/style.css" rel="stylesheet" />
     @*cssscript*@
     <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
     <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
@@ -49,116 +51,6 @@
             margin: 0px !important;
         }
 
-        .box-form-account {
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-            margin: 0 auto;
-            margin-top: 20vh;
-            max-width: 450px;
-            background-color: white;
-            box-shadow: 0 6px 6px rgb(0 0 0 / 6%);
-            padding: 30px;
-        }
-
-            .box-form-account input {
-                flex: 1;
-                border: 0px solid transparent;
-                font-size: 17px;
-                outline: none;
-                border: 0;
-                flex-shrink: 0;
-                filter: none;
-            }
-
-
-        .box-login-form {
-        }
-
-            .box-login-form .header {
-                width: 100%;
-                font-size: 25px;
-            }
-
-
-            .box-login-form .box-input-login {
-                margin-top: 20px;
-                background-color: white;
-                box-sizing: border-box;
-                width: 100%;
-                height: 45px;
-                border: 1px solid rgba(0,0,0,.14);
-                border-radius: 2px;
-                width: 100%;
-                display: flex;
-                padding: 2px 10px 0 10px;
-                overflow: hidden;
-                box-shadow: inset 0 2px 0 rgb(0 0 0 / 2%);
-                outline: none;
-                justify-content: space-between;
-            }
-
-                .box-login-form .box-input-login i {
-                    width: auto;
-                    font-size: 18px;
-                    padding: 10px 0 8px 12px;
-                    cursor: pointer;
-                }
-
-                .box-login-form .box-input-login #show_password {
-                    color: #05a;
-                }
-
-            .box-login-form .btn-login {
-                width: 100%;
-                margin-top: 20px;
-                height: 45px;
-                font-size: 17px;
-            }
-
-            .box-login-form .box-lable-login {
-                margin-top: 5px;
-                /*Chia đều khoảng và cái đứa cái cuối về sát lề*/
-                display: flex;
-                justify-content: space-between;
-                color: #05a;
-            }
-
-                .box-login-form .box-lable-login a {
-                    color: #05a;
-                }
-
-            .box-login-form .box-describe {
-                margin-top: 20px;
-                text-transform: uppercase;
-                font-size: .75rem;
-                display: flex;
-            }
-
-                .box-login-form .box-describe span {
-                    margin: 0 5px 0 5px;
-                    font-size: 11px;
-                }
-
-                .box-login-form .box-describe .slim-line {
-                    margin-top: 7px;
-                    height: 1.5px;
-                    background-color: #ccc;
-                }
-
-            .box-login-form .box-register {
-                margin-top: 40px;
-                align-items: center;
-                display: flex;
-                justify-content: center;
-                width: 100%;
-            }
-
-                .box-login-form .box-register a {
-                    margin-left: 5px;
-                    color: #ee4d2d;
-                }
-
     </style>
 </head>
 <body>
@@ -177,7 +69,7 @@
                 <i id="show_password" style="display:none;" class="icon-show-password fa fa-eye" aria-hidden="true"></i>
             </div>
             <span class="validate-error" id="alert_login"></span>
-            <button class="btn-login btn-core-accept">Đăng nhập</button>
+            <button onclick="executeLogin()" class="btn-login btn-core-accept">Đăng nhập</button>
         </div>
     </div>
     <script>
@@ -196,12 +88,6 @@
             $('#password').on('blur', function () {
                 document.getElementById("box_login_form_password").style.borderColor = "rgba(0,0,0,.14)";
             });
-            if ('@ViewBag.Message' != '')
-            {
-                $('#alert_login').html('@ViewBag.Message');
-                $('#alert_login').fadeIn(500);
-                setTimeout("$('#alert_login').fadeOut(1500);", 5000 );
-            };
         });
         $('.icon-show-password').click(function (e) {
             var dom = this;
@@ -216,6 +102,33 @@
                 document.getElementById("password").setAttribute('type', 'password');
             }
         });
+        function executeLogin() {
+            var loginViewModel = {
+                loginName: document.getElementsByName("LoginName")[0].value,
+                password: document.getElementsByName("Password")[0].value,
+            }
+            loginJson = JSON.stringify(loginViewModel);
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "loginViewModelJson": loginJson,
+                },
+                url: "@Url.Action("ExecuteLogin", "Account")",
+                success: function (data) {
+                    if (data.success && data.data) {
+                       
+                    }
+                    else {
+                        $('#alert_login').html(data.message);
+                         $('#alert_login').fadeIn(500);
+                         setTimeout("$('#alert_login').fadeOut(1500);", 5000);
+                    }
+                    hideOverlay();
+                },
+            })
+        }
     </script>
 
 </body>

@@ -1,6 +1,4 @@
-﻿//Value
-
-//Function
+﻿//Function
 const validateEmail = (email) => {
     var validate_email = String(email)
         .toLowerCase()
