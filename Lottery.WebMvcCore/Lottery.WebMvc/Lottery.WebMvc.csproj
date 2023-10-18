@@ -7,6 +7,114 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\constant.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\constant.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\helpers\awesome-alert-main\awesomeAlert.js" />
+    <None Include="wwwroot\assets\helpers\awesome-alert-main\LICENSE" />
+    <None Include="wwwroot\assets\helpers\awesome-alert-main\README.md" />
+    <None Include="wwwroot\assets\helpers\awesome-alert-main\style.css" />
+    <None Include="wwwroot\assets\helpers\datetimepicker-master\jquery.datetimepicker.css" />
+    <None Include="wwwroot\assets\helpers\datetimepicker-master\jquery.datetimepicker.full.min.js" />
+    <None Include="wwwroot\assets\helpers\lib\select2\select2-spinner.gif" />
+    <None Include="wwwroot\assets\helpers\lib\select2\select2.css" />
+    <None Include="wwwroot\assets\helpers\lib\select2\select2.min.js" />
+    <None Include="wwwroot\assets\helpers\lib\select2\select2.png" />
+    <None Include="wwwroot\assets\helpers\lib\select2\select2x2.png" />
+    <None Include="wwwroot\assets\helpers\master-plan\adr_common.js" />
+    <None Include="wwwroot\assets\helpers\master-plan\iosOverlay.js" />
+    <None Include="wwwroot\assets\helpers\master-plan\main_v2.css" />
+    <None Include="wwwroot\assets\helpers\master-plan\style.css" />
+    <None Include="wwwroot\assets\helpers\pages-transition-loader\index.html" />
+    <None Include="wwwroot\assets\helpers\pages-transition-loader\LICENSE" />
+    <None Include="wwwroot\assets\helpers\pages-transition-loader\README.md" />
+    <None Include="wwwroot\assets\helpers\pages-transition-loader\vanilla-js-pages-transition-loader.min.js" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\.gitignore" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\demo\example.PNG" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\demo\index.html" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\dist\prompt-boxes.min.css" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\dist\prompt-boxes.min.css.map" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\dist\prompt-boxes.min.js" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\dist\prompt-boxes.min.js.map" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\LICENSE" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\README.md" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\src\css\prompt-boxes.css" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\src\css\prompt-boxes.scss" />
+    <None Include="wwwroot\assets\helpers\Prompt-Boxes-master\src\js\prompt-boxes.js" />
+    <None Include="wwwroot\assets\helpers\three-dots-master\dist\three-dots.css" />
+    <None Include="wwwroot\assets\helpers\three-dots-master\dist\three-dots.css.map" />
+    <None Include="wwwroot\assets\helpers\three-dots-master\dist\three-dots.min.css" />
+    <None Include="wwwroot\assets\helpers\three-dots-master\dist\three-dots.min.css.map" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\css\style.css" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\css\toastinette.css" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\css\toastinette.css.map" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\css\toastinette.min.css" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\css\toastinette.min.css.map" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\js\app.js" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\js\toastinette.js" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\scss\toastinette.scss" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\scss\utils\_animation.scss" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\assets\scss\utils\_variables.scss" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\index.html" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\LICENSE" />
+    <None Include="wwwroot\assets\helpers\toastinette-notification-main\README.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\.eslintignore" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\.eslintrc.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\.gitignore" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\.prettierrc" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\CODE_OF_CONDUCT.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\CONTRIBUTING.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\dist\tui-pagination.css" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\dist\tui-pagination.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\dist\tui-pagination.min.css" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\dist\tui-pagination.min.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\docs\COMMIT_MESSAGE_CONVENTION.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\docs\getting-started.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\docs\ISSUE_TEMPLATE.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\docs\README.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\docs\v3.0.0-migration-guide.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\examples\css\tui-example-style.css" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\examples\example01-basic.html" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\examples\example02-custom-event.html" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\examples\example03-using-template.html" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\ISSUE_TEMPLATE.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\karma.conf.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\LICENSE" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\README.md" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\src\css\pagination.css" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\src\img\sp_btn.png" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\src\js\index.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\src\js\pagination.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\src\js\util.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\src\js\view.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\test\index.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\test\pagination.spec.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\test\view.spec.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\tui-note.config.js" />
+    <None Include="wwwroot\assets\helpers\tui.pagination-3.4.0\webpack.config.js" />
+    <None Include="wwwroot\assets\images\icon\ajax-loader.gif" />
+    <None Include="wwwroot\assets\images\icon\dynamic\error.svg" />
+    <None Include="wwwroot\assets\images\icon\dynamic\info.svg" />
+    <None Include="wwwroot\assets\images\icon\dynamic\success.svg" />
+    <None Include="wwwroot\assets\images\icon\dynamic\warning.svg" />
+    <None Include="wwwroot\assets\images\icon\error.svg" />
+    <None Include="wwwroot\assets\images\icon\info.svg" />
+    <None Include="wwwroot\assets\images\icon\question.svg" />
+    <None Include="wwwroot\assets\images\icon\success.svg" />
+    <None Include="wwwroot\assets\images\icon\warning.svg" />
+    <None Include="wwwroot\assets\images\logos\logo_login.jpg" />
+    <None Include="wwwroot\assets\images\logos\r-logo_login.jpg" />
+    <None Include="wwwroot\assets\images\sidebar\sidebar-bg.jpg" />
+    <None Include="wwwroot\assets\images\switch.png" />
+    <None Include="wwwroot\js\constant.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Lottery.Service\Lottery.Service.csproj" />
   </ItemGroup>
 
