@@ -1,18 +1,139 @@
-﻿<div class="box-form-account">
-    <div class="box-login-form">
-        <div class="header">
-            Đăng nhập
-        </div>
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    User user = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies["LotteryCookie"];
+    if (cookieValue != null)
+    {
+        user = JsonConvert.DeserializeObject<User>(cookieValue);
+    }
+    else
+    {
+        HttpContextAccessor.HttpContext.Response.Redirect("/Account/Login");
+    }
+}
 
-        <div id="box_login_form_account" class="box-input-login">
-            <input id="loginName" name="LoginName" required maxlength="10" placeholder="Tài khoản" value="">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/assets/css/menu.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container-menu{
+            margin-top:10px;
+        }
+
+        .info-user{
+            display: flex;
+            padding: 5px;
+            gap: 10px;
+            margin-bottom:-10px;
+        }
+
+        .avatar{
+            font-size: 40px;
+            display: flex;
+            justify-content: center;
+            color: #4286f4;
+            margin-bottom: 20px;
+        }
+
+        .info-detail{
+            margin-top: 3px;
+            flex:1;
+            display:flex;
+            flex-flow:column;
+        }
+        .div-menu{
+            padding: 0px 10px 0px 10px;
+        }
+
+        .border-bottom-row {
+            margin-top: 5px;
+            border-bottom: 1px solid rgba(0,0,0,.14);
+        }
+
+        .row-menu{
+            display:flex;
+            gap:10px;
+            margin: 10px 0px 10px 3px;
+            font-size: 18px;
+        }
+
+            .row-menu span {
+                margin-top: 2px;
+            }
+
+            .row-menu i {
+                font-size: 22px;
+                color: #e3165b;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-menu">
+        <div class="info-user">
+            <div class="avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="info-detail">
+                <strong>Hạn sử dụng:@string.Format(" " +user.ExpireDate.ToString("yyyy/MM/dd"))</strong>
+                <strong>Tài khoản: @string.Format(" " +user.Account)</strong>
+            </div>
         </div>
-        <div id="box_login_form_password" class="box-input-login">
-            <input type="password" id="password" name="Password" required maxlength="50" placeholder="Mật Khẩu" value="" />
-            <i id="hide_password" class="icon-show-password fa fa-eye-slash" aria-hidden="true"></i>
-            <i id="show_password" style="display:none;" class="icon-show-password fa fa-eye" aria-hidden="true"></i>
+        <div class="div-menu">
+            <div class="border-bottom-row"></div>
+            <div class="row-menu">
+                <i class="fa fa-fighter-jet" aria-hidden="true"></i>
+                <span>Tính Nhanh</span>
+            </div>
         </div>
-        <span class="validate-error" id="alert_login"></span>
-        <button onclick="executeLogin()" class="btn-login btn-core-accept">Đăng nhập</button>
+        <div class="div-menu">
+            <div class="border-bottom-row"></div>
+            <div class="row-menu">
+                <i class="fa fa-list-ol" aria-hidden="true"></i>
+                <span>Danh Bạ</span>
+            </div>
+        </div>
+        <div class="div-menu">
+            <div class="border-bottom-row"></div>
+            <div class="row-menu">
+                <i class="fa fa-calculator" aria-hidden="true"></i>
+                <span>Xử Lý Miền Nam</span>
+            </div>
+        </div>
+        <div class="div-menu">
+            <div class="border-bottom-row"></div>
+            <div class="row-menu">
+                <i class="fa fa-calculator" aria-hidden="true"></i>
+                <span>Xử Lý Miền Trung</span>
+            </div>
+        </div>
+        <div class="div-menu">
+            <div class="border-bottom-row"></div>
+            <div class="row-menu">
+                <i class="fa fa-calculator" aria-hidden="true"></i>
+                <span>Xử Lý Miền Bắc</span>
+            </div>
+        </div>
+        <div class="div-menu">
+            <div class="border-bottom-row"></div>
+            <div class="row-menu">
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+                <span>Đăng Xuất</span>
+            </div>
+            <div class="border-bottom-row"></div>
+        </div>
     </div>
-</div>
+    <script>
+        
+    </script>
+</body>
+</html>
