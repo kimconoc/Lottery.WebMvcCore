@@ -2,10 +2,9 @@
 @using Lottery.DoMain.Models;
 @using Newtonsoft.Json;
 @using Lottery.DoMain.Enum;
-@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{
-    User user = null;
+    User user = new User();
     Layout = "~/Views/Shared/_Layout.cshtml";
     var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies["LotteryCookie"];
     if (cookieValue != null)
@@ -23,7 +22,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="~/assets/css/menu.css" rel="stylesheet" />
+    <link href="~/css/menu.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .container-menu{
@@ -53,6 +52,7 @@
         }
         .div-menu{
             padding: 0px 10px 0px 10px;
+            cursor: pointer;
         }
 
         .border-bottom-row {
@@ -95,7 +95,7 @@
                 <span>Tính Nhanh</span>
             </div>
         </div>
-        <div class="div-menu">
+        <div onclick="window.location.href='/Phonebook/ListPlayer';" class="div-menu">
             <div class="border-bottom-row"></div>
             <div class="row-menu">
                 <i class="fa fa-list-ol" aria-hidden="true"></i>
@@ -123,7 +123,7 @@
                 <span>Xử Lý Miền Bắc</span>
             </div>
         </div>
-        <div class="div-menu">
+        <div onclick="window.location.href='/Account/Logout';" class="div-menu">
             <div class="border-bottom-row"></div>
             <div class="row-menu">
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -133,7 +133,14 @@
         </div>
     </div>
     <script>
-        
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentPage = window.location.href;
+            sessionStorage.setItem("menuPage", currentPage);
+        });
+        $(document).ready(function () {
+
+        });
+
     </script>
 </body>
 </html>

@@ -46,5 +46,11 @@ namespace Lottery.WebMvc.Controllers
                 return Json(Server_Error("Have error when login. Please check with our Administrator!"));
             }  
         }
+
+        public IActionResult Logout()
+        {
+            RemoteCookies();
+            return RedirectToAction("Login", "Account");
+        }
     }
 }

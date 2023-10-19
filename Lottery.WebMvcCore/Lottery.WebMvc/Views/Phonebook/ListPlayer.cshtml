@@ -1,0 +1,51 @@
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    User user = new User();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies["LotteryCookie"];
+    if (cookieValue != null)
+    {
+        user = JsonConvert.DeserializeObject<User>(cookieValue);
+    }
+    else
+    {
+        HttpContextAccessor.HttpContext.Response.Redirect("/Account/Login");
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/listPlayer.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container-listplayer {
+            margin-top: 10px;
+        }
+
+        .info-page {
+            display: flex;
+            padding: 5px;
+            gap: 10px;
+            margin-bottom: -10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container-listplayer">
+        <div class="info-page">
+            ABCDEFFGH
+        </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

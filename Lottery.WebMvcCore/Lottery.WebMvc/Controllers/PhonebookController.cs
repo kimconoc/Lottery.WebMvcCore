@@ -2,9 +2,9 @@
 
 namespace Lottery.WebMvc.Controllers
 {
-    public class MainController : BaseController
+    public class PhonebookController : BaseController
     {
-        public IActionResult Menu()
+        public IActionResult ListPlayer()
         {
             return View();
         }
