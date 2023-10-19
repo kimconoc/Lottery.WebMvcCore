@@ -77,7 +77,6 @@
     @await RenderSectionAsync("Scripts", required: false)*@
     <script>
         function goBackMenuPage() {
-            debugger
             const previousPage = sessionStorage.getItem("menuPage");
             if (previousPage) {
                 window.location.href = previousPage;
