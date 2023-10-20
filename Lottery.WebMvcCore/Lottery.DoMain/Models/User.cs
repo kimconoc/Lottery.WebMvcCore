@@ -24,6 +24,11 @@ namespace Lottery.DoMain.Models
         public double TileBaSo { get; set; }
         public double DaXien { get; set; }
         public double BonSo { get; set; }
-        //public List<Phonebook> Phonebooks { get; set; }
+        public List<PhonebookUser> Phonebooks { get; set; }
+    }
+    public class PhonebookUser
+    {
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }
