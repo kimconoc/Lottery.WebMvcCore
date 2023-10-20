@@ -25,40 +25,7 @@
     <link href="~/css/listPlayer.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .container-listplayer {
-            
-        }
-
-        .info-page {
-            justify-content: center;
-            display: flex;
-            font-size: 16px;
-            color: #e3165b;
-            margin-bottom:20px;
-        }
-
-        .div-list-player {
-            display: flex;
-            padding: 5px;
-            gap: 10px;
-            margin-bottom: -10px;
-            margin-left: 20px;
-        }
-
-        .avatar {
-            font-size: 35px;
-            display: flex;
-            justify-content: center;
-            color: rgba(0,0,0,.14);
-            margin-bottom: 20px;
-        }
-
-        .info-detail {
-            margin-top: 3px;
-            flex: 1;
-            display: flex;
-            flex-flow: column;
-        }
+        
     </style>
 </head>
 <body>
@@ -81,6 +48,8 @@
                             <strong style="font-size:16px;">@string.Format(item.Name)</strong>
                             <span style="margin-top:5px;">@string.Format(item.PhoneNumber)</span>
                         </div>
+                        <i class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                        <i class="icon-danger-info fa fa-info-circle" aria-hidden="true"></i>
                         <div style="margin-top:5px;" class="border-bottom-row"></div>
                     </div>
                 </div>

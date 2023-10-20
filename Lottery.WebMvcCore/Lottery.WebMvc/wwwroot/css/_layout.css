@@ -1,1 +1,17 @@
-﻿
+﻿.div-header-layout {
+    padding: 10px 15px 10px 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: #e3165b;
+}
+
+    .div-header-layout span {
+        margin-top: 5px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .div-header-layout i {
+        font-size: 28px;
+        cursor: pointer;
+    }
