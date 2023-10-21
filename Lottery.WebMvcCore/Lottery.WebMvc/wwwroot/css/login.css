@@ -48,9 +48,9 @@
     }
 
         .box-login-form .box-input-login i {
+            margin-top:12px;
             width: auto;
             font-size: 18px;
-            padding: 10px 0 8px 12px;
             cursor: pointer;
         }
 
