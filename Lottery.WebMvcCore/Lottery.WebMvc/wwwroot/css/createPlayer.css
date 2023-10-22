@@ -2,21 +2,21 @@
 }
 
 .title-page {
-    padding: 10px 15px 10px 5px;
+    padding: 3px 15px 3px 5px;
     display: flex;
     justify-content: space-between;
 }
 
 .title-page-goback {
-    color: #4286f4;
+    margin-top: 9px;
+    color: white;
     cursor: pointer;
-    margin-top: 7px;
 }
 
 .title-page-btn-save {
-    color: #e3165b;
+    font-size:30px;
+    color: white;
     cursor: pointer;
-    font-size: 28px;
     background: none;
     border: none;
 }
@@ -45,6 +45,7 @@
         }
 
     .wrapper form {
+        margin-top: 10px;
         padding: 0px 10px 0px;
     }
 
