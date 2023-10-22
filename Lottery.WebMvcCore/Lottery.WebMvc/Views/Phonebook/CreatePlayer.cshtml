@@ -1,0 +1,651 @@
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/createPlayer.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
+    <script src="~/js/constant.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" />
+    @*master-plan*@
+    <script src="~/assets/helpers/master-plan/adr_common.js"></script>
+    <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>
+    <link href="~/assets//helpers/master-plan/style.css" rel="stylesheet" />
+    @*cssscript*@
+    <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
+    <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
+    @*Syncfusion*@
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-base/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-inputs/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-dropdowns/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-buttons/styles/material.css" rel="stylesheet">
+    <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        .container-createPlayer{
+
+        }
+
+        .title-page{
+            padding: 10px 15px 10px 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .title-page-goback{
+            color: #4286f4;
+            cursor: pointer;
+            margin-top: 7px;
+        }
+
+        .title-page-save{
+            color: #e3165b;
+            cursor: pointer;
+            font-size: 28px;
+        }
+
+        .wrapper {
+            width: 100%;
+            background: #fff;
+            border-radius: 5px;
+        }
+
+            .wrapper .title {
+                height: 55px;
+                background: #e3165b;
+                /*background: #16a085;*/
+                border-radius: 5px 5px 0 0;
+                color: #fff;
+                font-size: 30px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .wrapper .title span {
+                    font-size: 18px;
+                }
+
+            .wrapper form {
+                padding: 0px 10px 0px;
+            }
+
+                .wrapper form .row {
+                    height: 45px;
+                    margin-bottom: 15px;
+                    position: relative;
+                }
+
+                    .wrapper form .row input {
+                        height: 35px;
+                        width: 100%;
+                        outline: none;
+                        border-radius: 5px;
+                        border: 1px solid lightgrey;
+                        transition: all 0.3s ease;
+                    }
+
+        form .row input:focus {
+            border-color: #e3165b;
+            /*box-shadow: inset 0px 0px 2px 2px rgba(26,188,156,0.25);*/
+        }
+
+        form .row input::placeholder {
+            color: #999;
+        }
+
+        .wrapper form .row i {
+            position: absolute;
+            width: 47px;
+            height: 100%;
+            color: #fff;
+            background: #e3165b;
+            border: 1px solid #e3165b;
+            border-radius: 5px 0 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wrapper form .pass {
+            margin: -8px 0 20px 0;
+        }
+
+            .wrapper form .pass a {
+                color: #e3165b;
+                text-decoration: none;
+            }
+
+                .wrapper form .pass a:hover {
+                    text-decoration: underline;
+                }
+
+        .wrapper form .button input {
+            margin-top: 10px;
+            color: #fff;
+            font-weight: 500;
+            padding-left: 0px;
+            background: #e3165b;
+            border: 1px solid #e3165b;
+            cursor: pointer;
+        }
+
+        form .button input:hover {
+            /*background: #12876f;*/
+        }
+
+        .wrapper form .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .wrapper form .signup-link a {
+                color: #e3165b;
+                text-decoration: none;
+            }
+
+        form .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .div-row-input-val {
+            display: flex;
+            gap: 20px;
+        }
+
+        .div-row-radio-cach-trung {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            margin-top: 5px;
+        }
+
+        .div-row-input-val-radio {
+            margin-bottom: 15px;
+        }
+
+        .div-row-span-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-left: -5px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        .row-input-val {
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+        }
+
+            .row-input-val span {
+                font-weight: 500;
+            }
+    </style>
+</head>
+<body>
+    <div class="container-createPlayer">
+        <div class="title-page">
+            <div onclick="goBackMenuPage()" class="title-page-goback">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                Trang chính
+            </div>
+            <div class="title-page-save">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </div>
+        </div>
+        
+        <div class="wrapper">
+            <form id="createPlayerForm" action="#">
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Tên:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_name" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            SDT:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_phoneNumber">
+                    </div>
+                </div>
+                <div class="div-row-input-val div-row-input-val-radio">
+                    <input type="radio" id="cr_isKhach">
+                    <input type="radio" id="cr_isChu">
+                </div>
+                @*Miền Nam*@
+                <div class="div-row-input-val div-row-span-title">
+                    <span>**Miền Nam**</span>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò hai con bao:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nCoBaoHaiCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng hai con bao:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nTrungBaoHaiCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Hai con đầu đui:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nCoHaiConDD" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng hai con đầu đui:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nTrungHaiConDD" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò đá thẳng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nCoDaThang" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng đá thẳng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nTrungDaThang" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            <span>Cách trúng đá thẳng:</span>
+                        </span>
+                        <div class="div-row-radio-cach-trung">
+                            <input type="radio" id="cr_nCachTrungDaThang_motLan">
+                            <input type="radio" id="cr_nCachTrungDaThang_kyRuoi">
+                            <input type="radio" id="cr_nCachTrungDaThang_nhieuCap">
+                        </div>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò đá xiên:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nCoDaXien" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trung xiên:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nTrungDaXien" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            <span>Cách trúng đá xiên:</span>
+                        </span>
+                        <div class="div-row-radio-cach-trung">
+                            <input type="radio" id="cr_nCachTrungDaXien_motLan">
+                            <input type="radio" id="cr_nCachTrungDaXien_kyRuoi">
+                            <input type="radio" id="cr_nCachTrungDaXien_nhieuCap">
+                        </div>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò ba con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nCoBaCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng ba con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nTrungBaCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò bốn con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nCoBonCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng bốn con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nTrungBonCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Phần trăm tổng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_nPhanTramTong" required>
+                    </div>
+                </div>
+                @*Miền Trung*@
+                <div class="div-row-input-val div-row-span-title">
+                    <span>**Miền Trung**</span>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò hai con bao:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tCoBaoHaiCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng hai con bao:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tTrungBaoHaiCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Hai con đầu đui:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tCoHaiConDD" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng hai con đầu đui:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tTrungHaiConDD" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò đá thẳng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tCoDaThang" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng đá thẳng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tTrungDaThang" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            <span>Cách trúng đá thẳng:</span>
+                        </span>
+                        <div class="div-row-radio-cach-trung">
+                            <input type="radio" id="cr_tCachTrungDaThang_motLan">
+                            <input type="radio" id="cr_tCachTrungDaThang_kyRuoi">
+                            <input type="radio" id="cr_tCachTrungDaThang_nhieuCap">
+                        </div>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò đá xiên:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tCoDaXien" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trung xiên:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tTrungDaXien" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            <span>Cách trúng đá xiên:</span>
+                        </span>
+                        <div class="div-row-radio-cach-trung">
+                            <input type="radio" id="cr_tCachTrungDaXien_motLan">
+                            <input type="radio" id="cr_tCachTrungDaXien_kyRuoi">
+                            <input type="radio" id="cr_tCachTrungDaXien_nhieuCap">
+                        </div>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò ba con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tCoBaCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng ba con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tTrungBaCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò bốn con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tCoBonCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng bốn con:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tTrungBonCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Phần trăm tổng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_tPhanTramTong" required>
+                    </div>
+                </div>
+                @*Miền Bắc*@
+                <div class="div-row-input-val div-row-span-title">
+                    <span>**Miền Bắc**</span>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò hai con bao:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_bCoBaoHaiCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng hai con bao:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_bTrungBaoHaiCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Hai con đầu đui:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_bCoHaiConDD" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng hai con đầu đui:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_bTrungHaiConDD" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò đá thẳng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_bCoDaThang" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng đá thẳng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_bTrungDaThang" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            <span>Cách trúng đá thẳng:</span>
+                        </span>
+                        <div class="div-row-radio-cach-trung">
+                            <input type="radio" id="cr_bCachTrungDaThang_motLan">
+                            <input type="radio" id="cr_bCachTrungDaThang_kyRuoi">
+                            <input type="radio" id="cr_bCachTrungDaThang_nhieuCap">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:-3px;margin-bottom:7px;">
+                    <input id="cr_bcheckbox_show_daxien" type="checkbox" />
+                </div>
+                <div id="cr_show_bDaxien" style="display:none;">
+                    <div class="div-row-input-val">
+                        <div class="row row-input-val">
+                            <span>
+                                Cò đá xiên hai:
+                            </span>
+                            <input type="text" tabindex="1" id="cr_bCoXienHai">
+                        </div>
+                        <div class="row row-input-val">
+                            <span>
+                                Trúng đá xiên hai:
+                            </span>
+                            <input type="text" tabindex="1" id="cr_bTrungXienHai">
+                        </div>
+                    </div>
+                    <div class="div-row-input-val">
+                        <div class="row row-input-val">
+                            <span>
+                                Cò đá xiên ba:
+                            </span>
+                            <input type="text" tabindex="1" id="cr_bCoXienBa">
+                        </div>
+                        <div class="row row-input-val">
+                            <span>
+                                Trúng đá xiên ba:
+                            </span>
+                            <input type="text" tabindex="1" id="cr_bTrungXienBa">
+                        </div>
+                    </div>
+                    <div class="div-row-input-val">
+                        <div class="row row-input-val">
+                            <span>
+                                Cò đá xiên bốn:
+                            </span>
+                            <input type="text" tabindex="1" id="cr_bCoXienBon">
+                        </div>
+                        <div class="row row-input-val">
+                            <span>
+                                Trúng đá xiên bốn:
+                            </span>
+                            <input type="text" tabindex="1" id="cr_bTrungXienBon">
+                        </div>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Phần trăm tổng:
+                        </span>
+                        <input type="text" tabindex="1" id="cr_bPhanTramTong">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            ej.base.enableRipple(true);
+            // Initialize RadioButton component.
+            var radiobutton = new ej.buttons.RadioButton({ label: 'Khách', name: 'khachorchu', enableRtl: 'true', checked: true });
+            radiobutton.appendTo('#cr_isKhach');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Chủ', name: 'khachorchu', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_isChu');
+            // Miền Nam
+            radiobutton = new ej.buttons.RadioButton({ label: 'Một lần', name: 'cr_nCachTrungDaThang', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_nCachTrungDaThang_motLan');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Ky rưỡi', name: 'cr_nCachTrungDaThang', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_nCachTrungDaThang_kyRuoi');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Nhiều cặp', name: 'cr_nCachTrungDaThang', enableRtl: 'true', checked: true });
+            radiobutton.appendTo('#cr_nCachTrungDaThang_nhieuCap');
+            //
+            radiobutton = new ej.buttons.RadioButton({ label: 'Một lần', name: 'cr_nCachTrungDaXien', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_nCachTrungDaXien_motLan');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Ky rưỡi', name: 'cr_nCachTrungDaXien', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_nCachTrungDaXien_kyRuoi');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Nhiều cặp', name: 'cr_nCachTrungDaXien', enableRtl: 'true', checked: true });
+            radiobutton.appendTo('#cr_nCachTrungDaXien_nhieuCap');
+
+            // Miền Trung
+            radiobutton = new ej.buttons.RadioButton({ label: 'Một lần', name: 'cr_tCachTrungDaThang', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_tCachTrungDaThang_motLan');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Ky rưỡi', name: 'cr_tCachTrungDaThang', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_tCachTrungDaThang_kyRuoi');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Nhiều cặp', name: 'cr_tCachTrungDaThang', enableRtl: 'true', checked: true });
+            radiobutton.appendTo('#cr_tCachTrungDaThang_nhieuCap');
+            //
+            radiobutton = new ej.buttons.RadioButton({ label: 'Một lần', name: 'cr_tCachTrungDaXien', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_tCachTrungDaXien_motLan');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Ky rưỡi', name: 'cr_tCachTrungDaXien', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_tCachTrungDaXien_kyRuoi');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Nhiều cặp', name: 'cr_tCachTrungDaXien', enableRtl: 'true', checked: true });
+            radiobutton.appendTo('#cr_tCachTrungDaXien_nhieuCap');
+
+            // Miền Bắc
+            radiobutton = new ej.buttons.RadioButton({ label: 'Một lần', name: 'cr_bCachTrungDaThang', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_bCachTrungDaThang_motLan');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Ky rưỡi', name: 'cr_bCachTrungDaThang', enableRtl: 'true' });
+            radiobutton.appendTo('#cr_bCachTrungDaThang_kyRuoi');
+            radiobutton = new ej.buttons.RadioButton({ label: 'Nhiều cặp', name: 'cr_bCachTrungDaThang', enableRtl: 'true', checked: true });
+            radiobutton.appendTo('#cr_bCachTrungDaThang_nhieuCap');
+            // Render initialized CheckBox.
+            var checkbox = new ej.buttons.CheckBox({ label: 'Hiện đá xiên' });
+            checkbox.appendTo('#cr_bcheckbox_show_daxien');
+            checkbox.change = function (args) {
+                var element = document.getElementById("cr_show_bDaxien");
+                if (args.checked) {
+                    element.style.display = "block";
+                } else {
+                    element.style.display = "none";
+                }
+            };
+        });
+        function goBackMenuPage() {
+            const previousPage = sessionStorage.getItem("menuPage");
+            if (previousPage) {
+                window.location.href = previousPage;
+            }
+        }
+
+    </script>
+</body>
+</html>

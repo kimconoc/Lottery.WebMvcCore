@@ -8,5 +8,9 @@ namespace Lottery.WebMvc.Controllers
         {
             return View();
         }
+        public IActionResult CreatePlayer()
+        {
+            return View();
+        }
     }
 }
