@@ -32,165 +32,11 @@
     <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
     <style>
-        .container-createPlayer{
 
-        }
-
-        .title-page{
-            padding: 10px 15px 10px 5px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .title-page-goback{
-            color: #4286f4;
-            cursor: pointer;
-            margin-top: 7px;
-        }
-
-        .title-page-save{
-            color: #e3165b;
-            cursor: pointer;
-            font-size: 28px;
-        }
-
-        .wrapper {
-            width: 100%;
-            background: #fff;
-            border-radius: 5px;
-        }
-
-            .wrapper .title {
-                height: 55px;
-                background: #e3165b;
-                /*background: #16a085;*/
-                border-radius: 5px 5px 0 0;
-                color: #fff;
-                font-size: 30px;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-                .wrapper .title span {
-                    font-size: 18px;
-                }
-
-            .wrapper form {
-                padding: 0px 10px 0px;
-            }
-
-                .wrapper form .row {
-                    height: 45px;
-                    margin-bottom: 15px;
-                    position: relative;
-                }
-
-                    .wrapper form .row input {
-                        height: 35px;
-                        width: 100%;
-                        outline: none;
-                        border-radius: 5px;
-                        border: 1px solid lightgrey;
-                        transition: all 0.3s ease;
-                    }
-
-        form .row input:focus {
-            border-color: #e3165b;
-            /*box-shadow: inset 0px 0px 2px 2px rgba(26,188,156,0.25);*/
-        }
-
-        form .row input::placeholder {
-            color: #999;
-        }
-
-        .wrapper form .row i {
-            position: absolute;
-            width: 47px;
-            height: 100%;
-            color: #fff;
-            background: #e3165b;
-            border: 1px solid #e3165b;
-            border-radius: 5px 0 0 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .wrapper form .pass {
-            margin: -8px 0 20px 0;
-        }
-
-            .wrapper form .pass a {
-                color: #e3165b;
-                text-decoration: none;
-            }
-
-                .wrapper form .pass a:hover {
-                    text-decoration: underline;
-                }
-
-        .wrapper form .button input {
-            margin-top: 10px;
-            color: #fff;
-            font-weight: 500;
-            padding-left: 0px;
-            background: #e3165b;
-            border: 1px solid #e3165b;
-            cursor: pointer;
-        }
-
-        form .button input:hover {
-            /*background: #12876f;*/
-        }
-
-        .wrapper form .signup-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-            .wrapper form .signup-link a {
-                color: #e3165b;
-                text-decoration: none;
-            }
-
-        form .signup-link a:hover {
-            text-decoration: underline;
-        }
-
-        .div-row-input-val {
-            display: flex;
-            gap: 20px;
-        }
-
-        .div-row-radio-cach-trung {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            margin-top: 5px;
-        }
-
-        .div-row-input-val-radio {
-            margin-bottom: 15px;
-        }
-
-        .div-row-span-title {
-            font-weight: 600;
-            font-size: 16px;
-            margin-left: -5px;
-            margin-top: 10px;
-            margin-bottom: 5px;
-        }
-
-        .row-input-val {
-            flex: 1;
-            display: flex;
-            flex-flow: column;
-        }
-
-            .row-input-val span {
-                font-weight: 500;
-            }
+        input {
+            padding: 0px 0px 0px 5px;
+        }  
+        
     </style>
 </head>
 <body>
@@ -200,9 +46,9 @@
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                 Trang chính
             </div>
-            <div class="title-page-save">
+            <button type="submit" form="createPlayerForm" class="title-page-btn-save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
-            </div>
+            </button>
         </div>
         
         <div class="wrapper">
@@ -234,13 +80,13 @@
                         <span>
                             Cò hai con bao:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nCoBaoHaiCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nCoBaoHaiCon" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng hai con bao:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nTrungBaoHaiCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nTrungBaoHaiCon" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -248,13 +94,13 @@
                         <span>
                             Hai con đầu đui:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nCoHaiConDD" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nCoHaiConDD" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng hai con đầu đui:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nTrungHaiConDD" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nTrungHaiConDD" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -262,13 +108,13 @@
                         <span>
                             Cò đá thẳng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nCoDaThang" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nCoDaThang" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng đá thẳng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nTrungDaThang" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nTrungDaThang" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -288,13 +134,13 @@
                         <span>
                             Cò đá xiên:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nCoDaXien" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nCoDaXien" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trung xiên:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nTrungDaXien" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nTrungDaXien" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -314,13 +160,13 @@
                         <span>
                             Cò ba con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nCoBaCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nCoBaCon" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng ba con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nTrungBaCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nTrungBaCon" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -328,13 +174,13 @@
                         <span>
                             Cò bốn con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nCoBonCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nCoBonCon" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng bốn con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nTrungBonCon" required>
+                        <input type="number" tabindex="1" id="cr_nTrungBonCon" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -342,7 +188,7 @@
                         <span>
                             Phần trăm tổng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_nPhanTramTong" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_nPhanTramTong" required>
                     </div>
                 </div>
                 @*Miền Trung*@
@@ -354,13 +200,13 @@
                         <span>
                             Cò hai con bao:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tCoBaoHaiCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tCoBaoHaiCon" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng hai con bao:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tTrungBaoHaiCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tTrungBaoHaiCon" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -368,13 +214,13 @@
                         <span>
                             Hai con đầu đui:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tCoHaiConDD" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tCoHaiConDD" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng hai con đầu đui:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tTrungHaiConDD" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tTrungHaiConDD" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -382,13 +228,13 @@
                         <span>
                             Cò đá thẳng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tCoDaThang" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tCoDaThang" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng đá thẳng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tTrungDaThang" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tTrungDaThang" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -408,13 +254,13 @@
                         <span>
                             Cò đá xiên:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tCoDaXien" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tCoDaXien" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trung xiên:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tTrungDaXien" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tTrungDaXien" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -434,13 +280,13 @@
                         <span>
                             Cò ba con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tCoBaCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tCoBaCon" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng ba con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tTrungBaCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tTrungBaCon" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -448,13 +294,13 @@
                         <span>
                             Cò bốn con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tCoBonCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tCoBonCon" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng bốn con:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tTrungBonCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tTrungBonCon" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -462,7 +308,7 @@
                         <span>
                             Phần trăm tổng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_tPhanTramTong" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_tPhanTramTong" required>
                     </div>
                 </div>
                 @*Miền Bắc*@
@@ -474,13 +320,13 @@
                         <span>
                             Cò hai con bao:
                         </span>
-                        <input type="text" tabindex="1" id="cr_bCoBaoHaiCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bCoBaoHaiCon" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng hai con bao:
                         </span>
-                        <input type="text" tabindex="1" id="cr_bTrungBaoHaiCon" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bTrungBaoHaiCon" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -488,13 +334,13 @@
                         <span>
                             Hai con đầu đui:
                         </span>
-                        <input type="text" tabindex="1" id="cr_bCoHaiConDD" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bCoHaiConDD" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng hai con đầu đui:
                         </span>
-                        <input type="text" tabindex="1" id="cr_bTrungHaiConDD" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bTrungHaiConDD" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -502,13 +348,13 @@
                         <span>
                             Cò đá thẳng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_bCoDaThang" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bCoDaThang" required>
                     </div>
                     <div class="row row-input-val">
                         <span>
                             Trúng đá thẳng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_bTrungDaThang" required>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bTrungDaThang" required>
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -532,13 +378,13 @@
                             <span>
                                 Cò đá xiên hai:
                             </span>
-                            <input type="text" tabindex="1" id="cr_bCoXienHai">
+                            <input type="number" step="0.1" tabindex="1" id="cr_bCoXienHai">
                         </div>
                         <div class="row row-input-val">
                             <span>
                                 Trúng đá xiên hai:
                             </span>
-                            <input type="text" tabindex="1" id="cr_bTrungXienHai">
+                            <input type="number" step="0.1" tabindex="1" id="cr_bTrungXienHai">
                         </div>
                     </div>
                     <div class="div-row-input-val">
@@ -546,13 +392,13 @@
                             <span>
                                 Cò đá xiên ba:
                             </span>
-                            <input type="text" tabindex="1" id="cr_bCoXienBa">
+                            <input type="number" step="0.1" tabindex="1" id="cr_bCoXienBa">
                         </div>
                         <div class="row row-input-val">
                             <span>
                                 Trúng đá xiên ba:
                             </span>
-                            <input type="text" tabindex="1" id="cr_bTrungXienBa">
+                            <input type="number" step="0.1" tabindex="1" id="cr_bTrungXienBa">
                         </div>
                     </div>
                     <div class="div-row-input-val">
@@ -560,13 +406,13 @@
                             <span>
                                 Cò đá xiên bốn:
                             </span>
-                            <input type="text" tabindex="1" id="cr_bCoXienBon">
+                            <input type="number" step="0.1" tabindex="1" id="cr_bCoXienBon">
                         </div>
                         <div class="row row-input-val">
                             <span>
                                 Trúng đá xiên bốn:
                             </span>
-                            <input type="text" tabindex="1" id="cr_bTrungXienBon">
+                            <input type="number" step="0.1" tabindex="1" id="cr_bTrungXienBon">
                         </div>
                     </div>
                 </div>
@@ -575,7 +421,7 @@
                         <span>
                             Phần trăm tổng:
                         </span>
-                        <input type="text" tabindex="1" id="cr_bPhanTramTong">
+                        <input type="number" step="0.1" tabindex="1" id="cr_bPhanTramTong">
                     </div>
                 </div>
             </form>
@@ -645,6 +491,65 @@
                 window.location.href = previousPage;
             }
         }
+
+        // Bắt sự kiện submit của biểu mẫu create
+        document.getElementById("createPlayerForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
+            alert("Đang phát triển");
+            return;
+            var playerModel = {
+                name: document.getElementById("name").ej2_instances[0].value,
+                tileXac: document.getElementById("tileXac").ej2_instances[0].value,
+                tileThuong: document.getElementById("tileThuong").ej2_instances[0].value,
+                tileBaSo: document.getElementById("tileBaSo").ej2_instances[0].value,
+                daThang: document.getElementById("tileDaThang").ej2_instances[0].value,
+                daXien: document.getElementById("tileDaXien").ej2_instances[0].value,
+                bonSo: document.getElementById("tileBonso_create").ej2_instances[0].value,
+            }
+            var playerModels = [playerModel];
+            playerModels.push();
+            ShowOverlay(true);
+            playerJsons = JSON.stringify(playerModels);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "playerJsons": playerJsons,
+                },
+                url: "@Url.Action("ExecuteCreatePlayer", "Phonebook")",
+                success: function (data) {
+                    if (data.Success && data.Data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Tạo mới người chơi thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location = "/Phonebook/ListPlayer")
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.Message)) {
+                            message = data.Message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                    hideOverlay();
+                },
+            })
+        });
 
     </script>
 </body>
