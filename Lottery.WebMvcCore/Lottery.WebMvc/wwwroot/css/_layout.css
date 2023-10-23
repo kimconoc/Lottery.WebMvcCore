@@ -5,13 +5,13 @@
     color: #e3165b;
 }
 
-    .div-header-layout span {
-        margin-top: 5px;
-        font-size: 18px;
+    .div-header-layout strong {
+        margin-top: 7px;
+        font-size: 22px;
         text-align: center;
     }
 
     .div-header-layout i {
-        font-size: 28px;
+        font-size: 35px;
         cursor: pointer;
     }

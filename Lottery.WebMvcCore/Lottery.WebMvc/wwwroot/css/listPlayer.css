@@ -36,7 +36,17 @@
 .icon-danger-delete {
     color: red;
     position: absolute;
-    font-size: 16px;
+    font-size: 18px;
+    top: 12px;
+    right: 100px;
+    cursor: pointer;
+}
+
+.icon-danger-copy {
+    color: blue;
+    position: absolute;
+    font-size: 20px;
+    margin-top: -1px;
     top: 12px;
     right: 60px;
     cursor: pointer;
@@ -45,7 +55,7 @@
 .icon-danger-info {
     color: #4286f4;
     position: absolute;
-    font-size: 18px;
+    font-size: 20px;
     margin-top:-1px;
     top: 12px;
     right: 20px;

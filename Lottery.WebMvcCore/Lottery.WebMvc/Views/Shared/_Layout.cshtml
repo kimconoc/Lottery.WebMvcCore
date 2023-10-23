@@ -29,17 +29,28 @@
     @* #d85261/#d9534f: màu của lỗi, chú ý và xóa *@
 
     <style>
+          .header-page {
+            background: white;
+            position: fixed;
+            width: 100%;
+            max-width:600px;
+            margin:0 auto;
+            z-index: 1000;
+        }
 
+        .container {
+            padding-top: 50px;
+        }
     </style>
 
 </head>
 <body>
-    <header>
+    <header class="header-page">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <div class="div-header-layout">
                     <i onclick="goBackMenuPage()" class="fa fa-bars" aria-hidden="true"></i>
-                    <span>24/7</span>
+                    <strong>24/7</strong>
                     <i onclick="window.location.href='/Phonebook/CreatePlayer';" style="text-align: end;" class="fa fa-user-plus" aria-hidden="true"></i>
                 </div>
             </div>

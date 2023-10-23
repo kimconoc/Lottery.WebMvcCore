@@ -30,5 +30,6 @@ namespace Lottery.DoMain.Models
     {
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
+        public bool IsChu { get; set; }
     }
 }

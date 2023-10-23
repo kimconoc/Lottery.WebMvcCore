@@ -40,9 +40,9 @@
         .header-page {
             background: #e3165b;
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
+            max-width:600px;
+            margin:0 auto;
             z-index: 1000;
         }
 
@@ -55,9 +55,9 @@
 <body>
     <header class="header-page">
         <div class="title-page">
-            <div onclick="goBackMenuPage()" class="title-page-goback">
+            <div onclick="window.location.href='/Phonebook/ListPlayer';" class="title-page-goback">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                Trang chính
+                Danh bạ
             </div>
             <button type="submit" form="createPlayerForm" class="title-page-btn-save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
@@ -499,12 +499,6 @@
                 }
             };
         });
-        function goBackMenuPage() {
-            const previousPage = sessionStorage.getItem("menuPage");
-            if (previousPage) {
-                window.location.href = previousPage;
-            }
-        }
 
         // Bắt sự kiện submit của biểu mẫu create
         document.getElementById("createPlayerForm").addEventListener("submit", function (event) {

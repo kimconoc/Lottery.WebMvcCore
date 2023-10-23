@@ -8,13 +8,13 @@
 }
 
 .title-page-goback {
-    margin-top: 9px;
+    margin-top: 12px;
     color: white;
     cursor: pointer;
 }
 
 .title-page-btn-save {
-    font-size:30px;
+    font-size:35px;
     color: white;
     cursor: pointer;
     background: none;
@@ -50,13 +50,15 @@
     }
 
         .wrapper form .row {
-            height: 45px;
+            font-size: 16px;
+            height: 50px;
             margin-bottom: 15px;
             position: relative;
         }
 
             .wrapper form .row input {
-                height: 35px;
+                font-size:15px;
+                height: 100%;
                 width: 100%;
                 outline: none;
                 border-radius: 5px;

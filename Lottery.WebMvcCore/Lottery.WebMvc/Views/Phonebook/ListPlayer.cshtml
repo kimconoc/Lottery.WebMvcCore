@@ -45,20 +45,12 @@
                     <div style="flex: 1;">
                         <div class="info-detail">
                             <strong style="font-size:16px;">@string.Format(item.Name)</strong>
-                            <span style="margin-top:5px;">@string.Format(item.PhoneNumber)</span>
+                            <span style="margin-top:5px;">@string.Format(item.PhoneNumber + " " + (item.IsChu? "(chủ)" : "(khách)"))</span>
                         </div>
                         <i class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                        <i class="icon-danger-copy fa fa-copyright" aria-hidden="true"></i>
                         <i class="icon-danger-info fa fa-info-circle" aria-hidden="true"></i>
-                        @{
-                            if(string.IsNullOrEmpty(item.PhoneNumber))
-                            {
-                                <div style="margin-bottom:5px;" class="border-bottom-row"></div>
-                            }
-                            else
-                            {
-                                <div style="margin-bottom:20px;" class="border-bottom-row"></div>
-                            }
-                        }                      
+                        <div style="margin-bottom:20px;" class="border-bottom-row"></div>                   
                     </div>
                 </div>
             }
