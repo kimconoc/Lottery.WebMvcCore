@@ -57,8 +57,8 @@
                             <span style="margin-top:5px;">@string.Format(item.PhoneNumber + " " + (item.IsChu? "(chủ)" : "(khách)"))</span>
                         </div>
                         <i id="@item.Id" onclick="deletePlayer(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                        <i class="icon-danger-copy fa fa-copyright" aria-hidden="true"></i>
-                        <i class="icon-danger-info fa fa-info-circle" aria-hidden="true"></i>
+                        <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id&isCopy=true';" class="icon-danger-copy fa fa-copyright" aria-hidden="true"></i>
+                        <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id';" class="icon-danger-info fa fa-info-circle" aria-hidden="true"></i>
                         <div style="margin-bottom:20px;" class="border-bottom-row"></div>                   
                     </div>
                 </div>

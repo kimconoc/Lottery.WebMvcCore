@@ -9,6 +9,7 @@ namespace Lottery.DoMain.Models
 {
     public class Phonebook : VBaseModel<int>
     {
+        public bool IsCopy { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsChu { get; set; }
