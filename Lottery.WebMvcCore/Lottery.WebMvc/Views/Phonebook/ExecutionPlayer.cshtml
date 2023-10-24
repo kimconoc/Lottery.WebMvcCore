@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="~/css/createPlayer.css" rel="stylesheet" />
+    <link href="~/css/executePlayer.css" rel="stylesheet" />
     <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
     <script src="~/js/constant.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -42,7 +42,7 @@
             font-size: 15px;
         }
 
-        .container-createPlayer {
+        .container-executePlayer {
             padding-top: 50px;
         }
 
@@ -55,14 +55,14 @@
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                 Danh bạ
             </div>
-            <button type="submit" form="createPlayerForm" class="title-page-btn-save">
+            <button type="submit" form="executePlayerForm" class="title-page-btn-save">
                 <i class="fa fa-floppy-o" aria-hidden="true"></i>
             </button>
         </div>
     </header>
-    <div class="container-createPlayer">
+    <div class="container-executePlayer">
         <div class="wrapper">
-            <form id="createPlayerForm" action="#">
+            <form id="executePlayerForm" action="#">
                 <div class="div-row-input-val">
                     <div class="row row-input-val">
                         <span>
@@ -525,7 +525,7 @@
         });
 
         // Bắt sự kiện submit của biểu mẫu create
-        document.getElementById("createPlayerForm").addEventListener("submit", function (event) {
+        document.getElementById("executePlayerForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
 
             var selectedRadioKhachorchu = document.querySelector('input[name="khachorchu"]:checked');
@@ -599,7 +599,7 @@
                 {
                     "playerJsons": playerJsons,
                 },
-                url: "@Url.Action("ExecuteCreatePlayer", "Phonebook")",
+                url: "@Url.Action("ExecutePlayer", "Phonebook")",
                 success: function (data) {
                     if (data.success && data.data) {
                         awesomeAlert({

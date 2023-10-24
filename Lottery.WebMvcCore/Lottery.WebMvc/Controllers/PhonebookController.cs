@@ -14,13 +14,13 @@ namespace Lottery.WebMvc.Controllers
         {
             return View();
         }
-        public IActionResult CreatePlayer()
+        public IActionResult ExecutionPlayer()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult ExecuteCreatePlayer(string playerJsons)
+        public IActionResult ExecutePlayer(string playerJsons)
         {
 
             try
