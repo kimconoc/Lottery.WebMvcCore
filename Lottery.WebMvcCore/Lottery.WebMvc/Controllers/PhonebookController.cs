@@ -1,7 +1,9 @@
 ﻿using Lottery.DoMain.Constant;
+using Lottery.DoMain.FileLog;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Lottery.WebMvc.Controllers
 {
@@ -19,31 +21,43 @@ namespace Lottery.WebMvc.Controllers
         [HttpPost]
         public ActionResult ExecuteCreatePlayer(string playerJsons)
         {
-            var userData = GetCurrentUser();
-            var players = JsonConvert.DeserializeObject<List<PhonebookModel>>(playerJsons);
-            // Tạo mới
-            if (players[0].Id == null)
+
+            try
             {
-                players[0].IsDeleted = false;
-                players[0].PhoneNumber = "";
-                var playerBase = provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
-                if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
+                var userData = GetCurrentUser();
+                var players = JsonConvert.DeserializeObject<List<PhonebookModel>>(playerJsons);
+                // Tạo mới
+                players[0].UserID = userData.Id;
+                if (players[0].Id == null)
                 {
-                    return Json(Success_Request(playerBase.Result.IsSuccessful));
+                    players[0].IsDeleted = false;
+                    if (string.IsNullOrEmpty(players[0].PhoneNumber))
+                    {
+                        players[0].PhoneNumber = "";
+                    }
+                    var playerBase = provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
+                    if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
+                    {
+                        return Json(Success_Request(playerBase.Result.IsSuccessful));
+                    }
+                }
+                // Update
+                else if (players[0].Id != null && !players[0].IsDeleted)
+                {
+                    if (string.IsNullOrEmpty(players[0].PhoneNumber))
+                    {
+                        players[0].PhoneNumber = "";
+                    }
+                    var playerBase = provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
+                    if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
+                    {
+                        return Json(Success_Request(playerBase.Result.IsSuccessful));
+                    }
                 }
             }
-            // Update
-            else if (players[0].Id != null && !players[0].IsDeleted)
+            catch(Exception ex)
             {
-                if (string.IsNullOrEmpty(players[0].PhoneNumber))
-                {
-                    players[0].PhoneNumber = "";
-                }
-                var playerBase = provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
-                if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
-                {
-                    return Json(Success_Request(playerBase.Result.IsSuccessful));
-                }
+                FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
             }
 
             return View(Server_Error());

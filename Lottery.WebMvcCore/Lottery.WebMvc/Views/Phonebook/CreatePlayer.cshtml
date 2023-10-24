@@ -37,13 +37,9 @@
             padding: 0px 0px 0px 5px;
         }
 
-        .header-page {
-            background: #e3165b;
-            position: fixed;
-            width: 100%;
-            max-width:600px;
-            margin:0 auto;
-            z-index: 1000;
+        .e-checkbox-wrapper .e-frame + .e-label, .e-css.e-checkbox-wrapper .e-frame + .e-label {
+            margin-left: 10px;
+            font-size: 15px;
         }
 
         .container-createPlayer {
@@ -383,7 +379,35 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-top:-3px;margin-bottom:7px;">
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò ba con:
+                        </span>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bCoBaCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng ba con:
+                        </span>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bTrungBaCon" required>
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò bốn con:
+                        </span>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bCoBonCon" required>
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng bốn con:
+                        </span>
+                        <input type="number" step="0.1" tabindex="1" id="cr_bTrungBonCon" required>
+                    </div>
+                </div>
+                <div style="margin-top:-3px;margin-bottom:10px;">
                     <input id="cr_bcheckbox_show_daxien" type="checkbox" />
                 </div>
                 <div id="cr_show_bDaxien" style="display:none;">
@@ -435,7 +459,7 @@
                         <span>
                             Phần trăm tổng:
                         </span>
-                        <input type="number" step="0.1" tabindex="1" id="cr_bPhanTramTong">
+                        <input type="number" step="0.1" tabindex="1" id="cr_bPhanTramTong" required>
                     </div>
                 </div>
             </form>
@@ -446,9 +470,9 @@
 
             ej.base.enableRipple(true);
             // Initialize RadioButton component.
-            var radiobutton = new ej.buttons.RadioButton({ label: 'Khách', name: 'khachorchu', enableRtl: 'true', checked: true });
+            var radiobutton = new ej.buttons.RadioButton({ label: 'Khách', name: 'khachorchu', value: 'false', enableRtl: 'true', checked: true });
             radiobutton.appendTo('#cr_isKhach');
-            radiobutton = new ej.buttons.RadioButton({ label: 'Chủ', name: 'khachorchu', enableRtl: 'true' });
+            radiobutton = new ej.buttons.RadioButton({ label: 'Chủ', name: 'khachorchu', value: 'true', enableRtl: 'true' });
             radiobutton.appendTo('#cr_isChu');
             // Miền Nam
             radiobutton = new ej.buttons.RadioButton({ label: 'Một lần', name: 'cr_nCachTrungDaThang',value: '0', enableRtl: 'true' });
@@ -552,7 +576,6 @@
                 bCoDaThang: document.getElementById("cr_bCoDaThang").value,
                 bTrungDaThang: document.getElementById("cr_bTrungDaThang").value,
                 bCachTrungDaThang: selectedRadioCr_bCachTrungDaThang.value,
-                //
                 bCoBaCon: document.getElementById("cr_bCoBaCon").value,
                 bTrungBaCon: document.getElementById("cr_bTrungBaCon").value,
                 bCoBonCon: document.getElementById("cr_bCoBonCon").value,
@@ -578,7 +601,7 @@
                 },
                 url: "@Url.Action("ExecuteCreatePlayer", "Phonebook")",
                 success: function (data) {
-                    if (data.Success && data.Data) {
+                    if (data.success && data.data) {
                         awesomeAlert({
                             header: true,
                             type: 'success',
@@ -592,7 +615,7 @@
                     }
                     else {
                         var message = "Đã có lỗi xảy ra."
-                        if (!isNullOrEmpty(data.Message)) {
+                        if (!isNullOrEmpty(data.message)) {
                             message = data.Message;
                         }
                         awesomeAlert({
@@ -606,8 +629,22 @@
                             closeStyle: 'circle'
                         }).then(res => false)
                     }
-                    hideOverlay();
                 },
+                error: function (xhr, status, error) {
+                    awesomeAlert({
+                        header: true,
+                        type: 'error',
+                        title: 'Có lỗi!',
+                        message: 'Lỗi hệ thống',
+                        //bgColor: '#2dd284',
+                        img: '/assets/images/icon/error.svg',
+                        buttonOK: 'Oke!',
+                        closeStyle: 'circle'
+                    }).then(res => false)
+                },
+                complete: function () {
+                    hideOverlay();
+                }
             })
         });
 

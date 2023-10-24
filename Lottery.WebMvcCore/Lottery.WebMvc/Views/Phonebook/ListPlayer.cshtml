@@ -2,14 +2,23 @@
 @using Lottery.DoMain.Models;
 @using Newtonsoft.Json;
 @using Lottery.DoMain.Enum;
+@using Lottery.Service.ServiceProvider;
+@using Lottery.Service.ServiceProvider.Interface;
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     User user = new User();
     Layout = "~/Views/Shared/_Layout.cshtml";
     var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies["LotteryCookie"];
+    List<Phonebook> phonebooks = new List<Phonebook>();
     if (cookieValue != null)
     {
         user = JsonConvert.DeserializeObject<User>(cookieValue);
+        IProvider provider = new Provider();
+        var dataBase = provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", user.Id));
+        if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
+        {
+            phonebooks = dataBase.Result.Data;
+        }
     }
     else
     {
@@ -34,9 +43,9 @@
                 Danh Bạ
             </strong>
         </div>
-        @if (user.Phonebooks != null)
+        @if (phonebooks != null)
         {
-            foreach (var item in user.Phonebooks)
+            foreach (var item in phonebooks)
             {
                 <div class="div-list-player">
                     <div class="avatar">
