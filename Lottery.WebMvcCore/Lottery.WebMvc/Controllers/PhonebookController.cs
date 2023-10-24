@@ -1,5 +1,6 @@
 ﻿using Lottery.DoMain.Constant;
 using Lottery.DoMain.FileLog;
+using Lottery.DoMain.Models;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -19,7 +20,7 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
-        public ActionResult ExecuteCreatePlayer(string playerJsons)
+        public IActionResult ExecuteCreatePlayer(string playerJsons)
         {
 
             try
@@ -62,6 +63,31 @@ namespace Lottery.WebMvc.Controllers
 
             return View(Server_Error());
 
+        }
+
+        [HttpPost]
+        public IActionResult ExecuteDeletePlayer(int playerId)
+        {
+            var userData = GetCurrentUser();
+            List<Phonebook> phonebooks = new List<Phonebook>();
+            var dataBase = provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", userData.Id));
+            if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
+            {
+                phonebooks = dataBase.Result.Data;
+            }
+            var phonebook = phonebooks.FirstOrDefault(x => x.Id == playerId);
+            phonebook.IsDeleted = true;
+            var players = new List<Phonebook>();
+            players.Add(phonebook);
+
+            // Xóa
+            var playerBase = provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
+            if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
+            {
+                return Json(Success_Request(playerBase.Result.IsSuccessful));
+            }
+
+            return View(Server_Error());
         }
     }
 }
