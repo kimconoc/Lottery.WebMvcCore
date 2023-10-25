@@ -59,3 +59,11 @@ body {
     margin: 0 auto;
     z-index: 1000;
 }
+
+.info-page {
+    justify-content: center;
+    display: flex;
+    font-size: 18px;
+    color: #e3165b;
+    margin-bottom: 20px;
+}

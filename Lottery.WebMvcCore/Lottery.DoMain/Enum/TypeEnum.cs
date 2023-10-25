@@ -38,4 +38,14 @@ namespace Lottery.DoMain.Enum
         [Description("Computer")]
         Computer = 2
     }
+
+    public enum RegionEnum
+    {
+        [Description("Miền Nam")]
+        MienNam = 0,
+        [Description("Miền Trung")]
+        MienTrung = 1,
+        [Description("Miền Bắc")]
+        MienBac = 2
+    }
 }

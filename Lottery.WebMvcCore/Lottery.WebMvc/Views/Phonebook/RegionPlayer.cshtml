@@ -1,0 +1,92 @@
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Lottery.Service.ServiceProvider;
+@using Lottery.Service.ServiceProvider.Interface;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    User user = new User();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies["LotteryCookie"];
+    List<Phonebook> phonebooks = new List<Phonebook>();
+    if (cookieValue != null)
+    {
+        user = JsonConvert.DeserializeObject<User>(cookieValue);
+        IProvider provider = new Provider();
+        var dataBase = provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", user.Id));
+        if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
+        {
+            phonebooks = dataBase.Result.Data;
+        }
+    }
+    else
+    {
+        HttpContextAccessor.HttpContext.Response.Redirect("/Account/Login");
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/regionPlayer.css" rel="stylesheet" />
+    <style>
+
+        .div-list-player {
+            display: flex;
+            padding: 5px;
+            gap: 10px;
+            margin-bottom: -10px;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .info-detail {
+            margin-top: 3px;
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .icon-chevron-right {
+            color: red;
+            position: absolute;
+            font-size: 18px;
+            top: 12px;
+            right: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-regionPlayer">
+        <div class="info-page">
+            <strong>
+                @ViewBag.Region
+            </strong>
+        </div>
+        @if (phonebooks != null)
+        {
+            foreach (var item in phonebooks)
+            {
+                <div class="div-list-player">
+                    <div style="flex: 1;">
+                        <div class="info-detail">
+                            <strong style="font-size:18px;">@string.Format(item.Name)</strong>
+                            <span style="margin-top:5px;">@string.Format(item.PhoneNumber + " " + (item.IsChu? "(chủ)" : "(khách)"))</span>
+                        </div>
+                        <i class="icon-chevron-right fa fa-chevron-right" aria-hidden="true"></i>
+                        <div style="margin-bottom:20px;" class="border-bottom-row"></div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <script>
+        
+        }
+    </script>
+</body>
+</html>

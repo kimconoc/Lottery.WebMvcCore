@@ -1,14 +1,6 @@
 ﻿.container-listplayer {
 }
 
-.info-page {
-    justify-content: center;
-    display: flex;
-    font-size: 16px;
-    color: #e3165b;
-    margin-bottom: 20px;
-}
-
 .div-list-player {
     display: flex;
     padding: 5px;

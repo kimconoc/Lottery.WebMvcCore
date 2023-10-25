@@ -1,9 +1,12 @@
 ﻿using Lottery.DoMain.Constant;
+using Lottery.DoMain.Enum;
+using Lottery.DoMain.Extentions;
 using Lottery.DoMain.FileLog;
 using Lottery.DoMain.Models;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -37,6 +40,23 @@ namespace Lottery.WebMvc.Controllers
             }
             
             return View(phonebook);
+        }
+
+        public IActionResult RegionPlayer(int region)
+        {
+            switch (region)
+            {
+                case (int)RegionEnum.MienNam:
+                    ViewBag.Region = RegionEnum.MienNam.GetDescription();
+                    break;
+                case (int)RegionEnum.MienTrung:
+                    ViewBag.Region = RegionEnum.MienTrung.GetDescription();
+                    break;
+                default:
+                    ViewBag.Region = RegionEnum.MienBac.GetDescription();
+                    break;
+            }
+            return View();
         }
 
         [HttpPost]
