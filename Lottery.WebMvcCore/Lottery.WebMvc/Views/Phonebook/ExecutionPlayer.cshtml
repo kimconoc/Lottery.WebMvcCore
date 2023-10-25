@@ -2,10 +2,12 @@
 @using Newtonsoft.Json;
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Models;
+@model Phonebook
 @{
     Layout = null;
+    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
 }
-@model Phonebook
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -477,12 +479,22 @@
     <script>
         $(document).ready(function () {
 
+            var model = @Html.Raw(serializedModel);
             ej.base.enableRipple(true);
+
             // Initialize RadioButton component.
-            var radiobutton = new ej.buttons.RadioButton({ label: 'Khách', name: 'khachorchu', value: 'false', enableRtl: 'true', checked: true });
-            radiobutton.appendTo('#cr_isKhach');
-            radiobutton = new ej.buttons.RadioButton({ label: 'Chủ', name: 'khachorchu', value: 'true', enableRtl: 'true' });
-            radiobutton.appendTo('#cr_isChu');
+            if (model.IsChu){
+                var radiobutton = new ej.buttons.RadioButton({ label: 'Khách', name: 'khachorchu', value: 'false', enableRtl: 'true'});
+                radiobutton.appendTo('#cr_isKhach');
+                radiobutton = new ej.buttons.RadioButton({ label: 'Chủ', name: 'khachorchu', value: 'true', enableRtl: 'true', checked: true });
+                radiobutton.appendTo('#cr_isChu');
+            }
+            else{
+                var radiobutton = new ej.buttons.RadioButton({ label: 'Khách', name: 'khachorchu', value: 'false', enableRtl: 'true', checked: true });
+                radiobutton.appendTo('#cr_isKhach');
+                radiobutton = new ej.buttons.RadioButton({ label: 'Chủ', name: 'khachorchu', value: 'true', enableRtl: 'true' });
+                radiobutton.appendTo('#cr_isChu');
+            }
             // Miền Nam
             radiobutton = new ej.buttons.RadioButton({ label: 'Một lần', name: 'cr_nCachTrungDaThang',value: '0', enableRtl: 'true' });
             radiobutton.appendTo('#cr_nCachTrungDaThang_motLan');
@@ -519,6 +531,110 @@
             radiobutton = new ej.buttons.RadioButton({ label: 'Ky rưỡi', name: 'cr_bCachTrungDaThang', value: '1', enableRtl: 'true' });
             radiobutton.appendTo('#cr_bCachTrungDaThang_kyRuoi');
             radiobutton = new ej.buttons.RadioButton({ label: 'Nhiều cặp', name: 'cr_bCachTrungDaThang', value: '2', enableRtl: 'true', checked: true });
+
+            if (model.IsChu || model.Name != null) {
+                switch (model.NCachTrungDaThang) {
+                    case 0:
+                        var radioButtonElement = document.querySelector('input[name="cr_nCachTrungDaThang"][value="0"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    case 1:
+                        var radioButtonElement = document.querySelector('input[name="cr_nCachTrungDaThang"][value="1"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    default:
+                        var radioButtonElement = document.querySelector('input[name="cr_nCachTrungDaThang"][value="2"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                }
+                switch (model.NCachTrungDaXien) {
+                    case 0:
+                        var radioButtonElement = document.querySelector('input[name="cr_nCachTrungDaXien"][value="0"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    case 1:
+                        var radioButtonElement = document.querySelector('input[name="cr_nCachTrungDaXien"][value="1"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    default:
+                        var radioButtonElement = document.querySelector('input[name="cr_nCachTrungDaXien"][value="2"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                }
+                switch (model.TCachTrungDaThang) {
+                    case 0:
+                        var radioButtonElement = document.querySelector('input[name="cr_tCachTrungDaThang"][value="0"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    case 1:
+                        var radioButtonElement = document.querySelector('input[name="cr_tCachTrungDaThang"][value="1"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    default:
+                        var radioButtonElement = document.querySelector('input[name="cr_tCachTrungDaThang"][value="2"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                }
+                switch (model.TCachTrungDaXien) {
+                    case 0:
+                        var radioButtonElement = document.querySelector('input[name="cr_tCachTrungDaXien"][value="0"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    case 1:
+                        var radioButtonElement = document.querySelector('input[name="cr_tCachTrungDaXien"][value="1"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    default:
+                        var radioButtonElement = document.querySelector('input[name="cr_tCachTrungDaXien"][value="2"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                }
+                switch (model.BCachTrungDaThang) {
+                    case 0:
+                        var radioButtonElement = document.querySelector('input[name="cr_bCachTrungDaThang"][value="0"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    case 1:
+                        var radioButtonElement = document.querySelector('input[name="cr_bCachTrungDaThang"][value="1"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                    default:
+                        var radioButtonElement = document.querySelector('input[name="cr_bCachTrungDaThang"][value="2"]');
+                        if (radioButtonElement) {
+                            radioButtonElement.checked = true;
+                        }
+                        break;
+                }
+            }
+
             radiobutton.appendTo('#cr_bCachTrungDaThang_nhieuCap');
             // Render initialized CheckBox.
             var checkbox = new ej.buttons.CheckBox({ label: 'Hiện đá xiên' });

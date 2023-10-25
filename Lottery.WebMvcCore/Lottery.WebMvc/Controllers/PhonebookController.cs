@@ -15,7 +15,7 @@ namespace Lottery.WebMvc.Controllers
         {
             return View();
         }
-        public IActionResult ExecutionPlayer(int? playerId,bool isCopy = false)
+        public IActionResult ExecutionPlayer(int? playerId, bool isCopy = false)
         {
             var phonebook = new Phonebook();
             if (playerId != null)
