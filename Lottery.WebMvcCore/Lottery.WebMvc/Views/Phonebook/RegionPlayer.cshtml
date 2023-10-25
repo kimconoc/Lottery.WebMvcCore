@@ -4,6 +4,7 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.Service.ServiceProvider;
 @using Lottery.Service.ServiceProvider.Interface;
+@using Lottery.DoMain.Extentions;;
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     User user = new User();
@@ -66,7 +67,22 @@
     <div class="container-regionPlayer">
         <div class="info-page">
             <strong>
-                @ViewBag.Region
+                @{
+                    string titlePage = string.Empty;
+                    switch (ViewBag.Region)
+                    {
+                        case (int)RegionEnum.MienNam:
+                            titlePage = RegionEnum.MienNam.GetDescription();
+                            break;
+                        case (int)RegionEnum.MienTrung:
+                            titlePage = RegionEnum.MienTrung.GetDescription();
+                            break;
+                        default:
+                            titlePage = RegionEnum.MienBac.GetDescription();
+                            break;
+                    }
+                    @titlePage;
+                }
             </strong>
         </div>
         @if (phonebooks != null)

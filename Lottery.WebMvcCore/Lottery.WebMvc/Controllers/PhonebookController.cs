@@ -44,18 +44,7 @@ namespace Lottery.WebMvc.Controllers
 
         public IActionResult RegionPlayer(int region)
         {
-            switch (region)
-            {
-                case (int)RegionEnum.MienNam:
-                    ViewBag.Region = RegionEnum.MienNam.GetDescription();
-                    break;
-                case (int)RegionEnum.MienTrung:
-                    ViewBag.Region = RegionEnum.MienTrung.GetDescription();
-                    break;
-                default:
-                    ViewBag.Region = RegionEnum.MienBac.GetDescription();
-                    break;
-            }
+            ViewBag.Region = region;
             return View();
         }
 
