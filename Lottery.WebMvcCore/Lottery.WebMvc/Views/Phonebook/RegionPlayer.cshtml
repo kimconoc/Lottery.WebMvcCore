@@ -42,6 +42,7 @@
             margin-left: 10px;
             margin-right: 10px;
             position: relative;
+            cursor:pointer;
         }
 
         .info-detail {
@@ -72,7 +73,7 @@
         {
             foreach (var item in phonebooks)
             {
-                <div class="div-list-player">
+                <div onclick="window.location.href='/PlayerMessages/MessagesByDay?region=@ViewBag.Region';" class="div-list-player">
                     <div style="flex: 1;">
                         <div class="info-detail">
                             <strong style="font-size:18px;">@string.Format(item.Name)</strong>
