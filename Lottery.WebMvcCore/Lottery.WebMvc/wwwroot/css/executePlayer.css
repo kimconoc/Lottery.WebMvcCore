@@ -9,14 +9,13 @@
 
 .title-page-goback {
     margin-top: 12px;
-    color: white;
     cursor: pointer;
     font-size: 18px;
 }
 
 .title-page-btn-save {
-    font-size:35px;
-    color: white;
+    font-size: 35px;
+    color: #e3165b;
     cursor: pointer;
     background: none;
     border: none;

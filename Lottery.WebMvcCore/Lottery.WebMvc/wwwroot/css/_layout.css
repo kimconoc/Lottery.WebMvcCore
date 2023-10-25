@@ -1,17 +1,16 @@
-﻿.div-header-layout {
+﻿.title-page-layout {
     padding: 10px 15px 10px 15px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    color: #e3165b;
 }
 
-    .div-header-layout strong {
+    .title-page-layout strong {
         margin-top: 7px;
         font-size: 22px;
         text-align: center;
     }
 
-    .div-header-layout i {
+    .title-page-layout i {
         font-size: 35px;
         cursor: pointer;
     }
