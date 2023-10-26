@@ -2,7 +2,7 @@
 }
 
 .title-page {
-    padding: 3px 15px 3px 5px;
+    padding: 3px 10px 3px 5px;
     display: flex;
     justify-content: space-between;
 }
@@ -11,14 +11,6 @@
     margin-top: 12px;
     cursor: pointer;
     font-size: 18px;
-}
-
-.title-page-btn-save {
-    font-size: 35px;
-    color: #e3165b;
-    cursor: pointer;
-    background: none;
-    border: none;
 }
 
 .wrapper {

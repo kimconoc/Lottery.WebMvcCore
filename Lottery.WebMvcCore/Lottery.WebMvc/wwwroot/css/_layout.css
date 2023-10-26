@@ -1,5 +1,5 @@
 ﻿.title-page-layout {
-    padding: 10px 15px 10px 15px;
+    padding: 3px 5px 3px 5px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -10,7 +10,3 @@
         text-align: center;
     }
 
-    .title-page-layout i {
-        font-size: 35px;
-        cursor: pointer;
-    }
