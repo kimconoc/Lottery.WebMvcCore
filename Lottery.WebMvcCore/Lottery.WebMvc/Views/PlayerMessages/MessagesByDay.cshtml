@@ -3,10 +3,10 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Models;
 @using Lottery.DoMain.Extentions;
-@model Phonebook
+@model MessgeByDay
 @{
     Layout = null;
-    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+    //var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
 }
 
 <!DOCTYPE html>
@@ -37,8 +37,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
     <style>
 
+        .container-messagesByDay{
+            padding-top: 40px;
+        }
+
         .title-page {
-            padding: 3px 15px 3px 5px;
+            padding: 3px 10px 3px 5px;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 0.5fr;
             font-size: 16px;
@@ -49,22 +53,44 @@
             cursor: pointer;
         }
 
-        .title-page-btn-save {
-            font-size: 35px;
-            color: #e3165b;
-            cursor: pointer;
-            background: none;
-            border: none;
-            text-align: end;
+        .synthesis-messages {
+            padding: 15px 10px 10px 20px;
+            background-color: #dee8fc;
         }
 
+        .synthesis-parameter-messages {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .synthesis-parameter-messages div {
+                display: flex;
+                flex-flow: column;
+                gap: 2px;
+            }
+
+                .synthesis-parameter-messages div .title {
+                    font-size: 16px;
+                    margin-bottom: 2px;
+                    text-decoration: underline;
+                }
         
+        .synthesis-result-messages{
+            margin-top:20px;
+            display: flex;
+            flex-flow: column;
+            gap: 2px;
+            color:#e3165b;
+            font-weight:600;
+        }
+
+     
     </style>
 </head>
 <body>
     <header class="header-page">
         <div class="title-page">
-            <div onclick="window.location.href='/Phonebook/ListPlayer';" class="title-page-text">
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@ViewBag.Region';" class="title-page-text">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                 @{
                     string titlePage = string.Empty;
@@ -89,13 +115,111 @@
             <div style="text-align: center;" class="title-page-text">
                 Cập nhật TN
             </div>
-            <button type="submit" form="executePlayerForm" class="title-page-btn-save">
+            <button class="title-page-btn">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
             </button>
         </div>
     </header>
-    <div class="container-executePlayer">
-       
+    <div class="container-messagesByDay">
+        <div class="synthesis-messages">
+            <div class="synthesis-parameter-messages">
+                <div class="div-xac">
+                    <strong class="title">Xác</strong>
+                    <span>
+                        2CB:
+                        <strong>@Model.Total.Xac.HaiCB</strong>
+                    </span>
+                    <span>
+                        2CĐ:
+                        <strong>@Model.Total.Xac.HaiCD</strong>
+                    </span>
+                    <span>
+                        ĐáT:
+                        <strong>@Model.Total.Xac.DaT</strong>
+                    </span>
+                    <span>
+                        ĐáX:
+                        <strong>@Model.Total.Xac.DaX</strong>
+                    </span>
+                    <span>
+                        3C:
+                        <strong>@Model.Total.Xac.BaCon</strong>
+                    </span>
+                    <span>
+                        4C:
+                        <strong>@Model.Total.Xac.BonCon</strong>
+                    </span>
+                </div>
+                <div class="div-quaCo">
+                    <strong class="title">Qua Cò</strong>
+                    <span>
+                        2CB:
+                        <strong>@Model.Total.QuaCo.HaiCon</strong>
+                    </span>
+                    <span>
+                        3C:
+                        <strong>@Model.Total.QuaCo.BaCon</strong>
+                    </span>
+                    <span>
+                        4C:
+                        <strong>@Model.Total.QuaCo.BonCon</strong>
+                    </span>
+                </div>
+                <div class="div-trung">
+                    <strong class="title">Trúng</strong>
+                    <span>
+                        2CB:
+                        <strong>@Model.Total.Trung.HaiCB</strong>
+                    </span>
+                    <span>
+                        2CĐ:
+                        <strong>@Model.Total.Trung.HaiCD</strong>
+                    </span>
+                    <span>
+                        ĐáT:
+                        <strong>@Model.Total.Trung.DaT</strong>
+                    </span>
+                    <span>
+                        ĐáX:
+                        <strong>@Model.Total.Trung.DaX</strong>
+                    </span>
+                    <span>
+                        3C:
+                        <strong>@Model.Total.Trung.BaCon</strong>
+                    </span>
+                    <span>
+                        4C:
+                        <strong>@Model.Total.Trung.BonCon</strong>
+                    </span>
+                </div>
+            </div>
+            <div class="synthesis-result-messages">
+                <span>
+                    Ngày: @Model.HandlDate.ToString("dd-MM-yyyyy")
+                </span>
+                @{
+                    if (@Model.IsThu)
+                    {
+                        <span>
+                            <span style="color:blue;font-weight:700;font-size: 18px;">
+                                Thu:
+                            </span>
+                            @Model.Message
+                        </span>
+                    }
+                    else
+                    {
+                        <span>
+                            <span style="color:red;font-weight:700;font-size: 18px;">
+                                Bù:
+                            </span>
+                            @Model.Message
+                        </span>
+                    }
+                }
+                
+            </div>
+        </div>
     </div>
     <script>
        
