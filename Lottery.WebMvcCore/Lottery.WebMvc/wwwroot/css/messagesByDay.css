@@ -1,7 +1,4 @@
 ﻿@media (min-width: 768px) {
-    .list-detailMessage-messages {
-        margin-top: 230px !important;
-    }
     .floating-button {
         right: calc(100%/2 - 300px + 20px) !important;
     }

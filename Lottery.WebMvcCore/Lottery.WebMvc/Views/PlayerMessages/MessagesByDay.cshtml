@@ -90,7 +90,7 @@
         }
 
         .list-detailMessage-messages {
-            margin-top:220px;
+            margin-top:230px;
             padding:5px;
         }
 
@@ -116,7 +116,7 @@
         .floating-button {
             position: fixed;
             bottom: 20px;
-            right: calc(100%/2 - 300px + 20px);
+            right: 20px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -264,7 +264,8 @@
                 
             </div>
         </div>
-        <div class="list-detailMessage-messages">
+        <div style="overflow:auto;height:85vh">
+            <div class="list-detailMessage-messages">
             @{
                 if(Model.DetailMessage != null)
                 {
@@ -340,10 +341,15 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
+                            </div>
+                            if(count < Model.DetailMessage.Count)
+                            {
+                                <div style="margin-bottom:10px;" class="border-bottom-row"></div>
+                            }    
                     }
                 }
             }
+        </div>
         </div>
         <button class="floating-button">+</button>
     </div>
