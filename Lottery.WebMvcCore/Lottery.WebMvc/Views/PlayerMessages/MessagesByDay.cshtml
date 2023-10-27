@@ -56,6 +56,11 @@
         .synthesis-messages {
             padding: 15px 10px 10px 20px;
             background-color: #dee8fc;
+            position: fixed;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            z-index: 1000;
         }
 
         .synthesis-parameter-messages {
@@ -84,6 +89,45 @@
             font-weight:600;
         }
 
+        .list-detailMessage-messages {
+            margin-top:220px;
+            padding:5px;
+        }
+
+        .parameter-messages {
+            padding: 15px 10px 10px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            color: #e3165b;
+        }
+
+            .parameter-messages div {
+                display: flex;
+                flex-flow: column;
+                gap: 2px;
+            }
+
+                .parameter-messages div .title {
+                    font-size: 16px;
+                    margin-bottom: 2px;
+                    text-decoration: underline;
+                }
+
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: calc(100%/2 - 300px + 20px);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e3165b;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            /*line-height: 50px;*/
+            border: none;
+            z-index: 999;
+        }
      
     </style>
 </head>
@@ -220,6 +264,88 @@
                 
             </div>
         </div>
+        <div class="list-detailMessage-messages">
+            @{
+                if(Model.DetailMessage != null)
+                {
+                    int count = 0;
+                    foreach(var item in Model.DetailMessage)
+                    {
+                        count = count + 1;
+                        <div class="content-messages">
+                            <span>
+                                <strong style="color:#e3165b;">@count)</strong>
+                                    @item.Message
+                            </span>
+                        </div>
+                        <div class="parameter-messages">
+                            <div>
+                                <div class="div-xac">
+                                    @*<strong class="title">Xác</strong>*@
+                                    <span>
+                                        2CB:
+                                        <strong>@item.CalDetail.Xac.HaiCB</strong>
+                                    </span>
+                                    <span>
+                                        2CĐ:
+                                        <strong>@item.CalDetail.Xac.HaiCD</strong>
+                                    </span>
+                                    <span>
+                                        ĐáT:
+                                        <strong>@item.CalDetail.Xac.DaT</strong>
+                                    </span>
+                                    <span>
+                                        ĐáX:
+                                        <strong>@item.CalDetail.Xac.DaX</strong>
+                                    </span>
+                                    <span>
+                                        3C:
+                                        <strong>@item.CalDetail.Xac.BaCon</strong>
+                                    </span>
+                                    <span>
+                                        4C:
+                                        <strong>@item.CalDetail.Xac.BaCon</strong>
+                                    </span>
+                                </div>
+                            </div>                   
+                             <div>
+                               
+                            </div>
+                             <div>
+                                <div class="div-trung">
+                                    @*<strong class="title">Xác</strong>*@
+                                    <span>
+                                        2CB:
+                                        <strong>@item.CalDetail.Trung.HaiCB</strong>
+                                    </span>
+                                    <span>
+                                        2CĐ:
+                                        <strong>@item.CalDetail.Trung.HaiCD</strong>
+                                    </span>
+                                    <span>
+                                        ĐáT:
+                                        <strong>@item.CalDetail.Trung.DaT</strong>
+                                    </span>
+                                    <span>
+                                        ĐáX:
+                                        <strong>@item.CalDetail.Trung.DaX</strong>
+                                    </span>
+                                    <span>
+                                        3C:
+                                        <strong>@item.CalDetail.Trung.BaCon</strong>
+                                    </span>
+                                    <span>
+                                        4C:
+                                        <strong>@item.CalDetail.Trung.BonCon</strong>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <button class="floating-button">+</button>
     </div>
     <script>
        
