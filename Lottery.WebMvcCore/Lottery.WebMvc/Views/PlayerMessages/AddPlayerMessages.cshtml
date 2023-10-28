@@ -3,9 +3,10 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Models;
 @using Lottery.DoMain.Extentions;
+@model MessgeByDaySession
 @{
     Layout = null;
-    //var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
 }
 
 <!DOCTYPE html>
@@ -55,9 +56,25 @@
 <body>
     <header class="header-page">
         <div class="title-page">
-            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@ViewBag.Region';" class="title-page-text">
+            <div onclick="goToAddBackPage()" class="title-page-text">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                Phạm Văn Đức - Miền Nam
+                @{
+                    string titlePageGoBack = string.Empty;
+                    switch (Model.Region)
+                    {
+                        case (int)RegionEnum.MienNam:
+                            titlePageGoBack = RegionEnum.MienNam.GetDescription();
+                            break;
+                        case (int)RegionEnum.MienTrung:
+                            titlePageGoBack = RegionEnum.MienTrung.GetDescription();
+                            break;
+                        default:
+                            titlePageGoBack = RegionEnum.MienBac.GetDescription();
+                            break;
+                    }
+                    titlePageGoBack = string.Format(Model.NamePlayer + " - " + titlePageGoBack);
+                    @titlePageGoBack;
+                }
             </div>
         </div>
     </header>
@@ -66,7 +83,10 @@
     </div>
 
     <script>
-      
+        var model = @Html.Raw(serializedModel);
+        function goToAddBackPage() {
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&dateTime=${model.HandlDate}`;
+        }
     </script>
 </body>
 </html>

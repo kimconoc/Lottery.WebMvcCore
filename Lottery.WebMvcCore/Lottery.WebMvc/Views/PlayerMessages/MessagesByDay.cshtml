@@ -150,7 +150,7 @@
             </div>
             <div class="synthesis-result-messages">
                 <span>
-                    Ngày: @Model.MessgeByDayData.HandlDate.ToString("dd/MM/yyyyy")
+                    Ngày: @Model.MessgeByDayData.HandlDate?.ToString("dd/MM/yyyyy")
                 </span>
                 @{
                     if (@Model.IsThu)
@@ -262,24 +262,27 @@
             }
         </div>
         </div>
-        <button onclick="window.location.href='/PlayerMessages/AddPlayerMessages';" class="floating-button">+</button>
+        <button onclick="goToAddPlayerMessagesPage()" class="floating-button">+</button>
         <input id="datetimepicker" style="display:none;" type="text">
     </div>
     
     <script>
+        var modelMessgeByDayData = @Html.Raw(serializedMessgeByDayData);
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
-            format: 'd.m.Y',
         });
         $('button.somebutton').on('click', function () {
             $('#datetimepicker').datetimepicker('show');
         });
         $('#datetimepicker').on('change', function () {
-            var modelMessgeByDayData = @Html.Raw(serializedMessgeByDayData);
             var dateString = $(this).val();
-            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&strDateTime=${dateString}`;
+            var formattedDate = new Date(dateString).toJSON();
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=${formattedDate}`;
         });
+        function goToAddPlayerMessagesPage(){
+            window.location.href = `/PlayerMessages/AddPlayerMessages?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=${modelMessgeByDayData.HandlDate}`;
+        }
     </script>
 </body>
 </html>

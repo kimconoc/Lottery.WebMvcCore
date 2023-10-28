@@ -6,27 +6,19 @@ using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Globalization;
 
 namespace Lottery.WebMvc.Controllers
 {
     public class PlayerMessagesController : BaseController
     {
-        public IActionResult MessagesByDay(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, string strDateTime)
+        public IActionResult MessagesByDay(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, DateTime? dateTime)
         {
-            string format = "dd.MM.yyyy";
-            DateTime dateTime;
-            if (string.IsNullOrEmpty(strDateTime))
+            if (dateTime == null)
             {
                 dateTime = DateTime.Now;
-            }
-            else
-            {
-                if (!DateTime.TryParseExact(strDateTime, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime))
-                {
-                    return Json(Server_Error("Đã có lỗi xảy ra!"));
-                }
-            }          
+            }  
             MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
             {
                 HandlDate = dateTime,
@@ -52,9 +44,18 @@ namespace Lottery.WebMvc.Controllers
             return View(messgeByDay);
         }
 
-        public IActionResult AddPlayerMessages()
+        public IActionResult AddPlayerMessages(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, DateTime dateTime)
         {
-            return View();
+            MessgeByDaySession messgeByDaySession = new MessgeByDaySession()
+            {
+                IdPlayer = idPlayer,
+                NamePlayer = namePlayer,
+                Region = region,
+                CachTrungDaThang = cachTrungDaThang,
+                CachTrungDaXien = cachTrungDaXien,
+                HandlDate = dateTime,
+            };
+            return View(messgeByDaySession);
         }
 
     }

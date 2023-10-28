@@ -21,7 +21,7 @@ namespace Lottery.DoMain.Models
         public int Region { get; set; }
         public double CachTrungDaThang { get; set; }
         public double CachTrungDaXien { get; set; }
-        public DateTime HandlDate { get; set; }
+        public DateTime? HandlDate { get; set; }
     }
     public class DetailMessage
     {
