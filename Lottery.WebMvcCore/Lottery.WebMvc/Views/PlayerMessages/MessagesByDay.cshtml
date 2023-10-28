@@ -34,101 +34,16 @@
     <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-buttons/styles/material.css" rel="stylesheet">
     <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js" type="text/javascript"></script>
     <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">*@
+    @*datetimepicker*@
+    <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
+    <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
-
-        .container-messagesByDay{
-            padding-top: 40px;
+        /*ghi đè class css*/
+        .xdsoft_datetimepicker{
+            left: 37% !important;
+            top: 6% !important;
         }
-
-        .title-page {
-            padding: 3px 10px 3px 5px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 0.5fr;
-            font-size: 16px;
-        }
-
-        .title-page-text {
-            margin-top: 12px;
-            cursor: pointer;
-        }
-
-        .synthesis-messages {
-            padding: 15px 10px 10px 20px;
-            background-color: #dee8fc;
-            position: fixed;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            z-index: 999;
-        }
-
-        .synthesis-parameter-messages {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-        }
-
-        .synthesis-parameter-messages div {
-                display: flex;
-                flex-flow: column;
-                gap: 2px;
-            }
-
-                .synthesis-parameter-messages div .title {
-                    font-size: 16px;
-                    margin-bottom: 2px;
-                    text-decoration: underline;
-                }
-        
-        .synthesis-result-messages{
-            margin-top:20px;
-            display: flex;
-            flex-flow: column;
-            gap: 2px;
-            color:#e3165b;
-            font-weight:600;
-        }
-
-        .list-detailMessage-messages {
-            margin-top:230px;
-            padding:5px;
-        }
-
-        .parameter-messages {
-            padding: 15px 10px 10px 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            color: #e3165b;
-        }
-
-            .parameter-messages div {
-                display: flex;
-                flex-flow: column;
-                gap: 2px;
-            }
-
-                .parameter-messages div .title {
-                    font-size: 16px;
-                    margin-bottom: 2px;
-                    text-decoration: underline;
-                }
-
-        .floating-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #e3165b;
-            color: white;
-            text-align: center;
-            font-size: 24px;
-            /*line-height: 50px;*/
-            border: none;
-            z-index: 999;
-        }
-     
     </style>
 </head>
 <body>
@@ -159,7 +74,7 @@
             <div style="text-align: center;" class="title-page-text">
                 Cập nhật TN
             </div>
-            <button class="title-page-btn">
+            <button class="somebutton title-page-btn">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
             </button>
         </div>
@@ -352,9 +267,22 @@
         </div>
         </div>
         <button class="floating-button">+</button>
+        <input id="datetimepicker" style="display:none;" type="text">
     </div>
+    
     <script>
-       
+        jQuery.datetimepicker.setLocale('vi');
+        jQuery('#datetimepicker').datetimepicker({
+            timepicker: false,
+            format: 'd.m.Y',
+        });
+        $('button.somebutton').on('click', function () {
+            $('#datetimepicker').datetimepicker('show');
+        });
+        $('#datetimepicker').on('change', function () {
+            var dateString = $(this).val();
+            window.location.href = '/PlayerMessages/MessagesByDay?IdPlayer=@Model.IdPlayer&region=@ViewBag.Region&strDateTime=' + dateString;
+        });
     </script>
 </body>
 </html>

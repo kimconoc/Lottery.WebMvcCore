@@ -3,20 +3,35 @@ using Lottery.DoMain.Enum;
 using Lottery.DoMain.Extentions;
 using Lottery.DoMain.Models;
 using Lottery.WebMvc.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Lottery.WebMvc.Controllers
 {
     public class PlayerMessagesController : BaseController
     {
-        public IActionResult MessagesByDay(int IdPlayer, int region)
+        public IActionResult MessagesByDay(int idPlayer, int region, string strDateTime)
         {
+            string format = "dd.MM.yyyy";
+            DateTime dateTime;
+            if (string.IsNullOrEmpty(strDateTime))
+            {
+                dateTime = DateTime.Now;
+            }
+            else
+            {
+                if (!DateTime.TryParseExact(strDateTime, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime))
+                {
+
+                }
+            }          
             ViewBag.Region = region;
             MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
             {
-                HandlDate = DateTime.Parse("2023-10-18T10:46:41.434Z"),
-                IDKhach = IdPlayer,
+                HandlDate = dateTime,//DateTime.Parse("2023-10-18T10:46:41.434Z"),
+                IDKhach = idPlayer,
                 Mien = region
             };
             var messgeByDayBase = provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
@@ -26,7 +41,8 @@ namespace Lottery.WebMvc.Controllers
             }
             var messgeByDay = messgeByDayBase.Result.Data;
             messgeByDay.HandlDate = messgeByDayModel.HandlDate;
-            return View(messgeByDayBase.Result.Data);
+            messgeByDay.IdPlayer = idPlayer;
+            return View(messgeByDay);
         }
 
     }
