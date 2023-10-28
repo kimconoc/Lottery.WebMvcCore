@@ -12,7 +12,7 @@ namespace Lottery.WebMvc.Controllers
 {
     public class PlayerMessagesController : BaseController
     {
-        public IActionResult MessagesByDay(int idPlayer, int region, string strDateTime)
+        public IActionResult MessagesByDay(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, string strDateTime)
         {
             string format = "dd.MM.yyyy";
             DateTime dateTime;
@@ -27,10 +27,9 @@ namespace Lottery.WebMvc.Controllers
                     return Json(Server_Error("Đã có lỗi xảy ra!"));
                 }
             }          
-            ViewBag.Region = region;
             MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
             {
-                HandlDate = dateTime,//DateTime.Parse("2023-10-18T10:46:41.434Z"),
+                HandlDate = dateTime,
                 IDKhach = idPlayer,
                 Mien = region
             };
@@ -39,9 +38,17 @@ namespace Lottery.WebMvc.Controllers
             {
                 return Json(Server_Error("Đã có lỗi xảy ra!"));
             }
+            MessgeByDaySession messgeByDaySession = new MessgeByDaySession()
+            {
+                IdPlayer = idPlayer,
+                NamePlayer = namePlayer,
+                Region = region,
+                CachTrungDaThang = cachTrungDaThang,
+                CachTrungDaXien = cachTrungDaXien,
+                HandlDate = dateTime,
+            };
             var messgeByDay = messgeByDayBase.Result.Data;
-            messgeByDay.HandlDate = messgeByDayModel.HandlDate;
-            messgeByDay.IdPlayer = idPlayer;
+            messgeByDay.MessgeByDayData = messgeByDaySession;
             return View(messgeByDay);
         }
 

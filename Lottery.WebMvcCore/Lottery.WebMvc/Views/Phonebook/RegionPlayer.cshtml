@@ -89,7 +89,24 @@
         {
             foreach (var item in phonebooks)
             {
-                <div onclick="window.location.href='/PlayerMessages/MessagesByDay?idPlayer=@item.Id&region=@ViewBag.Region';" class="div-list-player">
+                double cachTrungDaThang = 0;
+                double cachTrungDaXien = 0;
+                switch (ViewBag.Region)
+                {
+                    case (int)RegionEnum.MienNam:
+                        cachTrungDaThang = item.NCachTrungDaThang;
+                        cachTrungDaXien = item.NCachTrungDaXien;
+                        break;
+                    case (int)RegionEnum.MienTrung:
+                        cachTrungDaThang = item.TCachTrungDaThang;
+                        cachTrungDaXien = item.TCachTrungDaXien;
+                        break;
+                    default:
+                        cachTrungDaThang = item.BCachTrungDaThang;
+                        cachTrungDaXien = 2;
+                        break;
+                }
+                <div onclick="window.location.href='/PlayerMessages/MessagesByDay?idPlayer=@item.Id&namePlayer=@item.Name&region=@ViewBag.Region&cachTrungDaThang=@cachTrungDaThang&cachTrungDaXien=@cachTrungDaXien';" class="div-list-player">
                     <div style="flex: 1;">
                         <div class="info-detail">
                             <strong style="font-size:18px;">@string.Format(item.Name)</strong>

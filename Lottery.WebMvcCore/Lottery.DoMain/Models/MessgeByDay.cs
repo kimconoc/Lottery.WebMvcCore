@@ -12,7 +12,15 @@ namespace Lottery.DoMain.Models
         public Total Total { get; set; }
         public string Message { get; set; }
         public bool IsThu { get; set; }
+        public MessgeByDaySession MessgeByDayData { get; set; }
+    }
+    public class MessgeByDaySession
+    {
         public int IdPlayer { get; set; }
+        public string NamePlayer { get; set; }
+        public int Region { get; set; }
+        public double CachTrungDaThang { get; set; }
+        public double CachTrungDaXien { get; set; }
         public DateTime HandlDate { get; set; }
     }
     public class DetailMessage
