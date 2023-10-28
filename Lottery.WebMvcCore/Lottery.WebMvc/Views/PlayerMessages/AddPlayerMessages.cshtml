@@ -48,9 +48,20 @@
         }
 
         .container-addPlayerMessages {
-            padding-top: 40px;
+            padding: 40px 10px 0px 10px;
         }
 
+        .div-list-btn-event{
+            margin-top:20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap:10px;
+        }
+
+            .div-list-btn-event button {
+                font-size: 12px;
+            }
     </style>
 </head>
 <body>
@@ -79,13 +90,84 @@
         </div>
     </header>
     <div class="container-addPlayerMessages">
-        
+        <div class="div-list-btn-event">
+            <button id="character_filtering"></button>
+            <button onclick="characterFilteringSyntax()" id="syntax_check"></button>
+            <button id="save_data"></button>
+        </div>
+        <div class="div-text-import-multiline">
+            <textarea id="text_import_multiline" name="text"></textarea>
+        </div>
     </div>
 
     <script>
         var model = @Html.Raw(serializedModel);
+        var textareaObject;
+        $(document).ready(function () {
+            var button = new ej.buttons.Button({ isPrimary: true, content: "Lọc Ký Tự" });
+            button.appendTo('#character_filtering');
+            var button = new ej.buttons.Button({ isPrimary: true, content: "Kiểm Tra Cú Pháp" });
+            button.appendTo('#syntax_check');
+            var button = new ej.buttons.Button({ isPrimary: true, content: "Lưu Dữ Liệu", disabled: true });
+            button.appendTo('#save_data');
+
+            // Initialize TextBox component
+            textareaObject = new ej.inputs.TextBox({
+                placeholder: 'Nhập nội dung',
+                floatLabelType: 'Auto',
+                created: function () {
+                    this.addAttributes({ rows: "2" });
+                    this.element.style.height = "auto";
+                    this.element.style.height = (this.element.scrollHeight - 7) + "px";
+                },
+                input: function () {
+                    this.element.style.height = "auto";
+                    this.element.style.height = (this.element.scrollHeight) + "px";
+                },
+                change: function (args) {
+                    // Xử lý khi nội dung đã thay đổi ở đây
+                },
+                input: function (args) {
+                    // Xử lý khi nội dung đang thay đổi ở đây
+                    //alert(args.value);
+                }
+            });
+            // Render initialized TextBox
+            textareaObject.appendTo('#text_import_multiline');
+        });
         function goToAddBackPage() {
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&dateTime=${model.HandlDate}`;
+        }
+        function characterFilteringSyntax(){
+            var calculation3Model = {
+                idMessage: null,
+                idKhach: model.IdPlayer,
+                mien: model.Region,
+                handlByDate: model.HandlDate,
+                cachTrungDaThang: model.CachTrungDaThang,
+                cachTrungDaXien: model.CachTrungDaXien,
+                isSave: false,
+                synTax: textareaObject.value,
+            }
+            calculation3ModelJson = JSON.stringify(calculation3Model);
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "calculation3Json": calculation3ModelJson,
+                },
+                url: "@Url.Action("CharacterFilteringSyntax", "PlayerMessages")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        
+                    }
+                    else {
+                        
+                    }
+                },
+            })
         }
     </script>
 </body>

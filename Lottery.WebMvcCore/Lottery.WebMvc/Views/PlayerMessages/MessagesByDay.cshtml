@@ -281,7 +281,7 @@
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=${formattedDate}`;
         });
         function goToAddPlayerMessagesPage(){
-            window.location.href = `/PlayerMessages/AddPlayerMessages?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=${modelMessgeByDayData.HandlDate}`;
+            window.location.href = `/PlayerMessages/AddPlayerMessages?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=@Model.MessgeByDayData.HandlDate`;
         }
     </script>
 </body>
