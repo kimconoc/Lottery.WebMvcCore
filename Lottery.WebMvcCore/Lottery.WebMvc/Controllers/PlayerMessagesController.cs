@@ -24,7 +24,7 @@ namespace Lottery.WebMvc.Controllers
             {
                 if (!DateTime.TryParseExact(strDateTime, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime))
                 {
-
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
                 }
             }          
             ViewBag.Region = region;
@@ -43,6 +43,11 @@ namespace Lottery.WebMvc.Controllers
             messgeByDay.HandlDate = messgeByDayModel.HandlDate;
             messgeByDay.IdPlayer = idPlayer;
             return View(messgeByDay);
+        }
+
+        public IActionResult AddPlayerMessages()
+        {
+            return View();
         }
 
     }

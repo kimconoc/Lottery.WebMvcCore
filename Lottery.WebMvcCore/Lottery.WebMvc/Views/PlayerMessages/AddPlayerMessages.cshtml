@@ -1,0 +1,72 @@
+﻿@using Lottery.DoMain.Constant;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Models;
+@using Lottery.DoMain.Extentions;
+@{
+    Layout = null;
+    //var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/addPlayerMessages.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
+    <script src="~/js/constant.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" />
+    @*master-plan*@
+    <script src="~/assets/helpers/master-plan/adr_common.js"></script>
+    <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>
+    <link href="~/assets//helpers/master-plan/style.css" rel="stylesheet" />
+    @*cssscript*@
+    <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
+    <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
+    @*Syncfusion*@
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-base/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-inputs/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-dropdowns/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-buttons/styles/material.css" rel="stylesheet">
+    <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
+    <style>
+       
+        .title-page {
+            padding: 3px 10px 3px 5px;
+            font-size: 16px;
+        }
+
+        .title-page-text {
+            margin-top: 12px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .container-addPlayerMessages {
+            padding-top: 40px;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header-page">
+        <div class="title-page">
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@ViewBag.Region';" class="title-page-text">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                Phạm Văn Đức - Miền Nam
+            </div>
+        </div>
+    </header>
+    <div class="container-addPlayerMessages">
+        
+    </div>
+
+    <script>
+      
+    </script>
+</body>
+</html>
