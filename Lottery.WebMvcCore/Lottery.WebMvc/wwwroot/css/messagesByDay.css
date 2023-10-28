@@ -2,7 +2,7 @@
     /*ghi đè class css*/
     .xdsoft_datetimepicker {
         left: 38% !important;
-        top: 6% !important;
+        top: 50px !important;
     }
 }
 @media (min-width: 768px) {
@@ -12,7 +12,7 @@
     /*ghi đè class css*/
     .xdsoft_datetimepicker {
         left: calc(100%/2 + 45px) !important;
-        top: 5% !important;
+        top: 50px !important;
     }
 }
 
