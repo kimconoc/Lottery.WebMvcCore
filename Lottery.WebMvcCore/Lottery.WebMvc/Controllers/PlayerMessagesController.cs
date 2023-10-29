@@ -59,19 +59,19 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult CharacterFilteringSyntax(string calculation3Json)
+        public IActionResult ExecuteSyntaxPlayer(string calculation3Json)
         {
             try
             {
                 var calculation3 = JsonConvert.DeserializeObject<Calculation3Model>(calculation3Json);
                 var userData = GetCurrentUser();
                 calculation3.UserID = userData.Id;
-                var dataBase = provider.PostAsync<object>(ApiUri.POST_CalculationCal3, calculation3);
+                var dataBase = provider.PostAsync<Cal3DetailDto>(ApiUri.POST_CalculationCal3, calculation3);
                 if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));
                 }
-                return Json(Success_Request(true));
+                return Json(Success_Request(dataBase.Result.Data));
             }
             catch (Exception ex)
             {

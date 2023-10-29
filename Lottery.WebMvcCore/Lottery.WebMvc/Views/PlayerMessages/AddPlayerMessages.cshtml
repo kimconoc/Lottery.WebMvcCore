@@ -93,7 +93,7 @@
         <div class="div-list-btn-event">
             <button id="character_filtering"></button>
             <button onclick="characterFilteringSyntax()" id="syntax_check"></button>
-            <button id="save_data"></button>
+            <button onclick="saveDataSyntax()" id="save_data"></button>
         </div>
         <div class="div-text-import-multiline">
             <textarea id="text_import_multiline" name="text"></textarea>
@@ -103,13 +103,18 @@
     <script>
         var model = @Html.Raw(serializedModel);
         var textareaObject;
+        var buttonCharacter_filtering;
+        var buttonSyntax_check;
+        var buttonSave_data;
         $(document).ready(function () {
-            var button = new ej.buttons.Button({ isPrimary: true, content: "Lọc Ký Tự" });
-            button.appendTo('#character_filtering');
-            var button = new ej.buttons.Button({ isPrimary: true, content: "Kiểm Tra Cú Pháp" });
-            button.appendTo('#syntax_check');
-            var button = new ej.buttons.Button({ isPrimary: true, content: "Lưu Dữ Liệu", disabled: true });
-            button.appendTo('#save_data');
+            buttonCharacter_filtering = new ej.buttons.Button({ isPrimary: true, content: "Lọc Ký Tự" });
+            buttonCharacter_filtering.appendTo('#character_filtering');
+            //
+            buttonSyntax_check = new ej.buttons.Button({ isPrimary: true, content: "Kiểm Tra Cú Pháp" });
+            buttonSyntax_check.appendTo('#syntax_check');
+            //
+            buttonSave_data = new ej.buttons.Button({ isPrimary: true, content: "Lưu Dữ Liệu", disabled: true });
+            buttonSave_data.appendTo('#save_data');
 
             // Initialize TextBox component
             textareaObject = new ej.inputs.TextBox({
@@ -120,24 +125,21 @@
                     this.element.style.height = "auto";
                     this.element.style.height = (this.element.scrollHeight - 7) + "px";
                 },
-                input: function () {
+                input: function (args) {
+                    // Xử lý khi nội dung đang thay đổi ở đây
                     this.element.style.height = "auto";
                     this.element.style.height = (this.element.scrollHeight) + "px";
+                    buttonSave_data.disabled = true;
+                    buttonSyntax_check.disabled = false;
                 },
                 change: function (args) {
                     // Xử lý khi nội dung đã thay đổi ở đây
-                },
-                input: function (args) {
-                    // Xử lý khi nội dung đang thay đổi ở đây
                     //alert(args.value);
-                }
+                },
             });
             // Render initialized TextBox
             textareaObject.appendTo('#text_import_multiline');
         });
-        function goToAddBackPage() {
-            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&dateTime=${model.HandlDate}`;
-        }
         function characterFilteringSyntax(){
             var calculation3Model = {
                 idMessage: null,
@@ -157,17 +159,130 @@
                 {
                     "calculation3Json": calculation3ModelJson,
                 },
-                url: "@Url.Action("CharacterFilteringSyntax", "PlayerMessages")",
+                url: "@Url.Action("ExecuteSyntaxPlayer", "PlayerMessages")",
                 success: function (data) {
                     hideOverlay();
                     if (data.success && data.data) {
-                        
+                        if (data.data.error != null){
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Lỗi tin nhắn!',
+                                message: data.data.error.message,
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => setSelectionRangeError(data.data.error.startIndex, data.data.error.count))
+                        }
+                        else{
+                            awesomeAlert({
+                                header: true,
+                                type: 'success',
+                                title: 'Thành công!',
+                                message: 'Tin nhắn hợp lệ!',
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/success.svg',
+                                buttonOK: 'Xong!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
+                            buttonSave_data.disabled = false;
+                            buttonSyntax_check.disabled = true;
+                        }
                     }
                     else {
-                        
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.message)) {
+                            message = data.Message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
                     }
                 },
             })
+        }
+        function saveDataSyntax() {
+            var calculation3Model = {
+                idMessage: null,
+                idKhach: model.IdPlayer,
+                mien: model.Region,
+                handlByDate: model.HandlDate,
+                cachTrungDaThang: model.CachTrungDaThang,
+                cachTrungDaXien: model.CachTrungDaXien,
+                isSave: true,
+                synTax: textareaObject.value,
+            }
+            calculation3ModelJson = JSON.stringify(calculation3Model);
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "calculation3Json": calculation3ModelJson,
+                },
+                url: "@Url.Action("ExecuteSyntaxPlayer", "PlayerMessages")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        if (data.data.error == null) {
+                            awesomeAlert({
+                                header: true,
+                                type: 'success',
+                                title: 'Thành công!',
+                                message: 'Lưu tin nhắn thành công!',
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/success.svg',
+                                buttonOK: 'Xong!',
+                                closeStyle: 'circle'
+                            }).then(res => goToAddBackPage())
+                        }
+                        else {
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Lỗi!',
+                                message: 'Đã có lỗi xảy ra!',
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
+                        }
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.message)) {
+                            message = data.Message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi hệ thống!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                },
+            })
+        }
+        function setSelectionRangeError(startIndex, count) {
+            var textareaElement = textareaObject.element;
+            textareaElement.setSelectionRange(startIndex, startIndex + count);
+            textareaElement.focus();
+        }
+        function goToAddBackPage() {
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&dateTime=${model.HandlDate}`;
         }
     </script>
 </body>
