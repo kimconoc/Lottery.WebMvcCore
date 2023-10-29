@@ -1,8 +1,10 @@
 ﻿<!-- _PartialView.cshtml -->
 @using Lottery.DoMain.Models;
 @using System;
+@using Lottery.DoMain.Enum;
 @model Cal3DetailDto
 <style>
+
     .trungDetail-messages {
         display:flex;
         flex-flow:column;
@@ -27,6 +29,32 @@
                 margin-bottom: 2px;
                 text-decoration: underline;
             }
+        
+    table {
+      font-family: Arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      padding: 8px;
+      text-align:center;
+      width: 25%;
+    }
+    
+    th{
+        background:#dee8fc;
+    }
+
+    td{
+        /*color: #e3165b;*/
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
 </style>
 <div id="div_success_message" class="div-success-message">
     <div class="parameter-success-messages">
@@ -102,6 +130,30 @@
                     </span>
                 </div>
             </div>
+        </div>
+        <div class="table-Details-messages">
+            @{
+                if(Model.Details != null)
+                {
+                    <table>
+                        <tr>
+                          <th>Đài</th>
+                          <th>Số</th>
+                          <th>Cách Chơi</th>
+                          <th>Số Tiền</th>
+                        </tr>
+                        @foreach (var item in Model.Details)
+                        {
+                            <tr>
+                                <td>@item.Dai</td>
+                                <td>@string.Join(", ", item.So)</td>
+                                <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                <td>@item.SoTien</td>
+                            </tr>
+                        }
+                    </table>
+                }
+            }
         </div>
     </div>
 </div>
