@@ -31,7 +31,7 @@ namespace Lottery.WebMvc.Controllers
                     return Json(Server_Error("Đã có lỗi xảy ra!"));
                 }
                 var userData = userBase.Result.Data;
-                if (!userData.isLoginSuccess)
+                if (!userData.IsLoginSuccess)
                 {
                     return Json(Server_Error("Tài khoản đăng nhập không đúng!"));
                 }

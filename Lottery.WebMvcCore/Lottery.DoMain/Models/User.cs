@@ -16,7 +16,7 @@ namespace Lottery.DoMain.Models
         public DateTime ExpireDate { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
-        public bool isLoginSuccess { get; set; }
+        public bool IsLoginSuccess { get; set; }
         public int UserAgent { get; set; }
         //public List<PhonebookUser> Phonebooks { get; set; }
     }
