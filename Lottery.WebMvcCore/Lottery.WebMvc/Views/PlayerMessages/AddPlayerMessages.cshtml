@@ -35,7 +35,15 @@
     <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js" type="text/javascript"></script>
     <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
     <style>
-       
+        .div-error-message{
+            margin-top:5px;
+            color:red;
+        }
+
+        .div_success_message{
+            margin-top: 5px;
+            /*display:none;*/
+        }
     </style>
 </head>
 <body>
@@ -71,6 +79,17 @@
         </div>
         <div class="div-text-import-multiline">
             <textarea id="text_import_multiline" name="text"></textarea>
+        </div>
+        <div class="div-error-message">
+            <span id="error_message"></span>
+        </div>
+        <div id="div_success_message" class="div-success-message">
+            <span style="color:#e3165b">
+                Ngày: @Model.HandlDate?.ToString("dd/MM/yyyyy")
+            </span>
+            <div class="parameter-success-messages">
+
+            </div>
         </div>
     </div>
 
@@ -115,6 +134,7 @@
             textareaObject.appendTo('#text_import_multiline');
         });
         function characterFilteringSyntax(){
+            document.getElementById("error_message").textContent = "";
             var calculation3Model = {
                 idMessage: null,
                 idKhach: model.IdPlayer,
@@ -138,30 +158,13 @@
                     hideOverlay();
                     if (data.success && data.data) {
                         if (data.data.error != null){
-                            awesomeAlert({
-                                header: true,
-                                type: 'error',
-                                title: 'Lỗi tin nhắn!',
-                                message: data.data.error.message,
-                                //bgColor: '#2dd284',
-                                img: '/assets/images/icon/error.svg',
-                                buttonOK: 'Oke!',
-                                closeStyle: 'circle'
-                            }).then(res => setSelectionRangeError(data.data.error.startIndex, data.data.error.count))
+                            document.getElementById("error_message").textContent = data.data.error.message;
+                            setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
                         }
                         else{
-                            awesomeAlert({
-                                header: true,
-                                type: 'success',
-                                title: 'Thành công!',
-                                message: 'Tin nhắn hợp lệ!',
-                                //bgColor: '#2dd284',
-                                img: '/assets/images/icon/success.svg',
-                                buttonOK: 'Xong!',
-                                closeStyle: 'circle'
-                            }).then(res => false)
                             buttonSave_data.disabled = false;
-                            buttonSyntax_check.disabled = true;
+                            //buttonSyntax_check.disabled = true;
+                            buttonSyntax_check.disabled = false;
                         }
                     }
                     else {
