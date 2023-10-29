@@ -84,6 +84,12 @@
             <span id="error_message"></span>
         </div>
         <div id="div_success_message">     
+            <span style="color:#e3165b;">
+                Ngày: @Model.HandlDate?.ToString("dd/MM/yyyyy")
+            </span>
+            <div style="margin-top:10px;" id="patial_success_message">
+
+            </div>
         </div>
     </div>
 
@@ -126,7 +132,6 @@
             });
             // Render initialized TextBox
             textareaObject.appendTo('#text_import_multiline');
-            getPartialViewAddPlayerMessages();
         });
         function characterFilteringSyntax(){
             document.getElementById("error_message").textContent = "";
@@ -160,6 +165,8 @@
                             buttonSave_data.disabled = false;
                             //buttonSyntax_check.disabled = true;
                             buttonSyntax_check.disabled = false;
+                            cal3DetailDtoJson = JSON.stringify(data.data);
+                            getPartialViewAddPlayerMessages(cal3DetailDtoJson);
                         }
                     }
                     else {
@@ -256,10 +263,9 @@
         function goToAddBackPage() {
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&dateTime=${model.HandlDate}`;
         }
-        function getPartialViewAddPlayerMessages() {
+        function getPartialViewAddPlayerMessages(cal3DetailDtoJson) {
             var url = '@Url.Action("GetPartialViewAddPlayerMessages", "PlayerMessages")';
-            var calculation3 = "";
-            $('#div_success_message').load(url, { calculation3Json: calculation3 }, function (response, status, xhr) { });
+            $('#patial_success_message').load(url, { cal3DetailDtoModelJson: cal3DetailDtoJson }, function (response, status, xhr) { });
         }
     </script>
 </body>
