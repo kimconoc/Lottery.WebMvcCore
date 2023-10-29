@@ -78,5 +78,11 @@ namespace Lottery.WebMvc.Controllers
                 return Json(Server_Error("Đã có lỗi hệ thông!"));
             }
         }
+
+        public IActionResult GetPartialViewAddPlayerMessages(string calculation3Json)
+        {
+            var model = new Cal3DetailDto();
+            return PartialView("_PartialViewAddPlayerMessages", model);
+        }
     }
 }
