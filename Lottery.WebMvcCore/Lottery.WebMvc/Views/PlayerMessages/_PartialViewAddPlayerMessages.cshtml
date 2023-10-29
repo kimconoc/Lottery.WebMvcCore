@@ -2,10 +2,106 @@
 @using Lottery.DoMain.Models;
 @using System;
 @model Cal3DetailDto
+<style>
+    .trungDetail-messages {
+        display:flex;
+        flex-flow:column;
+        color: #e3165b;
+    }
+
+    .parameter-messages {
+        padding: 15px 10px 10px 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        color: #e3165b;
+    }
+
+        .parameter-messages div {
+            display: flex;
+            flex-flow: column;
+            gap: 2px;
+        }
+
+            .parameter-messages div .title {
+                font-size: 16px;
+                margin-bottom: 2px;
+                text-decoration: underline;
+            }
+</style>
 <div id="div_success_message" class="div-success-message">
     <div class="parameter-success-messages">
-        <span>
-            sdasdsds
-        </span>
+        <div class="trungDetail-messages">
+            @{
+                if (Model.TrungDetail != null)
+                {
+                    foreach (var str in Model.TrungDetail)
+                    {
+                        <span>
+                            @str
+                        </span>
+                    }
+                }
+            }
+        </div>
+        <div class="parameter-messages">
+            <div>
+                <div class="div-xac">
+                    <span>
+                        2CB:
+                        <strong>@Model.Xac.HaiCB</strong>
+                    </span>
+                    <span>
+                        2CĐ:
+                        <strong>@Model.Xac.HaiCD</strong>
+                    </span>
+                    <span>
+                        ĐáT:
+                        <strong>@Model.Xac.DaT</strong>
+                    </span>
+                    <span>
+                        ĐáX:
+                        <strong>@Model.Xac.DaX</strong>
+                    </span>
+                    <span>
+                        3C:
+                        <strong>@Model.Xac.BaCon</strong>
+                    </span>
+                    <span>
+                        4C:
+                        <strong>@Model.Xac.BonCon</strong>
+                    </span>
+                </div>
+            </div>
+            <div>
+            </div>
+            <div>
+                <div class="div-trung">
+                    <span>
+                        2CB:
+                        <strong>@Model.Trung.HaiCB</strong>
+                    </span>
+                    <span>
+                        2CĐ:
+                        <strong>@Model.Trung.HaiCD</strong>
+                    </span>
+                    <span>
+                        ĐáT:
+                        <strong>@Model.Trung.DaT</strong>
+                    </span>
+                    <span>
+                        ĐáX:
+                        <strong>@Model.Trung.DaX</strong>
+                    </span>
+                    <span>
+                        3C:
+                        <strong>@Model.Trung.BaCon</strong>
+                    </span>
+                    <span>
+                        4C:
+                        <strong>@Model.Trung.BonCon</strong>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

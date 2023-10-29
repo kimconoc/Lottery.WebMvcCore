@@ -39,11 +39,6 @@
             margin-top:5px;
             color:red;
         }
-
-        .div_success_message{
-            margin-top: 5px;
-            /*display:none;*/
-        }
     </style>
 </head>
 <body>
@@ -83,11 +78,11 @@
         <div class="div-error-message">
             <span id="error_message"></span>
         </div>
-        <div id="div_success_message">     
-            <span style="color:#e3165b;">
+        <div style="margin-top:5px;display:none;" id="div_success_message">
+            <strong>
                 Ngày: @Model.HandlDate?.ToString("dd/MM/yyyyy")
-            </span>
-            <div style="margin-top:10px;" id="patial_success_message">
+            </strong>
+            <div style="margin-top:5px;" id="patial_success_message">
 
             </div>
         </div>
@@ -135,6 +130,7 @@
         });
         function characterFilteringSyntax(){
             document.getElementById("error_message").textContent = "";
+            document.getElementById("div_success_message").style.display = "none";
             var calculation3Model = {
                 idMessage: null,
                 idKhach: model.IdPlayer,
@@ -163,10 +159,10 @@
                         }
                         else{
                             buttonSave_data.disabled = false;
-                            //buttonSyntax_check.disabled = true;
-                            buttonSyntax_check.disabled = false;
+                            buttonSyntax_check.disabled = true;
                             cal3DetailDtoJson = JSON.stringify(data.data);
                             getPartialViewAddPlayerMessages(cal3DetailDtoJson);
+                            document.getElementById("div_success_message").style.display = "block";
                         }
                     }
                     else {
