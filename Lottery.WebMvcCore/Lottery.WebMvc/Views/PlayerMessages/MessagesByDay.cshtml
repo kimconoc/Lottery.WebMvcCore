@@ -278,9 +278,9 @@
         });
         $('#datetimepicker').on('change', function () {
             var dateString = $(this).val();
-            var date = new Date(dateString);
-            var formattedDate = date.toLocaleString(); 
-            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=${formattedDate}`;
+            //var date = new Date(dateString);
+            //var formattedDate = date.toLocaleString(); 
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&strDateTime=${dateString}`;
         });
         function goToAddPlayerMessagesPage(){
             window.location.href = `/PlayerMessages/AddPlayerMessages?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=@Model.MessgeByDayData.HandlDate`;

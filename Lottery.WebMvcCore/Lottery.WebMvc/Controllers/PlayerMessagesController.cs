@@ -13,12 +13,9 @@ namespace Lottery.WebMvc.Controllers
 {
     public class PlayerMessagesController : BaseController
     {
-        public IActionResult MessagesByDay(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, DateTime? dateTime)
+        public IActionResult MessagesByDay(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, string strDateTime)
         {
-            if (dateTime == null)
-            {
-                dateTime = DateTime.Now;
-            }  
+            DateTime dateTime = Constant.ConvertStringToDateTime(strDateTime);
             MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
             {
                 HandlDate = dateTime,

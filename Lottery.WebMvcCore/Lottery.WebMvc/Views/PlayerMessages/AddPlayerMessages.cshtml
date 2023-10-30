@@ -257,7 +257,7 @@
             textareaElement.focus();
         }
         function goToAddBackPage() {
-            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&dateTime=${model.HandlDate}`;
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&strDateTime=@Model.HandlDate?.ToString("yyyy/MM/dd HH:mm")`;
         }
         function getPartialViewAddPlayerMessages(cal3DetailDtoJson) {
             var url = '@Url.Action("GetPartialViewAddPlayerMessages", "PlayerMessages")';
