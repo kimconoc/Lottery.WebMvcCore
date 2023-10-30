@@ -155,7 +155,16 @@
                     if (data.success && data.data) {
                         if (data.data.error != null){
                             document.getElementById("error_message").textContent = data.data.error.message;
-                            setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: "Lỗi cú pháp",
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => setSelectionRangeError(data.data.error.startIndex, data.data.error.count))
                         }
                         else{
                             buttonSave_data.disabled = false;
