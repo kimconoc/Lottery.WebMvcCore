@@ -271,6 +271,7 @@
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
+            value: '@Model.MessgeByDayData.HandlDate?.ToString("yyyy/MM/dd HH:mm")'
         });
         $('button.somebutton').on('click', function () {
             $('#datetimepicker').datetimepicker('show');
