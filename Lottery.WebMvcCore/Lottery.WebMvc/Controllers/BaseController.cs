@@ -1,4 +1,5 @@
-﻿using Lottery.DoMain.Models;
+﻿using Lottery.DoMain.Enum;
+using Lottery.DoMain.Models;
 using Lottery.Service.ServiceProvider;
 using Lottery.Service.ServiceProvider.Interface;
 using Lottery.WebMvc.Models;
@@ -22,6 +23,7 @@ namespace Lottery.WebMvc.Controllers
         }
         protected void ExecuteSaveCookies(User userData)
         {
+            userData.UserAgent = IdentifyUserAgent();
             var cookieOptions = new CookieOptions
             {
                 Expires = DateTimeOffset.Now.AddDays(1),
@@ -59,6 +61,23 @@ namespace Lottery.WebMvc.Controllers
                 throw ex;
             }
             return user;
+        }
+
+        protected int IdentifyUserAgent()
+        {
+            string userAgent = HttpContext.Request.Headers["User-Agent"].ToString().ToLower();
+            if (userAgent.Contains("iphone"))
+            {
+                return (int)UserAgentEnum.Iphone;
+            }
+            else if (userAgent.Contains("android"))
+            {
+                return (int)UserAgentEnum.Android;
+            }
+            else
+            {
+                return (int)UserAgentEnum.Computer;
+            }
         }
 
         protected DataResponse<TRequest> Success_Request<TRequest>(TRequest data)
