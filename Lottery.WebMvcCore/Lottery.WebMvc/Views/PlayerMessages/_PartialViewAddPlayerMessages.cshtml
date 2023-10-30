@@ -144,12 +144,25 @@
                         </tr>
                         @foreach (var item in Model.Details)
                         {
-                            <tr>
-                                <td>@item.Dai</td>
-                                <td>@string.Join(", ", item.So)</td>
-                                <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
-                                <td>@item.SoTien</td>
-                            </tr>
+                            if (item.SlTrung > 0)
+                            {
+                                <tr style="color:#e3165b;">
+                                    <td>@item.Dai</td>
+                                    <td>@string.Join(", ", item.So)</td>
+                                    <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    <td>@item.SoTien</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                 <tr>
+                                    <td>@item.Dai</td>
+                                    <td>@string.Join(", ", item.So)</td>
+                                    <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    <td>@item.SoTien</td>
+                                </tr>
+                            }
+
                         }
                     </table>
                 }

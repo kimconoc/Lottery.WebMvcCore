@@ -216,7 +216,7 @@
                                     </span>
                                     <span>
                                         4C:
-                                        <strong>@item.CalDetail.Xac.BaCon</strong>
+                                        <strong>@item.CalDetail.Xac.BonCon</strong>
                                     </span>
                                 </div>
                             </div>                   
@@ -277,7 +277,8 @@
         });
         $('#datetimepicker').on('change', function () {
             var dateString = $(this).val();
-            var formattedDate = new Date(dateString).toJSON();
+            var date = new Date(dateString);
+            var formattedDate = date.toLocaleString(); 
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=${formattedDate}`;
         });
         function goToAddPlayerMessagesPage(){
