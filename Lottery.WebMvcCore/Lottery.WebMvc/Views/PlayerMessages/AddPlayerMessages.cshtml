@@ -160,10 +160,11 @@
                     if (data.success && data.data) {
                         if (data.data.error != null){
                             document.getElementById("error_message").textContent = data.data.error.message;
-                            let timeoutID = setTimeout(function () {
-                                setSelectionRangeError(data.data.error.startIndex, data.data.error.count)
-                            }, 1000);
-                            //clearTimeout(timeoutID);
+                            setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            //let timeoutID = setTimeout(function () {
+                            //    setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            //    clearTimeout(timeoutID);
+                            //}, 100);
                         }
                         else{
                             buttonSave_data.disabled = false;
