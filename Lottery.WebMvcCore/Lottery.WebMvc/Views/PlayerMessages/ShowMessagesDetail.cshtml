@@ -7,6 +7,7 @@
 @{
     Layout = null;
     var serializedModel1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
+    var serializedModel2 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item2);
 }
 
 <!DOCTYPE html>
@@ -31,6 +32,20 @@
             margin-top: 12px;
             cursor: pointer;
             display: inline-block;
+        }
+
+        .container-showMessagesDetail {
+            padding: 55px 10px 0px 10px;
+        }
+       
+        .mainContent-message {
+            display: inline-block;
+            border-radius: 10px 0 10px 0;
+            background-color: #dee8fc;
+            padding: 8px;
+            top: 5px;
+            font-family: sans-serif;
+            font-weight: 500;
         }
 
     </style>
@@ -60,10 +75,13 @@
             </div>
         </div>
     </header>
-    <div class="container-addPlayerMessages">
-        <div style="margin-top:5px;display:none;" id="div_success_message">
+    <div class="container-showMessagesDetail">
+        <div class="div-content-message mainContent-message">
+            @Model.Item2.Message
+        </div>
+        <div class="div-patial-message-detail" style="margin-top:10px">
             <strong>
-                Ngày: @Model.Item1.HandlDate?ToString("dd/MM/yyyy")
+                Ngày: @Model.Item1.HandlDate?.ToString("dd/MM/yyyy")
             </strong>
             <div style="margin-top:5px;" id="patial_message_detail">
             </div>
@@ -72,8 +90,18 @@
 
     <script>
         var model1 = @Html.Raw(serializedModel1);
+        var model2 = @Html.Raw(serializedModel2);
+        $(document).ready(function () {
+            cal3DetailDtoJson = JSON.stringify(model2.CalDetail);
+            getPartialViewMessagesDetail(cal3DetailDtoJson);
+        });
+        var model1 = @Html.Raw(serializedModel1);
         function goToAddBackPage() {
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model1.IdPlayer}&namePlayer=${model1.NamePlayer}&region=${model1.Region}&cachTrungDaThang=${model1.CachTrungDaThang}&cachTrungDaXien=${model1.CachTrungDaXien}&strDateTime=@Model.Item1.HandlDate?.ToString("yyyy/MM/dd HH:mm")`;
+        }
+        function getPartialViewMessagesDetail(cal3DetailDtoJson) {
+            var url = '@Url.Action("GetPartialViewMessagesDetail", "PlayerMessages")';
+            $('#patial_message_detail').load(url, { cal3DetailDtoModelJson: cal3DetailDtoJson }, function (response, status, xhr) { });
         }
     </script>
 </body>

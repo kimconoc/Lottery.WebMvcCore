@@ -184,14 +184,14 @@
                     foreach(var item in Model.DetailMessage)
                     {
                         count = count + 1;
-                        var serializedDetailMessage = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+                        //var serializedDetailMessage = Newtonsoft.Json.JsonConvert.SerializeObject(item);
                         <div class="content-messages">
                             <span>
                                 <strong style="color:#e3165b;">@count)</strong>
                                     @item.Message
                             </span>
                         </div>
-                            <div onclick="window.location.href='/PlayerMessages/ShowMessagesDetail?messgeByDaySessionModelJson=@serializedMessgeByDaySession&detailMessageModelJson=@serializedDetailMessage';" class="parameter-messages" style="cursor:pointer;">
+                            <div onclick="window.location.href='/PlayerMessages/ShowMessagesDetail?messgeByDaySessionModelJson=@serializedMessgeByDaySession&noDetailMessage=@item.No';" class="parameter-messages" style="cursor:pointer;">
                             <div>
                                 <div class="div-xac">
                                     @*<strong class="title">Xác</strong>*@

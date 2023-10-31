@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.Reflection;
+using System.Security.Cryptography.Xml;
 
 namespace Lottery.WebMvc.Controllers
 {
@@ -77,10 +78,23 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
-        public IActionResult ShowMessagesDetail(string messgeByDaySessionModelJson, string detailMessageModelJson)
+        public IActionResult ShowMessagesDetail(string messgeByDaySessionModelJson, int noDetailMessage)
         {
             var messgeByDaySessionModel = JsonConvert.DeserializeObject<MessgeByDaySession>(messgeByDaySessionModelJson);
-            var detailMessageModel = JsonConvert.DeserializeObject<DetailMessage>(detailMessageModelJson);
+            //
+            MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
+            {
+                HandlDate = messgeByDaySessionModel.HandlDate,
+                IDKhach = messgeByDaySessionModel.IdPlayer,
+                Mien = messgeByDaySessionModel.Region
+            };
+            var messgeByDayBase = provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
+            if (messgeByDayBase == null || messgeByDayBase.Result == null || messgeByDayBase.Result.Data == null)
+            {
+                return Json(Server_Error("Đã có lỗi xảy ra!"));
+            }
+            var detailMessageModel = messgeByDayBase.Result.Data.DetailMessage.FirstOrDefault(x => x.No == noDetailMessage);
+            //
             var compositeModel = new Tuple<MessgeByDaySession, DetailMessage>(messgeByDaySessionModel, detailMessageModel);
 
             return View(compositeModel);
