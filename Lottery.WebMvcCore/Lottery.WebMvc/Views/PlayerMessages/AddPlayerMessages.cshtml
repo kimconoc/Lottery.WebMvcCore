@@ -87,7 +87,7 @@
             <strong>
                 Ngày: @Model.HandlDate?.ToString("dd/MM/yyyy")
             </strong>
-            <div style="margin-top:5px;" id="patial_success_message">
+            <div style="margin-top:5px;" id="patial_message_detail">
 
             </div>
         </div>
@@ -170,7 +170,7 @@
                             buttonSave_data.disabled = false;
                             buttonSyntax_check.disabled = true;
                             cal3DetailDtoJson = JSON.stringify(data.data);
-                            getPartialViewAddPlayerMessages(cal3DetailDtoJson);
+                            getPartialViewMessagesDetail(cal3DetailDtoJson);
                             document.getElementById("div_success_message").style.display = "block";
                         }
                     }
@@ -268,9 +268,9 @@
         function goToAddBackPage() {
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&strDateTime=@Model.HandlDate?.ToString("yyyy/MM/dd HH:mm")`;
         }
-        function getPartialViewAddPlayerMessages(cal3DetailDtoJson) {
-            var url = '@Url.Action("GetPartialViewAddPlayerMessages", "PlayerMessages")';
-            $('#patial_success_message').load(url, { cal3DetailDtoModelJson: cal3DetailDtoJson }, function (response, status, xhr) { });
+        function getPartialViewMessagesDetail(cal3DetailDtoJson) {
+            var url = '@Url.Action("GetPartialViewMessagesDetail", "PlayerMessages")';
+            $('#patial_message_detail').load(url, { cal3DetailDtoModelJson: cal3DetailDtoJson }, function (response, status, xhr) { });
         }
     </script>
 </body>

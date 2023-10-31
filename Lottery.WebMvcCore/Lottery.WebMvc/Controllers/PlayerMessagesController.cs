@@ -76,10 +76,10 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
-        public IActionResult GetPartialViewAddPlayerMessages(string cal3DetailDtoModelJson)
+        public IActionResult GetPartialViewMessagesDetail(string cal3DetailDtoModelJson)
         {
             var cal3DetailDtoModel = JsonConvert.DeserializeObject<Cal3DetailDto>(cal3DetailDtoModelJson);
-            return PartialView("_PartialViewAddPlayerMessages", cal3DetailDtoModel);
+            return PartialView("_PartialViewMessagesDetail", cal3DetailDtoModel);
         }
     }
 }
