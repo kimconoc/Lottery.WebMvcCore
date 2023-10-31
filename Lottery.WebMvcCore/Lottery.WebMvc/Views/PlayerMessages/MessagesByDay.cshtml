@@ -6,7 +6,7 @@
 @model MessgeByDay
 @{
     Layout = null;
-    var serializedMessgeByDayData = Newtonsoft.Json.JsonConvert.SerializeObject(Model.MessgeByDayData);
+    var serializedMessgeByDaySession = Newtonsoft.Json.JsonConvert.SerializeObject(Model.MessgeByDaySession);
 }
 
 <!DOCTYPE html>
@@ -45,11 +45,11 @@
 <body>
     <header class="header-page">
         <div class="title-page">
-            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@Model.MessgeByDayData.Region';" class="title-page-text">
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@Model.MessgeByDaySession.Region';" class="title-page-text">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                 @{
                     string titlePage = string.Empty;
-                    switch (Model.MessgeByDayData.Region)
+                    switch (Model.MessgeByDaySession.Region)
                     {
                         case (int)RegionEnum.MienNam:
                             titlePage = RegionEnum.MienNam.GetDescription();
@@ -150,7 +150,7 @@
             </div>
             <div class="synthesis-result-messages">
                 <span>
-                    Ngày: @Model.MessgeByDayData.HandlDate?.ToString("dd/MM/yyyy")
+                    Ngày: @Model.MessgeByDaySession.HandlDate?.ToString("dd/MM/yyyy")
                 </span>
                 @{
                     if (@Model.IsThu)
@@ -184,13 +184,14 @@
                     foreach(var item in Model.DetailMessage)
                     {
                         count = count + 1;
+                        var serializedDetailMessage = Newtonsoft.Json.JsonConvert.SerializeObject(item);
                         <div class="content-messages">
                             <span>
                                 <strong style="color:#e3165b;">@count)</strong>
                                     @item.Message
                             </span>
                         </div>
-                        <div class="parameter-messages">
+                            <div onclick="window.location.href='/PlayerMessages/ShowMessagesDetail?messgeByDaySessionModelJson=@serializedMessgeByDaySession&detailMessageModelJson=@serializedDetailMessage';" class="parameter-messages" style="cursor:pointer;">
                             <div>
                                 <div class="div-xac">
                                     @*<strong class="title">Xác</strong>*@
@@ -267,11 +268,11 @@
     </div>
     
     <script>
-        var modelMessgeByDayData = @Html.Raw(serializedMessgeByDayData);
+        var modelMessgeByDayData = @Html.Raw(serializedMessgeByDaySession);
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
-            value: '@Model.MessgeByDayData.HandlDate?.ToString("yyyy/MM/dd HH:mm")'
+            value: '@Model.MessgeByDaySession.HandlDate?.ToString("yyyy/MM/dd HH:mm")'
         });
         $('button.somebutton').on('click', function () {
             $('#datetimepicker').datetimepicker('show');
@@ -283,7 +284,7 @@
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&strDateTime=${dateString}`;
         });
         function goToAddPlayerMessagesPage(){
-            window.location.href = `/PlayerMessages/AddPlayerMessages?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=@Model.MessgeByDayData.HandlDate`;
+            window.location.href = `/PlayerMessages/AddPlayerMessages?idPlayer=${modelMessgeByDayData.IdPlayer}&namePlayer=${modelMessgeByDayData.NamePlayer}&region=${modelMessgeByDayData.Region}&cachTrungDaThang=${modelMessgeByDayData.CachTrungDaThang}&cachTrungDaXien=${modelMessgeByDayData.CachTrungDaXien}&dateTime=@Model.MessgeByDaySession.HandlDate`;
         }
     </script>
 </body>

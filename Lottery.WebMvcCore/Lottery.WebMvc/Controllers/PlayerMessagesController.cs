@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using System.Reflection;
 
 namespace Lottery.WebMvc.Controllers
 {
@@ -37,7 +38,7 @@ namespace Lottery.WebMvc.Controllers
                 HandlDate = dateTime,
             };
             var messgeByDay = messgeByDayBase.Result.Data;
-            messgeByDay.MessgeByDayData = messgeByDaySession;
+            messgeByDay.MessgeByDaySession = messgeByDaySession;
             return View(messgeByDay);
         }
 
@@ -76,10 +77,20 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
+        public IActionResult ShowMessagesDetail(string messgeByDaySessionModelJson, string detailMessageModelJson)
+        {
+            var messgeByDaySessionModel = JsonConvert.DeserializeObject<MessgeByDaySession>(messgeByDaySessionModelJson);
+            var detailMessageModel = JsonConvert.DeserializeObject<DetailMessage>(detailMessageModelJson);
+            var compositeModel = new Tuple<MessgeByDaySession, DetailMessage>(messgeByDaySessionModel, detailMessageModel);
+
+            return View(compositeModel);
+        }
+
         public IActionResult GetPartialViewMessagesDetail(string cal3DetailDtoModelJson)
         {
             var cal3DetailDtoModel = JsonConvert.DeserializeObject<Cal3DetailDto>(cal3DetailDtoModelJson);
             return PartialView("_PartialViewMessagesDetail", cal3DetailDtoModel);
         }
+
     }
 }

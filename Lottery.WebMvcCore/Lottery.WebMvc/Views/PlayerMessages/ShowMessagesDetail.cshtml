@@ -1,0 +1,80 @@
+﻿@using Lottery.DoMain.Constant;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Models;
+@using Lottery.DoMain.Extentions;
+@model Tuple<MessgeByDaySession, DetailMessage>;
+@{
+    Layout = null;
+    var serializedModel1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/showMessagesDetail.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
+    <script src="~/js/constant.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <style>
+
+        .title-page {
+            padding: 3px 10px 3px 5px;
+            font-size: 16px;
+        }
+        
+        .title-page-text {
+            margin-top: 12px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header-page">
+        <div class="title-page">
+            <div onclick="goToAddBackPage()" class="title-page-text">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                @{
+                    string titlePageGoBack = string.Empty;
+                    switch (Model.Item1.Region)
+                    {
+                        case (int)RegionEnum.MienNam:
+                            titlePageGoBack = RegionEnum.MienNam.GetDescription();
+                            break;
+                        case (int)RegionEnum.MienTrung:
+                            titlePageGoBack = RegionEnum.MienTrung.GetDescription();
+                            break;
+                        default:
+                            titlePageGoBack = RegionEnum.MienBac.GetDescription();
+                            break;
+                    }
+                    titlePageGoBack = string.Format(@Model.Item1.NamePlayer + " - " + titlePageGoBack);
+                    @titlePageGoBack;
+                }
+            </div>
+        </div>
+    </header>
+    <div class="container-addPlayerMessages">
+        <div style="margin-top:5px;display:none;" id="div_success_message">
+            <strong>
+                Ngày: @Model.Item1.HandlDate?ToString("dd/MM/yyyy")
+            </strong>
+            <div style="margin-top:5px;" id="patial_message_detail">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var model1 = @Html.Raw(serializedModel1);
+        function goToAddBackPage() {
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model1.IdPlayer}&namePlayer=${model1.NamePlayer}&region=${model1.Region}&cachTrungDaThang=${model1.CachTrungDaThang}&cachTrungDaXien=${model1.CachTrungDaXien}&strDateTime=@Model.Item1.HandlDate?.ToString("yyyy/MM/dd HH:mm")`;
+        }
+    </script>
+</body>
+</html>

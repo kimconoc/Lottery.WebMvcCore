@@ -136,6 +136,9 @@
         function characterFilteringSyntax(){
             document.getElementById("error_message").textContent = "";
             document.getElementById("div_success_message").style.display = "none";
+            if (isNullOrEmpty(textareaObject.value)) {
+                return
+            }
             var calculation3Model = {
                 idMessage: null,
                 idKhach: model.IdPlayer,
