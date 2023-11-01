@@ -105,5 +105,11 @@ namespace Lottery.WebMvc.Controllers
             return PartialView("_PartialViewMessagesDetail", cal3DetailDtoModel);
         }
 
+        public IActionResult ListMessages(string messgeByDaySessionModelJson)
+        {
+            var messgeByDaySessionModel = JsonConvert.DeserializeObject<MessgeByDaySession>(messgeByDaySessionModelJson);
+            return View(messgeByDaySessionModel);
+        }
+
     }
 }

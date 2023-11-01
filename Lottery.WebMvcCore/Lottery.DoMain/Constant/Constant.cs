@@ -16,7 +16,7 @@ namespace Lottery.DoMain.Constant
             string format = "yyyy/MM/dd HH:mm";
             if (string.IsNullOrEmpty(strDateTime))
             {
-                return DateTime.Now;
+                strDateTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
             }
             if (!DateTime.TryParseExact(strDateTime, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
             {

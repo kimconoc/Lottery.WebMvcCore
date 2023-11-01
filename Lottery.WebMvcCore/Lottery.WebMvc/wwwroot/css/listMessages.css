@@ -1,0 +1,18 @@
+﻿@media (max-width: 600px) {
+    /*ghi đè class css*/
+    .xdsoft_datetimepicker {
+        left: 38% !important;
+        top: 50px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .floating-button {
+        right: calc(100%/2 - 300px + 20px) !important;
+    }
+    /*ghi đè class css*/
+    .xdsoft_datetimepicker {
+        left: calc(100%/2 + 45px) !important;
+        top: 50px !important;
+    }
+}

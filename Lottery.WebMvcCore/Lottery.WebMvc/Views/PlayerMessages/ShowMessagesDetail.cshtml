@@ -95,7 +95,6 @@
             cal3DetailDtoJson = JSON.stringify(model2);
             getPartialViewMessagesDetail(cal3DetailDtoJson);
         });
-        var model1 = @Html.Raw(serializedModel1);
         function goToAddBackPage() {
             window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model1.IdPlayer}&namePlayer=${model1.NamePlayer}&region=${model1.Region}&cachTrungDaThang=${model1.CachTrungDaThang}&cachTrungDaXien=${model1.CachTrungDaXien}&strDateTime=@Model.Item1.HandlDate?.ToString("yyyy/MM/dd HH:mm")`;
         }
