@@ -25,12 +25,15 @@ namespace Lottery.DoMain.Models
     }
     public class DetailMessage
     {
-        public int No { get; set; }
-        public Cal3DetailDto CalDetail { get; set; }
-        public string Message { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime HandlByDate { get; set; }
         public int ID { get; set; }
+        public Summary Xac { get; set; }
+        public Summary Trung { get; set; }
+        public List<string> TrungDetail { get; set; }
+        public List<Detail> Details { get; set; }
+        public bool IsTinh { get; set; }
+        public string Message { get; set; }
+        public DateTime HanldDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 
     public class Total

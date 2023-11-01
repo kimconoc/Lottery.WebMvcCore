@@ -3,7 +3,7 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Models;
 @using Lottery.DoMain.Extentions;
-@model Tuple<MessgeByDaySession, DetailMessage>;
+@model Tuple<MessgeByDaySession, Cal3DetailDto>;
 @{
     Layout = null;
     var serializedModel1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
@@ -92,7 +92,7 @@
         var model1 = @Html.Raw(serializedModel1);
         var model2 = @Html.Raw(serializedModel2);
         $(document).ready(function () {
-            cal3DetailDtoJson = JSON.stringify(model2.CalDetail);
+            cal3DetailDtoJson = JSON.stringify(model2);
             getPartialViewMessagesDetail(cal3DetailDtoJson);
         });
         var model1 = @Html.Raw(serializedModel1);

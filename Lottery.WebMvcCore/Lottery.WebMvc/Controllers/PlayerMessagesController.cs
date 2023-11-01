@@ -78,25 +78,24 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
-        public IActionResult ShowMessagesDetail(string messgeByDaySessionModelJson, int noDetailMessage)
+        public IActionResult ShowMessagesDetail(string messgeByDaySessionModelJson, int iDMessage)
         {
             var messgeByDaySessionModel = JsonConvert.DeserializeObject<MessgeByDaySession>(messgeByDaySessionModelJson);
-            //
-            MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
+            DetailMessage detailMessageModel = new DetailMessage();
+            var dataBase = provider.GetAsync<DetailMessage>(string.Format(ApiUri.Get_HandlMessage + "/{0}", iDMessage));
+            if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
             {
-                HandlDate = messgeByDaySessionModel.HandlDate,
-                IDKhach = messgeByDaySessionModel.IdPlayer,
-                Mien = messgeByDaySessionModel.Region
-            };
-            var messgeByDayBase = provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
-            if (messgeByDayBase == null || messgeByDayBase.Result == null || messgeByDayBase.Result.Data == null)
-            {
-                return Json(Server_Error("Đã có lỗi xảy ra!"));
+                detailMessageModel = dataBase.Result.Data;
             }
-            var detailMessageModel = messgeByDayBase.Result.Data.DetailMessage.FirstOrDefault(x => x.No == noDetailMessage);
-            //
-            var compositeModel = new Tuple<MessgeByDaySession, DetailMessage>(messgeByDaySessionModel, detailMessageModel);
 
+            Cal3DetailDto cal3DetailDtoModel = new Cal3DetailDto();
+            cal3DetailDtoModel.Xac = detailMessageModel.Xac;
+            cal3DetailDtoModel.Trung = detailMessageModel.Trung;
+            cal3DetailDtoModel.TrungDetail = detailMessageModel.TrungDetail;
+            cal3DetailDtoModel.Details = detailMessageModel.Details;
+            cal3DetailDtoModel.Message = detailMessageModel.Message;
+
+            var compositeModel = new Tuple<MessgeByDaySession, Cal3DetailDto>(messgeByDaySessionModel, cal3DetailDtoModel);
             return View(compositeModel);
         }
 

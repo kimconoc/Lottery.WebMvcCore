@@ -13,6 +13,7 @@ namespace Lottery.DoMain.Models
         public List<string> TrungDetail { get; set; }
         public List<Detail> Details { get; set; }
         public bool IsTinh { get; set; }
+        public string Message { get; set; }
         public Error Error { get; set; }
     }
     public class Error
