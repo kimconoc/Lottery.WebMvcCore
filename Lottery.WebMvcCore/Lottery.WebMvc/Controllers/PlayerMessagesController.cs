@@ -108,7 +108,22 @@ namespace Lottery.WebMvc.Controllers
         public IActionResult ListMessages(string messgeByDaySessionModelJson)
         {
             var messgeByDaySessionModel = JsonConvert.DeserializeObject<MessgeByDaySession>(messgeByDaySessionModelJson);
-            return View(messgeByDaySessionModel);
+            MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
+            {
+                HandlDate = messgeByDaySessionModel.HandlDate,
+                IDKhach = messgeByDaySessionModel.IdPlayer,
+                Mien = messgeByDaySessionModel.Region
+            };
+            List<DetailMessage> listMessage = new List<DetailMessage>();
+            var dataBase = provider.PostAsync<List<DetailMessage>>(ApiUri.POST_HandlMessagehandlMessage, messgeByDayModel);
+            if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
+            {
+                return Json(Server_Error("Đã có lỗi xảy ra!"));
+            }
+            listMessage = dataBase.Result.Data;
+
+            var compositeModel = new Tuple<MessgeByDaySession, List<DetailMessage>>(messgeByDaySessionModel, listMessage);
+            return View(compositeModel);
         }
 
     }

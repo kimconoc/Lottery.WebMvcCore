@@ -3,10 +3,10 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Models;
 @using Lottery.DoMain.Extentions;
-@model MessgeByDaySession
+@model Tuple<MessgeByDaySession, List<DetailMessage>>;
 @{
     Layout = null;
-    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+    var serializedModel1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
 }
 
 <!DOCTYPE html>
@@ -39,6 +39,7 @@
     <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
     <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
+
         .title-page {
             padding: 3px 10px 3px 5px;
             display: flex;
@@ -50,6 +51,43 @@
             cursor: pointer;
         }
 
+        .container-listMessages{
+            padding: 55px 10px 0px 10px ;
+        }
+
+        .somebutton{
+            display: flex;
+            flex-flow:column; 
+            gap:1.5px;
+            align-items: center;
+        }
+
+            .somebutton i {
+                font-size: 25px;
+ 
+            }
+
+            .somebutton span {
+                font-size: 16px;
+            }
+        .div-content-message{
+            margin-bottom:10px;
+        }
+
+        .mainContent-message {
+            display: inline-block;
+            border-radius: 10px 0 10px 0;
+            background-color: #dee8fc;
+            padding: 8px;
+            top: 5px;
+            font-family: sans-serif;
+            font-weight: 500;
+        }
+
+        .div-handle-message {
+            color: #e3165b;
+        }
+
     </style>
 </head>
 <body>
@@ -59,7 +97,7 @@
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                 @{
                     string titlePageGoBack = string.Empty;
-                    switch (Model.Region)
+                    switch (Model.Item1.Region)
                     {
                         case (int)RegionEnum.MienNam:
                             titlePageGoBack = RegionEnum.MienNam.GetDescription();
@@ -71,29 +109,51 @@
                             titlePageGoBack = RegionEnum.MienBac.GetDescription();
                             break;
                     }
-                    titlePageGoBack = string.Format(@Model.NamePlayer + " - " + titlePageGoBack);
+                    titlePageGoBack = string.Format(@Model.Item1.NamePlayer + " - " + titlePageGoBack);
                     @titlePageGoBack;
                 }
             </div>
 
             <button class="somebutton title-page-btn">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
+                <span>@Model.Item1.HandlDate?.ToString("dd/MM/yyyy")</span>
             </button>
         </div>
     </header>
     <div class="container-listMessages">
+        <div class="div-list-messages">
+            @{
+                int count = 0;
+                foreach (var item in Model.Item2)
+                {
+                    count = count + 1;
+                    <div class="div-content-message">
+                        <div class="mainContent-message">
+                            @item.Message
+                        </div>
+                    </div>
+                    <div class="div-handle-message">
+                        @string.Format("Đã xử lý: {0}",item.HandlDate.ToString("dd/MM/yyyy HH:mm:ss"))
+                    </div>
+                    if (count < Model.Item2.Count)
+                    {
+                        <div style="margin-bottom:10px;" class="border-bottom-row"></div>
+                    }
+                }
+            }
+        </div>
         <input id="datetimepicker" style="display:none;" type="text">
     </div>
 
     <script>
-        var model = @Html.Raw(serializedModel);
+        var model1 = @Html.Raw(serializedModel1);
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
-            value: '@Model.HandlDate?.ToString("yyyy/MM/dd HH:mm")'
+            value: '@Model.Item1.HandlDate?.ToString("yyyy/MM/dd HH:mm")'
         });
         function goToAddBackPage() {
-            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&strDateTime=@Model.HandlDate?.ToString("yyyy/MM/dd HH:mm")`;
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model1.IdPlayer}&namePlayer=${model1.NamePlayer}&region=${model1.Region}&cachTrungDaThang=${model1.CachTrungDaThang}&cachTrungDaXien=${model1.CachTrungDaXien}&strDateTime=@Model.Item1.HandlDate?.ToString("yyyy/MM/dd HH:mm")`;
         }
         $('button.somebutton').on('click', function () {
             $('#datetimepicker').datetimepicker('show');
