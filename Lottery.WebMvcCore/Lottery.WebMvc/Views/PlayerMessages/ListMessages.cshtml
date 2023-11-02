@@ -82,7 +82,10 @@
                     </div>
                     <div style="flex: 1;">
                         <div class="info-detail">
-                            <strong style="font-size:16px;">@string.Format(item.HandlDate.ToString("dd/MM/yyyy HH:mm:ss"))</strong>
+                            <strong style="font-size:16px;">
+                                <strong style="color:#e3165b">Xử lý:</strong>
+                                @string.Format(item.HandlDate.ToString("dd/MM/yyyy HH:mm"))
+                            </strong>
                             <div class="mainContent-message">
                                 @item.Message
                             </div>
