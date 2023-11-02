@@ -54,6 +54,7 @@
     top: 5px;
     font-family: sans-serif;
     font-weight: 500;
+    word-wrap: break-word;
 }
 
 .div-list-message {
@@ -61,12 +62,11 @@
     padding: 5px;
     gap: 10px;
     margin-bottom: -10px;
-    margin-left: 10px;
     position: relative;
 }
 
 .avatar {
-    font-size: 40px;
+    font-size: 35px;
     display: flex;
     justify-content: center;
     color: rgba(0,0,0,.14);
