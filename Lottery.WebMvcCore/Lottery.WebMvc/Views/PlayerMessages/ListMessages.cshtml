@@ -114,6 +114,19 @@
         $('button.somebutton').on('click', function () {
             $('#datetimepicker').datetimepicker('show');
         });
+        $('#datetimepicker').on('change', function () {
+            var dateString = $(this).val();
+            var messgeByDaySessionModel = {
+                idPlayer: model1.IdPlayer,
+                namePlayer: model1.NamePlayer,
+                region: model1.Region,
+                cachTrungDaThang: model1.CachTrungDaThang,
+                cachTrungDaXien: model1.CachTrungDaXien,
+                strHandlDate: dateString,
+            }
+            messgeByDaySessionModelJson = JSON.stringify(messgeByDaySessionModel);
+            window.location.href = `/PlayerMessages/ListMessages?messgeByDaySessionModelJson=${messgeByDaySessionModelJson}`;
+        });
     </script>
 </body>
 </html>

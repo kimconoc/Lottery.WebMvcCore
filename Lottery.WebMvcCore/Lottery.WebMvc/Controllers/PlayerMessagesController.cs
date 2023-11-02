@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Data.SqlTypes;
 using System.Globalization;
 using System.Reflection;
 using System.Security.Cryptography.Xml;
@@ -108,6 +109,10 @@ namespace Lottery.WebMvc.Controllers
         public IActionResult ListMessages(string messgeByDaySessionModelJson)
         {
             var messgeByDaySessionModel = JsonConvert.DeserializeObject<MessgeByDaySession>(messgeByDaySessionModelJson);
+            if(messgeByDaySessionModel.HandlDate == null)
+            {
+                messgeByDaySessionModel.HandlDate = Constant.ConvertStringToDateTime(messgeByDaySessionModel.StrHandlDate);
+            }    
             MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
             {
                 HandlDate = messgeByDaySessionModel.HandlDate,

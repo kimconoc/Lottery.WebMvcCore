@@ -20,7 +20,8 @@ namespace Lottery.DoMain.Constant
             }
             if (!DateTime.TryParseExact(strDateTime, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
             {
-                result = DateTime.Now;
+                DateTime now = DateTime.Now;
+                result = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
             }
 
             return result;
