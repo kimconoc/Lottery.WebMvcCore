@@ -29,7 +29,7 @@
 }
 
 .container-listMessages {
-    padding: 55px 10px 0px 10px;
+    padding: 65px 10px 0px 10px;
 }
 
 .somebutton {
@@ -58,8 +58,7 @@
 }
 
 .div-list-message {
-    display: flex;
-    padding: 5px;
+    padding: 5px 5px 5px 45px;
     gap: 10px;
     margin-bottom: -10px;
     position: relative;
@@ -67,10 +66,11 @@
 
 .avatar {
     font-size: 35px;
-    display: flex;
     justify-content: center;
     color: rgba(0,0,0,.14);
-    margin-bottom: 20px;
+    position: absolute;
+    left:0;
+    top:0;
 }
 
 .info-detail {
