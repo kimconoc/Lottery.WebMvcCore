@@ -77,3 +77,25 @@ body {
     color: #e3165b;
     margin-bottom: 20px;
 }
+
+.box-no-data-found {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    padding: 35px;
+}
+
+    .box-no-data-found img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .box-no-data-found span {
+        color: rgb(128, 128, 137);
+        font-size: 15px;
+        font-weight: 600;
+    }

@@ -39,7 +39,7 @@
     <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
     <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
-
+        
     </style>
 </head>
 <body>
@@ -74,30 +74,40 @@
     </header>
     <div class="container-listMessages">
         @{
-             foreach (var item in Model.Item2)
-             {
-                <div class="div-list-message">
-                    <div class="avatar">
-                        <i class="fa fa-comments-o"></i>
-                    </div>
-                    <div style="flex: 1;">
-                        <div class="info-detail">
-                            <strong style="font-size:16px;">
-                                <strong style="color:#e3165b">Xử lý:</strong>
-                                @string.Format(item.HandlDate.ToString("dd/MM/yyyy HH:mm"))
-                            </strong>
-                            <div class="mainContent-message">
-                                @item.Message
-                            </div>
+            if (Model.Item2 == null || Model.Item2.Count == 0)
+            {
+                <div class="box-no-data-found">
+                    <img src="~/lottery/empty-order/empty-order.png">
+                    <span>Không có tin nhắn</span>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model.Item2)
+                {
+                    <div class="div-list-message">
+                        <div class="avatar">
+                            <i class="fa fa-comments-o"></i>
                         </div>
-                        <i id="@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                        <i class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
-                        <i class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
-                        <div style="margin-bottom:20px;" class="border-bottom-row"></div>                   
+                        <div style="flex: 1;">
+                            <div class="info-detail">
+                                <strong style="font-size:16px;">
+                                    <strong style="color:#e3165b">Xử lý:</strong>
+                                    @string.Format(item.HandlDate.ToString("dd/MM/yyyy HH:mm"))
+                                </strong>
+                                <div class="mainContent-message">
+                                    @item.Message
+                                </div>
+                            </div>
+                            <i id="@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                            <i class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
+                            <i class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <div style="margin-bottom:20px;" class="border-bottom-row"></div>
+                        </div>
                     </div>
-                </div>  
-             }
-         }
+                }
+            }
+        }
         <input id="datetimepicker" style="display:none;" type="text">
     </div>
 

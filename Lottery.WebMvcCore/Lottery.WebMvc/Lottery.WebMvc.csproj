@@ -118,4 +118,8 @@
     <ProjectReference Include="..\Lottery.Service\Lottery.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lottery\" />
+  </ItemGroup>
+
 </Project>

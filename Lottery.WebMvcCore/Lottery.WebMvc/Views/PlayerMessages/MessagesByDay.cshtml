@@ -178,89 +178,95 @@
         <div style="overflow:auto;height:85vh">
             <div class="list-detailMessage-messages">
             @{
-                if(Model.DetailMessage != null)
-                {
-                    int count = 0;
-                    foreach(var item in Model.DetailMessage)
-                    {
-                        count = count + 1;
-                        //var serializedDetailMessage = Newtonsoft.Json.JsonConvert.SerializeObject(item);
-                        <div class="content-messages">
-                            <span>
-                                <strong style="color:#e3165b;">@count)</strong>
-                                    @item.Message
-                            </span>
-                        </div>
-                            <div onclick="window.location.href='/PlayerMessages/ShowMessagesDetail?messgeByDaySessionModelJson=@serializedMessgeByDaySession&iDMessage=@item.ID';" class="parameter-messages" style="cursor:pointer;">
-                            <div>
-                                <div class="div-xac">
-                                    @*<strong class="title">Xác</strong>*@
-                                    <span>
-                                        2CB:
-                                        <strong>@item.Xac.HaiCB</strong>
-                                    </span>
-                                    <span>
-                                        2CĐ:
-                                        <strong>@item.Xac.HaiCD</strong>
-                                    </span>
-                                    <span>
-                                        ĐáT:
-                                        <strong>@item.Xac.DaT</strong>
-                                    </span>
-                                    <span>
-                                        ĐáX:
-                                        <strong>@item.Xac.DaX</strong>
-                                    </span>
-                                    <span>
-                                        3C:
-                                        <strong>@item.Xac.BaCon</strong>
-                                    </span>
-                                    <span>
-                                        4C:
-                                        <strong>@item.Xac.BonCon</strong>
-                                    </span>
-                                </div>
-                            </div>                   
+                 if (Model.DetailMessage == null || Model.DetailMessage.Count == 0)
+                 {
+                     <div class="box-no-data-found">
+                         <img src="~/lottery/empty-order/empty-order.png">
+                         <span>Không có tin nhắn</span>
+                     </div>
+                 }
+                 else
+                 {
+                     int count = 0;
+                     foreach (var item in Model.DetailMessage)
+                     {
+                         count = count + 1;
+                         //var serializedDetailMessage = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+                         <div class="content-messages">
+                             <span>
+                                 <strong style="color:#e3165b;">@count)</strong>
+                                 @item.Message
+                             </span>
+                         </div>
+                         <div onclick="window.location.href='/PlayerMessages/ShowMessagesDetail?messgeByDaySessionModelJson=@serializedMessgeByDaySession&iDMessage=@item.ID';" class="parameter-messages" style="cursor:pointer;">
                              <div>
-                               
-                            </div>
+                                 <div class="div-xac">
+                                     @*<strong class="title">Xác</strong>*@
+                                     <span>
+                                         2CB:
+                                         <strong>@item.Xac.HaiCB</strong>
+                                     </span>
+                                     <span>
+                                         2CĐ:
+                                         <strong>@item.Xac.HaiCD</strong>
+                                     </span>
+                                     <span>
+                                         ĐáT:
+                                         <strong>@item.Xac.DaT</strong>
+                                     </span>
+                                     <span>
+                                         ĐáX:
+                                         <strong>@item.Xac.DaX</strong>
+                                     </span>
+                                     <span>
+                                         3C:
+                                         <strong>@item.Xac.BaCon</strong>
+                                     </span>
+                                     <span>
+                                         4C:
+                                         <strong>@item.Xac.BonCon</strong>
+                                     </span>
+                                 </div>
+                             </div>
                              <div>
-                                <div class="div-trung">
-                                    @*<strong class="title">Xác</strong>*@
-                                    <span>
-                                        2CB:
-                                        <strong>@item.Trung.HaiCB</strong>
-                                    </span>
-                                    <span>
-                                        2CĐ:
-                                        <strong>@item.Trung.HaiCD</strong>
-                                    </span>
-                                    <span>
-                                        ĐáT:
-                                        <strong>@item.Trung.DaT</strong>
-                                    </span>
-                                    <span>
-                                        ĐáX:
-                                        <strong>@item.Trung.DaX</strong>
-                                    </span>
-                                    <span>
-                                        3C:
-                                        <strong>@item.Trung.BaCon</strong>
-                                    </span>
-                                    <span>
-                                        4C:
-                                        <strong>@item.Trung.BonCon</strong>
-                                    </span>
-                                </div>
-                            </div>
-                            </div>
-                            if(count < Model.DetailMessage.Count)
-                            {
-                                <div style="margin-bottom:10px;" class="border-bottom-row"></div>
-                            }    
-                    }
-                }
-            }
+                             </div>
+                             <div>
+                                 <div class="div-trung">
+                                     @*<strong class="title">Xác</strong>*@
+                                     <span>
+                                         2CB:
+                                         <strong>@item.Trung.HaiCB</strong>
+                                     </span>
+                                     <span>
+                                         2CĐ:
+                                         <strong>@item.Trung.HaiCD</strong>
+                                     </span>
+                                     <span>
+                                         ĐáT:
+                                         <strong>@item.Trung.DaT</strong>
+                                     </span>
+                                     <span>
+                                         ĐáX:
+                                         <strong>@item.Trung.DaX</strong>
+                                     </span>
+                                     <span>
+                                         3C:
+                                         <strong>@item.Trung.BaCon</strong>
+                                     </span>
+                                     <span>
+                                         4C:
+                                         <strong>@item.Trung.BonCon</strong>
+                                     </span>
+                                 </div>
+                             </div>
+                         </div>
+                         if (count < Model.DetailMessage.Count)
+                         {
+                             <div style="margin-bottom:10px;" class="border-bottom-row"></div>
+                         }
+                     }
+                 }
+             }
         </div>
         </div>
         <button onclick="goToAddPlayerMessagesPage()" class="floating-button">+</button>
