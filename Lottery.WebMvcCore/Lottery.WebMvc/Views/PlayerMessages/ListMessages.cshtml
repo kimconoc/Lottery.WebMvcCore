@@ -143,7 +143,7 @@
         function deleteMessage(dom) {
             var prefix = "delete-";
             var id = dom.id.substring(prefix.length);
-            if (confirm("Bạn muốn xóa người chơi này?")) {
+            if (confirm("Bạn muốn xóa tin nhắn này?")) {
                 executeConfirm(id);
             }
         }
@@ -195,15 +195,16 @@
             var prefix = "clone-";
             var id = dom.id.substring(prefix.length);
             var synTaxValue = "";
-            model2.forEach(function (element) {
-                if (element.Id == id) {
-                    synTaxValue = element.Message;
+            for (let i = 0; i < model2.length; i++) {
+                if (model2[i].ID == id) {
+                    synTaxValue = model2[i].Message;
                     break
                 }
-            });
+            }
             var calculation3Model = {
                 idMessage: null,
                 idKhach: model1.IdPlayer,
+                nameKhach: model1.NamePlayer,
                 mien: model1.Region,
                 handlByDate: model1.HandlDate,
                 cachTrungDaThang: model1.CachTrungDaThang,
@@ -218,15 +219,16 @@
             var prefix = "edit-";
             var id = dom.id.substring(prefix.length);
             var synTaxValue = "";
-            model2.forEach(function (element) {
-                if (element.Id == id) {
-                    synTaxValue = element.Message;
+            for (let i = 0; i < model2.length; i++) {
+                if (model2[i].ID == id) {
+                    synTaxValue = model2[i].Message;
                     break
                 }
-            });
+            }
             var calculation3Model = {
                 idMessage: id,
                 idKhach: model1.IdPlayer,
+                nameKhach: model1.NamePlayer,
                 mien: model1.Region,
                 handlByDate: model1.HandlDate,
                 cachTrungDaThang: model1.CachTrungDaThang,

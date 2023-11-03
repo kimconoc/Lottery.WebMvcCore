@@ -88,6 +88,7 @@
 
     <script>
         var model = @Html.Raw(serializedModel);
+        var modelMessgeByDaySession = @Html.Raw(serializedMessgeByDaySession);
         var textareaObject;
         var buttonCharacter_filtering;
         var buttonSyntax_check;
@@ -135,9 +136,9 @@
             }
             var calculation3Model = {
                 idMessage: null,
-                idKhach: model.IdPlayer,
-                mien: model.Region,
-                handlByDate: model.HandlDate,
+                idKhach: model.IdKhach,
+                mien: model.Mien,
+                handlByDate: model.HandlByDate,
                 cachTrungDaThang: model.CachTrungDaThang,
                 cachTrungDaXien: model.CachTrungDaXien,
                 isSave: false,
@@ -193,9 +194,9 @@
         function saveDataSyntax() {
             var calculation3Model = {
                 idMessage: model.IdMessage,
-                idKhach: model.IdPlayer,
-                mien: model.Region,
-                handlByDate: model.HandlDate,
+                idKhach: model.IdKhach,
+                mien: model.Mien,
+                handlByDate: model.HandlByDate,
                 cachTrungDaThang: model.CachTrungDaThang,
                 cachTrungDaXien: model.CachTrungDaXien,
                 isSave: true,
@@ -263,7 +264,8 @@
             textareaElement.focus();
         }
         function goToAddBackPage() {
-            onclick = "window.location.href='/PlayerMessages/ListMessages?messgeByDaySessionModelJson=@serializedMessgeByDaySession';"
+            messgeByDaySessionModelJson = JSON.stringify(modelMessgeByDaySession);
+            window.location.href = `/PlayerMessages/ListMessages?messgeByDaySessionModelJson=${messgeByDaySessionModelJson}`;
         }
         function getPartialViewMessagesDetail(cal3DetailDtoJson) {
             var url = '@Url.Action("GetPartialViewMessagesDetail", "PlayerMessages")';
