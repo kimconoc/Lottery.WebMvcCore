@@ -1,0 +1,263 @@
+﻿@using Lottery.DoMain.Constant;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Models;
+@using Lottery.DoMain.Extentions;
+@model Calculation3Model;
+@{
+    Layout = null;
+    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/addPlayerMessages.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
+    <script src="~/js/constant.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" />
+    @*master-plan*@
+    <script src="~/assets/helpers/master-plan/adr_common.js"></script>
+    <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>
+    <link href="~/assets//helpers/master-plan/style.css" rel="stylesheet" />
+    @*cssscript*@
+    <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
+    <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
+    @*Syncfusion*@
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-base/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-inputs/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-dropdowns/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-buttons/styles/material.css" rel="stylesheet">
+    <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
+    <style>
+        .div-error-message {
+            margin-top: 5px;
+            color: red;
+        }
+
+        input::selection, textarea::selection {
+            background-color: #e3165b !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-page">
+        <div class="title-page">
+            <div onclick="goToAddBackPage()" class="title-page-text">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                Tin nhắn
+            </div>
+        </div>
+    </header>
+    <div class="container-addPlayerMessages">
+        <div class="div-list-btn-event">
+            <button id="character_filtering"></button>
+            <button onclick="characterFilteringSyntax()" id="syntax_check"></button>
+            <button onclick="saveDataSyntax()" id="save_data"></button>
+        </div>
+        <div class="div-text-import-multiline">
+            <textarea id="text_import_multiline" name="text"></textarea>
+        </div>
+        <div class="div-error-message">
+            <span id="error_message"></span>
+        </div>
+        <div style="margin-top:5px;display:none;" id="div_success_message">
+            <strong>
+                Ngày: @Model.HandlByDate.ToString("dd/MM/yyyy")
+            </strong>
+            <div style="margin-top:5px;" id="patial_message_detail">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var model = @Html.Raw(serializedModel);
+        var textareaObject;
+        var buttonCharacter_filtering;
+        var buttonSyntax_check;
+        var buttonSave_data;
+        $(document).ready(function () {
+            buttonCharacter_filtering = new ej.buttons.Button({ isPrimary: true, content: "Lọc Ký Tự" });
+            buttonCharacter_filtering.appendTo('#character_filtering');
+            //
+            buttonSyntax_check = new ej.buttons.Button({ isPrimary: true, content: "Kiểm Tra Cú Pháp" });
+            buttonSyntax_check.appendTo('#syntax_check');
+            //
+            buttonSave_data = new ej.buttons.Button({ isPrimary: true, content: "Lưu Dữ Liệu", disabled: true });
+            buttonSave_data.appendTo('#save_data');
+
+            // Initialize TextBox component
+            textareaObject = new ej.inputs.TextBox({
+                placeholder: 'Nhập nội dung',
+                floatLabelType: 'Auto',
+                created: function () {
+                    this.addAttributes({ rows: "2" });
+                    this.element.style.height = "auto";
+                    this.element.style.height = (this.element.scrollHeight - 7) + "px";
+                },
+                input: function (args) {
+                    // Xử lý khi nội dung đang thay đổi ở đây
+                    this.element.style.height = "auto";
+                    this.element.style.height = (this.element.scrollHeight) + "px";
+                    buttonSave_data.disabled = true;
+                    buttonSyntax_check.disabled = false;
+                },
+                change: function (args) {
+                    // Xử lý khi nội dung đã thay đổi ở đây
+                    //alert(args.value);
+                },
+            });
+            // Render initialized TextBox
+            textareaObject.appendTo('#text_import_multiline');
+        });
+        function characterFilteringSyntax() {
+            document.getElementById("error_message").textContent = "";
+            document.getElementById("div_success_message").style.display = "none";
+            if (isNullOrEmpty(textareaObject.value)) {
+                return
+            }
+            var calculation3Model = {
+                idMessage: null,
+                idKhach: model.IdPlayer,
+                mien: model.Region,
+                handlByDate: model.HandlDate,
+                cachTrungDaThang: model.CachTrungDaThang,
+                cachTrungDaXien: model.CachTrungDaXien,
+                isSave: false,
+                synTax: textareaObject.value,
+            }
+            calculation3ModelJson = JSON.stringify(calculation3Model);
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "calculation3Json": calculation3ModelJson,
+                },
+                url: "@Url.Action("ExecuteSyntaxPlayer", "PlayerMessages")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        if (data.data.error != null) {
+                            document.getElementById("error_message").textContent = data.data.error.message;
+                            setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            //let timeoutID = setTimeout(function () {
+                            //    setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            //    clearTimeout(timeoutID);
+                            //}, 100);
+                        }
+                        else {
+                            buttonSave_data.disabled = false;
+                            buttonSyntax_check.disabled = true;
+                            cal3DetailDtoJson = JSON.stringify(data.data);
+                            getPartialViewMessagesDetail(cal3DetailDtoJson);
+                            document.getElementById("div_success_message").style.display = "block";
+                        }
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.message)) {
+                            message = data.message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                },
+            })
+        }
+        function saveDataSyntax() {
+            var calculation3Model = {
+                idMessage: null,
+                idKhach: model.IdPlayer,
+                mien: model.Region,
+                handlByDate: model.HandlDate,
+                cachTrungDaThang: model.CachTrungDaThang,
+                cachTrungDaXien: model.CachTrungDaXien,
+                isSave: true,
+                synTax: textareaObject.value,
+            }
+            calculation3ModelJson = JSON.stringify(calculation3Model);
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "calculation3Json": calculation3ModelJson,
+                },
+                url: "@Url.Action("ExecuteSyntaxPlayer", "PlayerMessages")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        if (data.data.error == null) {
+                            awesomeAlert({
+                                header: true,
+                                type: 'success',
+                                title: 'Thành công!',
+                                message: 'Lưu tin nhắn thành công!',
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/success.svg',
+                                buttonOK: 'Xong!',
+                                closeStyle: 'circle'
+                            }).then(res => goToAddBackPage())
+                        }
+                        else {
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Lỗi!',
+                                message: 'Đã có lỗi xảy ra!',
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
+                        }
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.message)) {
+                            message = data.message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi hệ thống!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                },
+            })
+        }
+        function setSelectionRangeError(startIndex, count) {
+            var textareaElement = textareaObject.element;
+            textareaElement.setSelectionRange(startIndex, startIndex + count);
+            textareaElement.focus();
+        }
+        function goToAddBackPage() {
+            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&strDateTime=@Model.HandlByDate.ToString("yyyy/MM/dd HH:mm")`;
+        }
+        function getPartialViewMessagesDetail(cal3DetailDtoJson) {
+            var url = '@Url.Action("GetPartialViewMessagesDetail", "PlayerMessages")';
+            $('#patial_message_detail').load(url, { cal3DetailDtoModelJson: cal3DetailDtoJson }, function (response, status, xhr) { });
+        }
+    </script>
+</body>
+</html>

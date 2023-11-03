@@ -7,6 +7,7 @@
 @{
     Layout = null;
     var serializedModel1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
+    var serializedModel2 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item2);
 }
 
 <!DOCTYPE html>
@@ -100,8 +101,8 @@
                                 </div>
                             </div>
                             <i id="@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                            <i class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
-                            <i class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i id="@item.ID" onclick="executionMessageClone(this)" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
+                            <i id="@item.ID" onclick="executionMessageEdit(this)" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
                             <div style="margin-bottom:20px;" class="border-bottom-row"></div>
                         </div>
                     </div>
@@ -113,6 +114,7 @@
 
     <script>
         var model1 = @Html.Raw(serializedModel1);
+        var model2 = @Html.Raw(serializedModel2);
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
@@ -185,6 +187,49 @@
                     }
                 },
             })
+        }
+        
+        function executionMessageClone(dom) {
+            var synTaxValue = "";
+            model2.forEach(function (element) {
+                if (element.Id == dom.Id){
+                    synTaxValue = element.Message;
+                    break
+                }
+            });
+            var calculation3Model = {
+                idMessage: null,
+                idKhach: model1.IdPlayer,
+                mien: model1.Region,
+                handlByDate: model1.HandlDate,
+                cachTrungDaThang: model1.CachTrungDaThang,
+                cachTrungDaXien: model1.CachTrungDaXien,
+                isSave: false,
+                synTax: synTaxValue,
+            }
+            calculation3ModelJson = JSON.stringify(calculation3Model);
+            window.location.href = `/PlayerMessages/ExecutionPlayerMessages?calculation3ModelModelJson=${calculation3ModelJson}`;
+        }
+        function executionMessageEdit(dom) {
+            var synTaxValue = "";
+            model2.forEach(function (element) {
+                if (element.Id == dom.Id) {
+                    synTaxValue = element.Message;
+                    break
+                }
+            });
+            var calculation3Model = {
+                idMessage: dom.Id,
+                idKhach: model1.IdPlayer,
+                mien: model1.Region,
+                handlByDate: model1.HandlDate,
+                cachTrungDaThang: model1.CachTrungDaThang,
+                cachTrungDaXien: model1.CachTrungDaXien,
+                isSave: false,
+                synTax: synTaxValue,
+            }
+            calculation3ModelJson = JSON.stringify(calculation3Model);
+            window.location.href = `/PlayerMessages/ExecutionPlayerMessages?calculation3ModelModelJson=${calculation3ModelJson}`;
         }
     </script>
 </body>

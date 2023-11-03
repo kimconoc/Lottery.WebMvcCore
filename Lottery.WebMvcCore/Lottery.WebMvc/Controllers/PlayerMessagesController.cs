@@ -148,5 +148,11 @@ namespace Lottery.WebMvc.Controllers
                 return Json(Server_Error("Đã có lỗi hệ thông!"));
             }
         }
+
+        public IActionResult ExecutionPlayerMessages(string calculation3ModelModelJson)
+        {
+            var messgeByDaySessionModel = JsonConvert.DeserializeObject<Calculation3Model>(calculation3ModelModelJson);           
+            return View(messgeByDaySessionModel);
+        }
     }
 }
