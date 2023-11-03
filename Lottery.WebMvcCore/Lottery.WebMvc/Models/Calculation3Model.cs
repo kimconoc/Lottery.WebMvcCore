@@ -5,6 +5,7 @@
         public int? IdMessage { get; set; }
         public int UserID { get; set; }
         public int IdKhach { get; set; }
+        public string NameKhach { get; set; }
         public int Mien { get; set; }
         public DateTime HandlByDate { get; set; }
         public int CachTrungDaThang { get; set; }

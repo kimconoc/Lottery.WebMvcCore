@@ -63,7 +63,7 @@
                             break;
                     }
                     titlePageGoBack = string.Format(@Model.Item1.NamePlayer + " - " + titlePageGoBack);
-                            @titlePageGoBack;
+                    @titlePageGoBack;
                 }
             </div>
 
@@ -100,9 +100,9 @@
                                     @item.Message
                                 </div>
                             </div>
-                            <i id="@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                            <i id="@item.ID" onclick="executionMessageClone(this)" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
-                            <i id="@item.ID" onclick="executionMessageEdit(this)" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <i id="delete-@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                            <i id="clone-@item.ID" onclick="executionMessageClone(this)" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
+                            <i id="edit-@item.ID" onclick="executionMessageEdit(this)" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
                             <div style="margin-bottom:20px;" class="border-bottom-row"></div>
                         </div>
                     </div>
@@ -141,8 +141,10 @@
         });
 
         function deleteMessage(dom) {
+            var prefix = "delete-";
+            var id = dom.id.substring(prefix.length);
             if (confirm("Bạn muốn xóa người chơi này?")) {
-                executeConfirm(dom.id);
+                executeConfirm(id);
             }
         }
         function executeConfirm(messageId) {
@@ -190,9 +192,11 @@
         }
         
         function executionMessageClone(dom) {
+            var prefix = "clone-";
+            var id = dom.id.substring(prefix.length);
             var synTaxValue = "";
             model2.forEach(function (element) {
-                if (element.Id == dom.Id){
+                if (element.Id == id) {
                     synTaxValue = element.Message;
                     break
                 }
@@ -211,15 +215,17 @@
             window.location.href = `/PlayerMessages/ExecutionPlayerMessages?calculation3ModelModelJson=${calculation3ModelJson}`;
         }
         function executionMessageEdit(dom) {
+            var prefix = "edit-";
+            var id = dom.id.substring(prefix.length);
             var synTaxValue = "";
             model2.forEach(function (element) {
-                if (element.Id == dom.Id) {
+                if (element.Id == id) {
                     synTaxValue = element.Message;
                     break
                 }
             });
             var calculation3Model = {
-                idMessage: dom.Id,
+                idMessage: id,
                 idKhach: model1.IdPlayer,
                 mien: model1.Region,
                 handlByDate: model1.HandlDate,

@@ -7,6 +7,16 @@
 @{
     Layout = null;
     var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+    MessgeByDaySession messgeByDaySession = new MessgeByDaySession()
+    {
+        IdPlayer = Model.IdKhach,
+        NamePlayer = Model.NameKhach,
+        Region = Model.Mien,
+        CachTrungDaThang = Model.CachTrungDaThang,
+        CachTrungDaXien = Model.CachTrungDaXien,
+        HandlDate = Model.HandlByDate,
+    };
+    var serializedMessgeByDaySession = Newtonsoft.Json.JsonConvert.SerializeObject(messgeByDaySession);
 }
 
 <!DOCTYPE html>
@@ -112,6 +122,7 @@
                     // Xử lý khi nội dung đã thay đổi ở đây
                     //alert(args.value);
                 },
+                value: model.SynTax
             });
             // Render initialized TextBox
             textareaObject.appendTo('#text_import_multiline');
@@ -181,7 +192,7 @@
         }
         function saveDataSyntax() {
             var calculation3Model = {
-                idMessage: null,
+                idMessage: model.IdMessage,
                 idKhach: model.IdPlayer,
                 mien: model.Region,
                 handlByDate: model.HandlDate,
@@ -252,7 +263,7 @@
             textareaElement.focus();
         }
         function goToAddBackPage() {
-            window.location.href = `/PlayerMessages/MessagesByDay?idPlayer=${model.IdPlayer}&namePlayer=${model.NamePlayer}&region=${model.Region}&cachTrungDaThang=${model.CachTrungDaThang}&cachTrungDaXien=${model.CachTrungDaXien}&strDateTime=@Model.HandlByDate.ToString("yyyy/MM/dd HH:mm")`;
+            onclick = "window.location.href='/PlayerMessages/ListMessages?messgeByDaySessionModelJson=@serializedMessgeByDaySession';"
         }
         function getPartialViewMessagesDetail(cal3DetailDtoJson) {
             var url = '@Url.Action("GetPartialViewMessagesDetail", "PlayerMessages")';
