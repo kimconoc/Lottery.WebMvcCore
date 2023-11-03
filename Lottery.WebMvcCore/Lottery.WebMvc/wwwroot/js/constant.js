@@ -120,7 +120,7 @@ function showToasinette_Success_Bottom_Center(content) {
         type: 'success',
         //autoClose: false,
         autoClose: 5000,
-        progress: true
+        progress: false
     });
 }
 function showToasinette_Error_Top_Right(content) {
