@@ -27,6 +27,8 @@
     @*cssscript*@
     <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
     <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
+    <link rel="stylesheet" href="~/assets/helpers/toastinette-notification-main/assets/css/toastinette.min.css">
+    <script src="~/assets/helpers/toastinette-notification-main/assets/js/toastinette.js"></script>
     @*Syncfusion*@
     <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-base/styles/material.css" rel="stylesheet">
     <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-inputs/styles/material.css" rel="stylesheet">
@@ -67,7 +69,7 @@
             <div onclick="window.location.href='/PlayerMessages/ListMessages?messgeByDaySessionModelJson=@serializedMessgeByDaySession';" style="text-align: center;" class="title-page-text">
                 Xử lý TN
             </div>
-            <div style="text-align: center;" class="title-page-text">
+            <div onclick="window.location.reload();" style="text-align: center;" class="title-page-text">
                 Cập nhật TN
             </div>
             <button class="somebutton title-page-btn">
@@ -273,7 +275,10 @@
         <input id="datetimepicker" style="display:none;" type="text">
     </div>
     
-    <script>
+    <script>  
+        $(document).ready(function () {
+            //showToasinette_Success_Top_Right("Cập nhật thành công!");
+        });
         var modelMessgeByDayData = @Html.Raw(serializedMessgeByDaySession);
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({

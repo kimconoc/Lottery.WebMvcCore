@@ -81,6 +81,34 @@ function showToasinette_Success_Top_Right(content) {
         progress: true
     });
 }
+function showToasinette_Success_Bottom_Right(content) {
+    if (isNullOrEmpty(content)) {
+        content = 'Qúa trình xử lý thành công'
+    }
+    Toastinette.init({
+        position: 'bottom-right',
+        title: 'Thành công',
+        message: content,
+        type: 'success',
+        //autoClose: false,
+        autoClose: 5000,
+        progress: true
+    });
+}
+function showToasinette_Success_Top_Center(content) {
+    if (isNullOrEmpty(content)) {
+        content = 'Qúa trình xử lý thành công'
+    }
+    Toastinette.init({
+        position: 'top-center',
+        title: 'Thành công',
+        message: content,
+        type: 'success',
+        //autoClose: false,
+        autoClose: 5000,
+        progress: true
+    });
+}
 function showToasinette_Error_Top_Right(content) {
     if (isNullOrEmpty(content)) {
         content = 'Có lỗi trong quá trình xử lý'
