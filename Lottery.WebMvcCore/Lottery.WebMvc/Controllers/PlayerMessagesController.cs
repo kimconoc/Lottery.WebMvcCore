@@ -131,5 +131,22 @@ namespace Lottery.WebMvc.Controllers
             return View(compositeModel);
         }
 
+        [HttpPost]
+        public IActionResult DELETEHandlMessage(int messageId)
+        {
+            try
+            {
+                var dataBase = provider.DeleteAsync(string.Format(ApiUri.DELETE_HandlMessage + "/{0}", messageId));
+                if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
+                {
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                }
+                return Json(Success_Request(dataBase.Result.IsSuccessful));
+            }
+            catch (Exception ex)
+            {
+                return Json(Server_Error("Đã có lỗi hệ thông!"));
+            }
+        }
     }
 }

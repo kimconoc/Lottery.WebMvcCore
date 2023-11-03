@@ -137,6 +137,55 @@
             messgeByDaySessionModelJson = JSON.stringify(messgeByDaySessionModel);
             window.location.href = `/PlayerMessages/ListMessages?messgeByDaySessionModelJson=${messgeByDaySessionModelJson}`;
         });
+
+        function deleteMessage(dom) {
+            if (confirm("Bạn muốn xóa người chơi này?")) {
+                executeConfirm(dom.id);
+            }
+        }
+        function executeConfirm(messageId) {
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                data:
+                {
+                    "messageId": messageId,
+                },
+                url: "@Url.Action("DELETEHandlMessage", "PlayerMessages")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Xóa tin nhắn thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location.reload())
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.Message)) {
+                            message = data.message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                },
+            })
+        }
     </script>
 </body>
 </html>
