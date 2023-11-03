@@ -1,0 +1,45 @@
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Extentions;
+@{
+    
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/summaryByDay.css" rel="stylesheet" />
+     @*datetimepicker*@
+    <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
+    <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div style="" class="container-summaryByDay">
+        <div class="div-search-by-day">
+            <strong>
+                Kết Quả: @DateTime.Now.ToString("dd/MM/yyyy")
+            </strong>
+            <button class="somebutton calendar-icon-btn">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+        </div>
+        <input id="datetimepicker" style="display:none;" type="text">
+    </div>
+    <script>
+        jQuery.datetimepicker.setLocale('vi');
+        jQuery('#datetimepicker').datetimepicker({
+            timepicker: false,
+        });
+        $('button.somebutton').on('click', function () {
+            $('#datetimepicker').datetimepicker('show');
+        });
+    </script>
+</body>
+</html>
