@@ -73,7 +73,7 @@ function showToasinette_Success_Top_Right(content) {
     }
     Toastinette.init({
         position: 'top-right',
-        title: 'Thành công',
+        title: '',
         message: content,
         type: 'success',
         //autoClose: false,
@@ -87,7 +87,7 @@ function showToasinette_Success_Bottom_Right(content) {
     }
     Toastinette.init({
         position: 'bottom-right',
-        title: 'Thành công',
+        title: '',
         message: content,
         type: 'success',
         //autoClose: false,
@@ -101,7 +101,21 @@ function showToasinette_Success_Top_Center(content) {
     }
     Toastinette.init({
         position: 'top-center',
-        title: 'Thành công',
+        title: '',
+        message: content,
+        type: 'success',
+        //autoClose: false,
+        autoClose: 5000,
+        progress: true
+    });
+}
+function showToasinette_Success_Bottom_Center(content) {
+    if (isNullOrEmpty(content)) {
+        content = 'Qúa trình xử lý thành công'
+    }
+    Toastinette.init({
+        position: 'bottom-center',
+        title: '',
         message: content,
         type: 'success',
         //autoClose: false,
@@ -115,7 +129,46 @@ function showToasinette_Error_Top_Right(content) {
     }
     Toastinette.init({
         position: 'top-right',
-        title: 'Thất bại',
+        title: '',
+        message: content,
+        type: 'error',
+        autoClose: 5000,
+        progress: true
+    });
+}
+function showToasinette_Error_Bottom_Right(content) {
+    if (isNullOrEmpty(content)) {
+        content = 'Có lỗi trong quá trình xử lý'
+    }
+    Toastinette.init({
+        position: 'bottom-right',
+        title: '',
+        message: content,
+        type: 'error',
+        autoClose: 5000,
+        progress: true
+    });
+}
+function showToasinette_Error_Top_Center(content) {
+    if (isNullOrEmpty(content)) {
+        content = 'Có lỗi trong quá trình xử lý'
+    }
+    Toastinette.init({
+        position: 'top-center',
+        title: '',
+        message: content,
+        type: 'error',
+        autoClose: 5000,
+        progress: true
+    });
+}
+function showToasinette_Error_Bottom_Center(content) {
+    if (isNullOrEmpty(content)) {
+        content = 'Có lỗi trong quá trình xử lý'
+    }
+    Toastinette.init({
+        position: 'bottom-center',
+        title: '',
         message: content,
         type: 'error',
         autoClose: 5000,

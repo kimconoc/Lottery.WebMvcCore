@@ -28,6 +28,8 @@
     @*cssscript*@
     <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
     <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
+    <link rel="stylesheet" href="~/assets/helpers/toastinette-notification-main/assets/css/toastinette.min.css">
+    <script src="~/assets/helpers/toastinette-notification-main/assets/js/toastinette.js"></script>
     @*Syncfusion*@
     <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-base/styles/material.css" rel="stylesheet">
     <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-inputs/styles/material.css" rel="stylesheet">
@@ -101,7 +103,7 @@
                                 </div>
                             </div>
                             <i id="delete-@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                            <i id="clone-@item.ID" onclick="executionMessageClone(this)" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
+                            <i id="copy-@item.ID" onclick="executionMessageCopy(this)" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
                             <i id="edit-@item.ID" onclick="executionMessageEdit(this)" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
                             <div style="margin-bottom:20px;" class="border-bottom-row"></div>
                         </div>
@@ -191,8 +193,8 @@
             })
         }
         
-        function executionMessageClone(dom) {
-            var prefix = "clone-";
+        function executionMessageCopy(dom) {
+            var prefix = "copy-";
             var id = dom.id.substring(prefix.length);
             var synTaxValue = "";
             for (let i = 0; i < model2.length; i++) {
@@ -201,20 +203,25 @@
                     break
                 }
             }
-            var calculation3Model = {
-                idMessage: null,
-                idKhach: model1.IdPlayer,
-                nameKhach: model1.NamePlayer,
-                mien: model1.Region,
-                handlByDate: model1.HandlDate,
-                cachTrungDaThang: model1.CachTrungDaThang,
-                cachTrungDaXien: model1.CachTrungDaXien,
-                isSave: false,
-                synTax: synTaxValue,
+            const textarea = document.createElement('textarea');
+            textarea.value = synTaxValue;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Đã sao chép nội dung tin nhắn.' : 'Trình duyệt chặn sao chép.';
+                if (successful) {
+                    showToasinette_Success_Bottom_Center(msg);
+                }
+                else {
+                    showToasinette_Error_Bottom_Center(msg);
+                }
+            } catch (err) {
+                showToasinette_Error_Bottom_Center(msg);
             }
-            calculation3ModelJson = JSON.stringify(calculation3Model);
-            window.location.href = `/PlayerMessages/ExecutionPlayerMessages?calculation3ModelModelJson=${calculation3ModelJson}`;
+            document.body.removeChild(textarea);
         }
+
         function executionMessageEdit(dom) {
             var prefix = "edit-";
             var id = dom.id.substring(prefix.length);
