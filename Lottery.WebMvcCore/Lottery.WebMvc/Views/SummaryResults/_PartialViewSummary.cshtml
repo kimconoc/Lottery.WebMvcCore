@@ -4,8 +4,81 @@
 @using Lottery.DoMain.Enum;
 @model Dictionary<DateTime, List<CountByDay>>
 <style>
+    table {
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    td, th {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        text-align: center;
+        width: 20%;
+    }
+
+    th {
+        background: #dee8fc;
+    }
+
+    td {
+        /*color: #e3165b;*/
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .div-table-summary-results{
+        margin-top:5px;
+        display:flex;
+        flex-flow:column;
+    }
+  
 </style>
 <div class="div-summary-results">
-   
+   <div>
+       <strong style="font-size:14px;">Tổng kết lời lỗ:</strong>
+   </div>
+    @{
+        <div class="div-table-summary-results">
+            @foreach (KeyValuePair<DateTime, List<CountByDay>> dic in Model)
+            {
+                <strong style="font-size:13px; color:#e3165b;">
+                    Ngày: @dic.Key.ToString("dd/MM/yyyy")
+                </strong>
+                if (Model.Count == 1 && Model.Values.FirstOrDefault().Count == 0)
+                {
+                    <div class="box-no-data-found">
+                        <img src="~/lottery/empty-order/empty-order.png">
+                        <span>Không có dữ liệu</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-summary-result">
+                        <table>
+                            <tr>
+                                <th>Khách hàng</th>
+                                <th>Miền nam</th>
+                                <th>Miền trung</th>
+                                <th>Miền bắc</th>
+                                <th>Tổng tiền</th>
+                            </tr>
+                            @foreach (CountByDay count in dic.Value)
+                            {
+                                <tr>
+                                    <td>@count.Name</td>
+                                    <td>@count.MienNam</td>
+                                    <td>@count.MienTrung</td>
+                                    <td>@count.MienBac</td>
+                                    <td>@count.Total</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                }
+            }
+        </div>
+    }
 </div>
