@@ -1,4 +1,5 @@
-﻿using Lottery.DoMain.FileLog;
+﻿using Lottery.DoMain.Constant;
+using Lottery.DoMain.FileLog;
 using Lottery.DoMain.Models.BaseModel;
 using Lottery.Service.ServiceProvider.Interface;
 using Microsoft.Win32.SafeHandles;
@@ -52,7 +53,7 @@ namespace Lottery.Service.ServiceProvider
                 NullValueHandling = NullValueHandling.Ignore
             };
             _serializerSettings.Converters.Add(new StringEnumConverter());
-            ApiEndPoint = "http://210.245.84.117:443/";
+            ApiEndPoint = AppConfigs.GetApiEndPoint();
         }
         public Task<ResponseBase<TResult>> GetAsync<TResult>(string uri, string token = "")
         {

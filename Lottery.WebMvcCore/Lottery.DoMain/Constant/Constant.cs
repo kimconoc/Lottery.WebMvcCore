@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lottery.DoMain.Constant
 {
-    public static class Constant
+    public class Constant
     {
         // "yyyy/MM/dd HH:mm"
         public static DateTime ConvertStringToDateTime(string strDateTime)
