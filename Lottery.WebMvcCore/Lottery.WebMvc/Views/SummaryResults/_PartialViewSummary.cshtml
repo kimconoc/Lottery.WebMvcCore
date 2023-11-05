@@ -81,7 +81,14 @@
                         @foreach (CountByDay item in Model.Item1)
                         {
                             <tr>
-                                <td>@item.Name</td>
+                                @if (item.IsChu)
+                                {
+                                    <td>@string.Format("{0} {1}",@item.Name,"(chủ)")</td>
+                                }
+                                else
+                                {
+                                    <td>@string.Format("{0} {1}",@item.Name,"(khách)")</td>
+                                }
                                 <td>@item.MienNam</td>
                                 <td>@item.MienTrung</td>
                                 <td>@item.MienBac</td>
@@ -98,6 +105,39 @@
                                     <td>@item.Total</td>
                                 }
                             </tr>
+                        }
+                        @{
+                            var sumTotal = Model.Item1.Sum(x => x.Total);
+                            <td>
+                                <strong></strong>
+                            </td>
+                            <td>
+                                <strong>@Model.Item1.Sum(x=> x.MienNam)</strong>
+                            </td>
+                            <td>
+                                <strong>@Model.Item1.Sum(x=> x.MienTrung)</strong>
+                            </td>
+                            <td>
+                                <strong>@Model.Item1.Sum(x=> x.MienBac)</strong>
+                            </td>
+                            if (sumTotal > 0)
+                            {
+                                <td style="color:blue;">
+                                    <strong>@sumTotal</strong>
+                                </td>
+                            }
+                            else if (sumTotal < 0)
+                            {
+                                <td style="color:red;">
+                                    <strong>@sumTotal</strong>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <strong>@sumTotal</strong>
+                                </td>
+                            }  
                         }
                     </table>
                 </div>

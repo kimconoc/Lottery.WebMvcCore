@@ -8,6 +8,7 @@ namespace Lottery.DoMain.Models
 {
     public class CountByDay
     {
+        public bool IsChu { get; set; }
         public string Name { get; set; }
         public int IDKhach { get; set; }
         public double MienNam { get; set; }
