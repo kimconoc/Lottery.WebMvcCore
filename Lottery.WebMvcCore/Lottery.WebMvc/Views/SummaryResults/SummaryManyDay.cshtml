@@ -13,6 +13,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="~/css/summaryManyDay.css" rel="stylesheet" />
+    @*cssscript*@
+    <link rel="stylesheet" href="~/assets/helpers/toastinette-notification-main/assets/css/toastinette.min.css">
+    <script src="~/assets/helpers/toastinette-notification-main/assets/js/toastinette.js"></script>
     @*datetimepicker*@
     <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
     <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
@@ -47,11 +50,13 @@
             outline: none;
             max-width:90px;
             display: inline-block;
+            cursor:pointer;
         }
 
         .e-btn.e-primary, .e-css.e-btn.e-primary {
             width:100%;
         }
+
     </style>
 </head>
 <body>
@@ -59,11 +64,11 @@
         <div class="div-search-many-day">
             <div class="div-search-fromdate">
                 <strong style="margin-top: 5px;">Từ:</strong>
-                <input id="input_fromdate" type="text" class="box-input-date" disabled="disabled" value="@Model.Item2.FromDate.ToString("dd/MM/yyyy")">
+                <input id="input_fromdate" type="text" class="box-input-date" readonly value="@Model.Item2.FromDate.ToString("dd/MM/yyyy")">
             </div>
             <div class="div-search-todate">
                 <strong style="margin-top: 5px;">Đến:</strong>
-                <input id="input_todate" type="text" class="box-input-date" disabled="disabled" value="@Model.Item2.ToDate.ToString("dd/MM/yyyy")">
+                <input id="input_todate" type="text" class="box-input-date" readonly value="@Model.Item2.ToDate.ToString("dd/MM/yyyy")">
             </div>
             <div class="div-btn-search">
                 <button onclick="searchDataSummary()" id="search_data"></button>
@@ -77,12 +82,6 @@
     <script>
         var model = @Html.Raw(serializedModel);
         var buttonSearch_data;
-        $(document).ready(function () {
-            buttonSearch_data = new ej.buttons.Button({ isPrimary: true, content: "Tìm kiếm", disabled: false });
-            buttonSearch_data.appendTo('#search_data');
-            dicSummaryJson = JSON.stringify(model);
-            getPartialViewSummary(dicSummaryJson);
-        });
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#fromdatetimepicker').datetimepicker({
             timepicker: false,
@@ -92,13 +91,56 @@
             timepicker: false,
             value: '@Model.Item2.ToDate.ToString("yyyy/MM/dd HH:mm")'
         });
-        $('button.somebutton').on('click', function () {
-            $('#datetimepicker').datetimepicker('show');
+        buttonSearch_data = new ej.buttons.Button({ isPrimary: true, content: "Tìm kiếm", disabled: false });
+        buttonSearch_data.appendTo('#search_data');
+        $(document).ready(function () {
+            dicSummaryJson = JSON.stringify(model);
+            getPartialViewSummary(dicSummaryJson);
         });
-        $('#datetimepicker').on('change', function () {
+        $('#input_fromdate').on('click', function () {
+            $('#fromdatetimepicker').datetimepicker('show');
+        });
+        $('#input_todate').on('click', function () {
+            $('#todatetimepicker').datetimepicker('show');
+        });
+        $('#fromdatetimepicker').on('change', function () {
+            buttonSearch_data.disabled = false;
             var dateString = $(this).val();
-            window.location.href = `/SummaryResults/SummaryByDay?strDateTime=${dateString}`;
+            let dateParts = dateString.split(' ')[0].split('/'); 
+            let formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0]; 
+            document.getElementById("input_fromdate").value = formattedDate;
         });
+        $('#todatetimepicker').on('change', function () {
+            buttonSearch_data.disabled = false;
+            var dateString = $(this).val();
+            let dateParts = dateString.split(' ')[0].split('/');
+            let formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+            document.getElementById("input_todate").value = formattedDate;
+        });
+        function searchDataSummary(){
+            buttonSearch_data.disabled = true;
+            var strFromDate = document.getElementById("fromdatetimepicker").value;
+            var strToDate = document.getElementById("todatetimepicker").value;
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "strFromDate": strFromDate,
+                    "strToDate": strToDate,
+                },
+                url: "@Url.Action("CheckFromDateToDate", "SummaryResults")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                       
+                    }
+                    else {
+                        showToasinette_Error_Bottom_Center(data.message)
+                    }
+                },
+            })
+        }
         function getPartialViewSummary(dicSummaryJson) {
             var url = '@Url.Action("GetPartialViewSummary", "SummaryResults")';
             $('#div_summary_results').load(url, { dicSummaryModelJson: dicSummaryJson }, function (response, status, xhr) { });

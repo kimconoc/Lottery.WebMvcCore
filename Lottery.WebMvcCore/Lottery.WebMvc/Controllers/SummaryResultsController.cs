@@ -57,5 +57,17 @@ namespace Lottery.WebMvc.Controllers
             var dicSummaryModel = JsonConvert.DeserializeObject<Dictionary<DateTime, List<CountByDay>>>(dicSummaryModelJson);
             return PartialView("_PartialViewSummary", dicSummaryModel);
         }
+
+        [HttpPost]
+        public IActionResult CheckFromDateToDate(string strFromDate, string strToDate)
+        {
+            DateTime fromDate = Constant.ConvertStringToDateTime(strFromDate);
+            DateTime toDate = Constant.ConvertStringToDateTime(strToDate);
+            if(fromDate.Date > toDate.Date)
+            {
+                return Json(Bad_Request("Thời gian không hợp lệ."));
+            }    
+            return Json(Success_Request(true));
+        }
     }
 }
