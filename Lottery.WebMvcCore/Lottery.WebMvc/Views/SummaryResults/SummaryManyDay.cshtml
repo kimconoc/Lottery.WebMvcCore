@@ -4,9 +4,10 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Extentions;
 @{
-    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
+    var serializedModel1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
+    var serializedModel2 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item2);
 }
-@model Tuple<Dictionary<DateTime, List<CountByDay>>, CountManyDayModel>;
+@model Tuple<List<CountByDay>, CountManyDayModel>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -86,7 +87,8 @@
         <input id="todatetimepicker" style="display:none;" type="text">
     </div>
     <script>
-        var model = @Html.Raw(serializedModel);
+        var mode1 = @Html.Raw(serializedModel1);
+        var mode2 = @Html.Raw(serializedModel2);
         var buttonSearch_data;
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#fromdatetimepicker').datetimepicker({
@@ -100,8 +102,9 @@
         buttonSearch_data = new ej.buttons.Button({ isPrimary: true, content: "Tìm kiếm", disabled: false });
         buttonSearch_data.appendTo('#search_data');
         $(document).ready(function () {
-            dicSummaryJson = JSON.stringify(model);
-            getPartialViewSummary(dicSummaryJson);
+            summaryJson = JSON.stringify(mode1);
+            countManyDayJson = JSON.stringify(mode2);
+            getPartialViewSummary(summaryJson, countManyDayJson);
         });
         $('#input_fromdate').on('click', function () {
             $('#fromdatetimepicker').datetimepicker('show');
@@ -147,9 +150,9 @@
                 },
             })
         }
-        function getPartialViewSummary(dicSummaryJson) {
+        function getPartialViewSummary(summaryJson, countManyDayJson) {
             var url = '@Url.Action("GetPartialViewSummary", "SummaryResults")';
-            $('#div_summary_results').load(url, { dicSummaryModelJson: dicSummaryJson }, function (response, status, xhr) { });
+            $('#div_summary_results').load(url, { summaryModelJson: summaryJson, countManyDayModelJson: countManyDayJson }, function (response, status, xhr) { });
         }
     </script>
 </body>

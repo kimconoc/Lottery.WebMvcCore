@@ -42,20 +42,22 @@ namespace Lottery.WebMvc.Controllers
                 UserID = GetCurrentUser().Id,
             };
 
-            var dataBase = provider.PostAsync<Dictionary<DateTime, List<CountByDay>>>(ApiUri.POST_HandlMessageCountManyDay, countManyDayModel);
+            var dataBase = provider.PostAsync<List<CountByDay>>(ApiUri.POST_HandlMessageCountManyDay, countManyDayModel);
             if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
             {
                 return Json(Server_Error("Đã có lỗi xảy ra!"));
             }
 
-            var compositeModel = new Tuple<Dictionary<DateTime, List<CountByDay>>, CountManyDayModel>(dataBase.Result.Data, countManyDayModel);
+            var compositeModel = new Tuple<List<CountByDay>, CountManyDayModel>(dataBase.Result.Data, countManyDayModel);
             return View(compositeModel);
         }
 
-        public IActionResult GetPartialViewSummary(string dicSummaryModelJson)
+        public IActionResult GetPartialViewSummary(string summaryModelJson, string countManyDayModelJson)
         {
-            var dicSummaryModel = JsonConvert.DeserializeObject<Dictionary<DateTime, List<CountByDay>>>(dicSummaryModelJson);
-            return PartialView("_PartialViewSummary", dicSummaryModel);
+            var summaryModel = JsonConvert.DeserializeObject<List<CountByDay>>(summaryModelJson);
+            var countManyDayModel = JsonConvert.DeserializeObject<CountManyDayModel>(countManyDayModelJson);
+            var compositeModel = new Tuple<List<CountByDay>, CountManyDayModel>(summaryModel, countManyDayModel);
+            return PartialView("_PartialViewSummary", compositeModel);
         }
 
         [HttpPost]

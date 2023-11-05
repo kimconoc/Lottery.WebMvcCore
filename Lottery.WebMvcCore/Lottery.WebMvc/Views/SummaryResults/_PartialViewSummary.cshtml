@@ -2,7 +2,7 @@
 @using Lottery.DoMain.Models;
 @using System;
 @using Lottery.DoMain.Enum;
-@model Dictionary<DateTime, List<CountByDay>>
+@model Tuple<List<CountByDay>, CountManyDayModel>
 <style>
     table {
         font-family: Arial, sans-serif;
@@ -47,53 +47,60 @@
     </div>
     @{
         <div class="div-table-summary-results">
-            @foreach (KeyValuePair<DateTime, List<CountByDay>> dic in Model)
+            @if (Model.Item2.ToDate == null)
             {
                 <strong style="font-size:13px; color:#e3165b;">
-                    Ngày: @dic.Key.ToString("dd/MM/yyyy")
+                    Ngày: @string.Format("{0}" , Model.Item2.FromDate.ToString("dd/MM/yyyy"))
                 </strong>
-                if (Model.Count == 1 && Model.Values.FirstOrDefault().Count == 0)
-                {
-                    <div class="box-no-data-found">
-                        <img src="~/lottery/empty-order/empty-order.png">
-                        <span>Không có dữ liệu</span>
-                    </div>
-                }
-                else
-                {
-                    <div class="table-summary-result">
-                        <table>
+            }
+            else
+            {
+                <strong style="font-size:13px; color:#e3165b;">
+                    Ngày: @string.Format("{0} - {1}" , Model.Item2.FromDate.ToString("dd/MM/yyyy"),Model.Item2.ToDate.ToString("dd/MM/yyyy"))
+                </strong>
+            }
+            
+            @if (Model.Item1 == null || Model.Item1.Count == 0)
+            {
+                <div class="box-no-data-found">
+                    <img src="~/lottery/empty-order/empty-order.png">
+                    <span>Không có dữ liệu</span>
+                </div>
+            }
+            else
+            {
+                <div class="table-summary-result">
+                    <table>
+                        <tr>
+                            <th>K.Hàng</th>
+                            <th>M.Nam</th>
+                            <th>M.Trung</th>
+                            <th>M.Bắc</th>
+                            <th>T.Tiền</th>
+                        </tr>
+                        @foreach (CountByDay item in Model.Item1)
+                        {
                             <tr>
-                                <th>K.Hàng</th>
-                                <th>M.Nam</th>
-                                <th>M.Trung</th>
-                                <th>M.Bắc</th>
-                                <th>T.Tiền</th>
+                                <td>@item.Name</td>
+                                <td>@item.MienNam</td>
+                                <td>@item.MienTrung</td>
+                                <td>@item.MienBac</td>
+                                @if (item.Total > 0)
+                                {
+                                    <td style="color:blue;">@item.Total</td>
+                                }
+                                else if (item.Total < 0)
+                                {
+                                    <td style="color:red;">@item.Total</td>
+                                }
+                                else
+                                {
+                                    <td>@item.Total</td>
+                                }
                             </tr>
-                            @foreach (CountByDay count in dic.Value)
-                            {
-                                <tr>
-                                    <td>@count.Name</td>
-                                    <td>@count.MienNam</td>
-                                    <td>@count.MienTrung</td>
-                                    <td>@count.MienBac</td>
-                                    @if (count.Total > 0)
-                                    {
-                                        <td style="color:blue;">@count.Total</td>
-                                    }
-                                    else if (count.Total < 0)
-                                    {
-                                        <td style="color:red;">@count.Total</td>
-                                    }
-                                    else
-                                    {
-                                        <td>@count.Total</td>
-                                    }
-                                </tr>
-                            }
-                        </table>
-                    </div>
-                }
+                        }
+                    </table>
+                </div>
             }
         </div>
     }
