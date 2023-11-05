@@ -107,18 +107,18 @@
                             </tr>
                         }
                         @{
-                            var sumTotal = Model.Item1.Sum(x => x.Total);
+                            var sumTotal = Math.Round(Model.Item1.Sum(x => x.Total), 1);
                             <td>
                                 <strong></strong>
                             </td>
                             <td>
-                                <strong>@Model.Item1.Sum(x=> x.MienNam)</strong>
+                                <strong>@Math.Round(Model.Item1.Sum(x=> x.MienNam), 1)</strong>
                             </td>
                             <td>
-                                <strong>@Model.Item1.Sum(x=> x.MienTrung)</strong>
+                                <strong>@Math.Round(Model.Item1.Sum(x=> x.MienTrung), 1)</strong>
                             </td>
                             <td>
-                                <strong>@Model.Item1.Sum(x=> x.MienBac)</strong>
+                                <strong>@Math.Round(Model.Item1.Sum(x=> x.MienBac), 1)</strong>
                             </td>
                             if (sumTotal > 0)
                             {
