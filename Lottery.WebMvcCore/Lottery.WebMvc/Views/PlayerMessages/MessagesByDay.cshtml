@@ -194,7 +194,7 @@
                      {
                          count = count + 1;
                          //var serializedDetailMessage = Newtonsoft.Json.JsonConvert.SerializeObject(item);
-                         <div class="content-messages">
+                         <div onclick="window.location.href='/PlayerMessages/ShowMessagesDetail?messgeByDaySessionModelJson=@serializedMessgeByDaySession&iDMessage=@item.ID';" class="content-messages" style="cursor:pointer;">
                              <span>
                                  <strong style="color:#e3165b;">@count)</strong>
                                  @item.Message

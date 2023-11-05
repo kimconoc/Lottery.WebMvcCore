@@ -29,17 +29,22 @@
         background-color: #f2f2f2;
     }
 
+    .summary-title{
+        font-size: 14px;
+        text-align:center;
+    }
+
     .div-table-summary-results{
         margin-top:5px;
         display:flex;
         flex-flow:column;
     }
-  
+    
 </style>
 <div class="div-summary-results">
-   <div>
-       <strong style="font-size:14px;">Tổng kết lời lỗ:</strong>
-   </div>
+    <div class="summary-title">
+        <strong>Tổng Kết Lời Lỗ</strong>
+    </div>
     @{
         <div class="div-table-summary-results">
             @foreach (KeyValuePair<DateTime, List<CountByDay>> dic in Model)
@@ -59,11 +64,11 @@
                     <div class="table-summary-result">
                         <table>
                             <tr>
-                                <th>Khách hàng</th>
-                                <th>Miền nam</th>
-                                <th>Miền trung</th>
-                                <th>Miền bắc</th>
-                                <th>Tổng tiền</th>
+                                <th>K.Hàng</th>
+                                <th>M.Nam</th>
+                                <th>M.Trung</th>
+                                <th>M.Bắc</th>
+                                <th>T.Tiền</th>
                             </tr>
                             @foreach (CountByDay count in dic.Value)
                             {
@@ -72,7 +77,18 @@
                                     <td>@count.MienNam</td>
                                     <td>@count.MienTrung</td>
                                     <td>@count.MienBac</td>
-                                    <td>@count.Total</td>
+                                    @if (count.Total > 0)
+                                    {
+                                        <td style="color:blue;">@count.Total</td>
+                                    }
+                                    else if (count.Total < 0)
+                                    {
+                                        <td style="color:red;">@count.Total</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@count.Total</td>
+                                    }
                                 </tr>
                             }
                         </table>
