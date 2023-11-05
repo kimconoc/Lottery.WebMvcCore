@@ -1,0 +1,61 @@
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Extentions;
+@{
+    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+}
+@model Dictionary<DateTime, List<CountByDay>>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/summaryByDay.css" rel="stylesheet" />
+    @*datetimepicker*@
+    <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
+    <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div style="" class="container-summaryByDay">
+        <div class="div-search-by-day">
+            <strong style="font-size: 16px;margin-top: 5px;">
+                Kết Quả: @Model.Keys.FirstOrDefault().ToString("dd/MM/yyyy")
+            </strong>
+            <button class="somebutton calendar-icon-btn">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div style="margin-top:25px;" id="div_summary_results">
+        </div>
+        <input id="datetimepicker" style="display:none;" type="text">
+    </div>
+    <script>
+        var model = @Html.Raw(serializedModel);
+        $(document).ready(function () {
+            dicSummaryJson = JSON.stringify(model);
+            getPartialViewSummary(dicSummaryJson);
+        });
+        jQuery.datetimepicker.setLocale('vi');
+        jQuery('#datetimepicker').datetimepicker({
+            timepicker: false,
+            value: '@Model.Keys.FirstOrDefault().ToString("yyyy/MM/dd HH:mm")'
+        });
+        $('button.somebutton').on('click', function () {
+            $('#datetimepicker').datetimepicker('show');
+        });
+        $('#datetimepicker').on('change', function () {
+            var dateString = $(this).val();
+            window.location.href = `/SummaryResults/SummaryByDay?strDateTime=${dateString}`;
+        });
+        function getPartialViewSummary(dicSummaryJson) {
+            var url = '@Url.Action("GetPartialViewSummary", "SummaryResults")';
+            $('#div_summary_results').load(url, { dicSummaryModelJson: dicSummaryJson }, function (response, status, xhr) { });
+        }
+    </script>
+</body>
+</html>
