@@ -44,6 +44,7 @@
         <input id="fromdatetimepicker" style="display:none;" type="text">
         <input id="todatetimepicker" style="display:none;" type="text">
     </div>
+    <div id="datepicker_open"></div>
     <script>
         var mode1 = @Html.Raw(serializedModel1);
         var mode2 = @Html.Raw(serializedModel2);
@@ -51,11 +52,23 @@
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#fromdatetimepicker').datetimepicker({
             timepicker: false,
-            value: '@Model.Item2.FromDate.ToString("yyyy/MM/dd HH:mm")'
+            value: '@Model.Item2.FromDate.ToString("yyyy/MM/dd HH:mm")',
+            onShow: function (ct, input) {
+                document.getElementById("datepicker_open").classList.add("datepicker-open");
+            },
+            onClose: function (current_time, input) {
+                document.getElementById("datepicker_open").classList.remove("datepicker-open");
+            }
         });
         jQuery('#todatetimepicker').datetimepicker({
             timepicker: false,
-            value: '@Model.Item2.ToDate?.ToString("yyyy/MM/dd HH:mm")'
+            value: '@Model.Item2.ToDate?.ToString("yyyy/MM/dd HH:mm")',
+            onShow: function (ct, input) {
+                document.getElementById("datepicker_open").classList.add("datepicker-open");
+            },
+            onClose: function (current_time, input) {
+                document.getElementById("datepicker_open").classList.remove("datepicker-open");
+            }
         });
         buttonSearch_data = new ej.buttons.Button({ isPrimary: true, content: "Tìm kiếm", disabled: false });
         buttonSearch_data.appendTo('#search_data');
