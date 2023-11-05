@@ -4,9 +4,10 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Extentions;
 @{
-    var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+    var serializedModel1 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1);
+    var serializedModel2 = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item2);
 }
-@model Dictionary<DateTime, List<CountByDay>>
+@model Tuple<List<CountByDay>, CountManyDayModel>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -24,7 +25,7 @@
     <div style="" class="container-summaryByDay">
         <div class="div-search-by-day">
             <strong style="font-size: 16px;margin-top: 5px;">
-                Kết Quả: @Model.Keys.FirstOrDefault().ToString("dd/MM/yyyy")
+                Kết Quả: @Model.Item2.FromDate.ToString("dd/MM/yyyy")
             </strong>
             <button class="somebutton calendar-icon-btn">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -35,15 +36,17 @@
         <input id="datetimepicker" style="display:none;" type="text">
     </div>
     <script>
-        var model = @Html.Raw(serializedModel);
+        var model1 = @Html.Raw(serializedModel1);
+        var model2 = @Html.Raw(serializedModel2);
         $(document).ready(function () {
-            dicSummaryJson = JSON.stringify(model);
-            getPartialViewSummary(dicSummaryJson);
+            summaryJson = JSON.stringify(model1);
+            countManyDayJson = JSON.stringify(model2);
+            getPartialViewSummary(summaryJson, countManyDayJson);
         });
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
-            value: '@Model.Keys.FirstOrDefault().ToString("yyyy/MM/dd HH:mm")'
+            value: '@Model.Item2.FromDate.ToString("yyyy/MM/dd HH:mm")'
         });
         $('button.somebutton').on('click', function () {
             $('#datetimepicker').datetimepicker('show');
@@ -52,9 +55,10 @@
             var dateString = $(this).val();
             window.location.href = `/SummaryResults/SummaryByDay?strDateTime=${dateString}`;
         });
-        function getPartialViewSummary(dicSummaryJson) {
+        function getPartialViewSummary(summaryJson, countManyDayJson) {
+            debugger
             var url = '@Url.Action("GetPartialViewSummary", "SummaryResults")';
-            $('#div_summary_results').load(url, { dicSummaryModelJson: dicSummaryJson }, function (response, status, xhr) { });
+            $('#div_summary_results').load(url, { summaryModelJson: summaryJson, countManyDayModelJson: countManyDayJson }, function (response, status, xhr) { });
         }
     </script>
 </body>

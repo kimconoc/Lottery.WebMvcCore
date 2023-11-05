@@ -56,7 +56,7 @@
             else
             {
                 <strong style="font-size:13px; color:#e3165b;">
-                    Ngày: @string.Format("{0} - {1}" , Model.Item2.FromDate.ToString("dd/MM/yyyy"),Model.Item2.ToDate.ToString("dd/MM/yyyy"))
+                    Ngày: @string.Format("{0} - {1}" , Model.Item2.FromDate.ToString("dd/MM/yyyy"),Model.Item2.ToDate?.ToString("dd/MM/yyyy"))
                 </strong>
             }
             

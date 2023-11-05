@@ -33,7 +33,7 @@
             </div>
             <div class="div-search-todate">
                 <strong style="margin-top: 5px;">Đến:</strong>
-                <input id="input_todate" type="text" class="box-input-date" readonly value="@Model.Item2.ToDate.ToString("dd/MM/yyyy")">
+                <input id="input_todate" type="text" class="box-input-date" readonly value="@Model.Item2.ToDate?.ToString("dd/MM/yyyy")">
             </div>
             <div class="div-btn-search">
                 <button onclick="executeDataSummary()" id="search_data"></button>
@@ -55,7 +55,7 @@
         });
         jQuery('#todatetimepicker').datetimepicker({
             timepicker: false,
-            value: '@Model.Item2.ToDate.ToString("yyyy/MM/dd HH:mm")'
+            value: '@Model.Item2.ToDate?.ToString("yyyy/MM/dd HH:mm")'
         });
         buttonSearch_data = new ej.buttons.Button({ isPrimary: true, content: "Tìm kiếm", disabled: false });
         buttonSearch_data.appendTo('#search_data');

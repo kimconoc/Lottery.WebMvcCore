@@ -18,17 +18,20 @@ namespace Lottery.WebMvc.Controllers
                 HandlDate = dateTime,
                 UserID = GetCurrentUser().Id,
             };
-            List<CountByDay> listCountByDay = new List<CountByDay>();
+            CountManyDayModel countManyDayModel = new CountManyDayModel()
+            {
+                FromDate = dateTime,
+                ToDate = null,
+                UserID = GetCurrentUser().Id,
+            };
             var dataBase = provider.PostAsync<List<CountByDay>>(ApiUri.POST_HandlMessageCountByDay, countByDayModel);
             if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
             {
                 return Json(Server_Error("Đã có lỗi xảy ra!"));
             }
-            listCountByDay = dataBase.Result.Data;
-            Dictionary<DateTime, List<CountByDay>> dic = new Dictionary<DateTime, List<CountByDay>>();
-            dic.Add(dateTime, listCountByDay);
 
-            return View(dic);
+            var compositeModel = new Tuple<List<CountByDay>, CountManyDayModel>(dataBase.Result.Data, countManyDayModel);
+            return View(compositeModel);
         }
 
         public IActionResult SummaryManyDay(string strFromDate ,string strToDate)
