@@ -1,15 +1,1 @@
-﻿@media (max-width: 600px) {
-    /*ghi đè class css*/
-    .xdsoft_datetimepicker {
-        left: 15% !important;
-        top: 200px !important;
-    }
-}
-
-@media (min-width: 768px) {
-    /*ghi đè class css*/
-    .xdsoft_datetimepicker {
-        left: calc(100%/2 - 130px) !important;
-        top: 200px !important;
-    }
-}
+﻿
