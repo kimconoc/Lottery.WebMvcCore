@@ -48,7 +48,8 @@ namespace Lottery.WebMvc.Controllers
                 return Json(Server_Error("Đã có lỗi xảy ra!"));
             }
 
-            return View(dataBase.Result.Data);
+            var compositeModel = new Tuple<Dictionary<DateTime, List<CountByDay>>, CountManyDayModel>(dataBase.Result.Data, countManyDayModel);
+            return View(compositeModel);
         }
 
         public IActionResult GetPartialViewSummary(string dicSummaryModelJson)
