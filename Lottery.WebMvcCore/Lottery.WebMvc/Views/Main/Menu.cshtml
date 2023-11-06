@@ -2,8 +2,10 @@
 @using Lottery.DoMain.Models;
 @using Newtonsoft.Json;
 @using Lottery.DoMain.Enum;
+@using Lottery.WebMvc.MemCached;
 @inject IHttpContextAccessor HttpContextAccessor
 @{
+    var test = MemCached.GetCurrentUser(HttpContextAccessor.HttpContext);
     User user = new User();
     Layout = "~/Views/Shared/_Layout.cshtml";
     var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies[Default.Get_Signin_Token];
