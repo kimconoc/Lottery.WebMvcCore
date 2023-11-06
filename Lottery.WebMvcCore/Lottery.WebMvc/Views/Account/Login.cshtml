@@ -102,6 +102,8 @@
             }
         });
         function executeLogin() {
+            var screen_width = window.screen.width;
+            var screen_height = window.screen.height;
             var loginViewModel = {
                 loginName: document.getElementsByName("LoginName")[0].value,
                 password: document.getElementsByName("Password")[0].value,
@@ -113,6 +115,8 @@
                 data:
                 {
                     "loginViewModelJson": loginJson,
+                    screenWidth: screen_width,
+                    screenHeight: screen_height,
                 },
                 url: "@Url.Action("ExecuteLogin", "Account")",
                 success: function (data) {

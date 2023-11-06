@@ -7,5 +7,6 @@ namespace Lottery.WebMvc.Models
     {
         public string LoginName { get; set; }
         public string Password { get; set; }
+        public string Imei { get; set; }
     }
 }

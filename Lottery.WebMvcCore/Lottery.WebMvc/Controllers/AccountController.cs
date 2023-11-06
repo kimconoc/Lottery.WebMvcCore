@@ -1,4 +1,5 @@
 ﻿using Lottery.DoMain.Constant;
+using Lottery.DoMain.Enum;
 using Lottery.DoMain.Models;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,12 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult ExecuteLogin(string loginViewModelJson)
+        public IActionResult ExecuteLogin(string loginViewModelJson, int screenWidth,int screenHeight)
         {
             try
             {
                 var loginViewModel = JsonConvert.DeserializeObject<LoginViewModel>(loginViewModelJson);
+                loginViewModel.Imei = CreateImeiByDevice(screenWidth, screenHeight);
                 var userBase = provider.PostAsync<User>(ApiUri.POST_UserLogin, loginViewModel);
                 if (userBase == null || userBase.Result == null || userBase.Result.Data == null)
                 {
@@ -43,8 +45,36 @@ namespace Lottery.WebMvc.Controllers
             }
             catch (Exception ex)
             {
-                return Json(Server_Error("Have error when login. Please check with our Administrator!"));
+                return Json(Server_Error("Hệ thống đang xảy ra lỗi!"));
             }  
+        }
+
+        private string CreateImeiByDevice(int screenWidth, int screenHeight)
+        {
+            string imei = string.Empty;
+            string userAgent = HttpContext.Request.Headers["User-Agent"].ToString().ToLower();
+            if (userAgent.Contains("iphone") && userAgent.Contains("mobile"))
+            {
+                imei = string.Format("Mobile-Iphone-ScreenWidth={0}-ScreenHeight={1}", screenWidth, screenHeight);
+            }
+            else if (userAgent.Contains("android") && userAgent.Contains("mobile"))
+            {
+                imei = string.Format("Mobile-Android-ScreenWidth={0}-ScreenHeight={1}", screenWidth, screenHeight);
+            }
+            else if (userAgent.Contains("windows"))
+            {
+                imei = string.Format("Computer-Windows-ScreenWidth={0}-ScreenHeight={1}", screenWidth, screenHeight);
+            }
+            else if ((userAgent.Contains("ipad") && userAgent.Contains("mac os")) || (userAgent.Contains("macintosh") && userAgent.Contains("mac os")))
+            {
+                imei = string.Format("Mobile-Ipad-Os-ScreenWidth={0}-ScreenHeight={1}", screenWidth, screenHeight);
+            }
+            else
+            {
+                imei = string.Format("Unknown-Device-ScreenWidth={0}-ScreenHeight={1}", screenWidth, screenHeight);
+            }
+
+            return imei;
         }
 
         public IActionResult Logout()

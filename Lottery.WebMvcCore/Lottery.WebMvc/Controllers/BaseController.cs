@@ -66,18 +66,26 @@ namespace Lottery.WebMvc.Controllers
         protected int IdentifyUserAgent()
         {
             string userAgent = HttpContext.Request.Headers["User-Agent"].ToString().ToLower();
-            if (userAgent.Contains("iphone"))
+            if (userAgent.Contains("iphone") && userAgent.Contains("mobile"))
             {
-                return (int)UserAgentEnum.Iphone;
+                return (int)UserAgentEnum.MobileIphone;
             }
-            else if (userAgent.Contains("android"))
+            else if (userAgent.Contains("android") && userAgent.Contains("mobile"))
             {
-                return (int)UserAgentEnum.Android;
+                return (int)UserAgentEnum.MobileAndroid;
+            }
+            else if(userAgent.Contains("windows"))
+            {
+                return (int)UserAgentEnum.ComputerWindows;
+            }
+            else if ((userAgent.Contains("ipad") && userAgent.Contains("mac os")) || (userAgent.Contains("macintosh") && userAgent.Contains("mac os")))
+            {
+                return (int)UserAgentEnum.IpadOs;
             }
             else
             {
-                return (int)UserAgentEnum.Computer;
-            }
+                return (int)UserAgentEnum.UnknownDevice;
+            }    
         }
 
         protected DataResponse<TRequest> Success_Request<TRequest>(TRequest data)
