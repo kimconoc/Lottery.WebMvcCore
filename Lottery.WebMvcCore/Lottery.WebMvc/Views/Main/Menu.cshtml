@@ -6,7 +6,7 @@
 @{
     User user = new User();
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies["LotteryCookie"];
+    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies[Default.Get_Signin_Token];
     if (cookieValue != null)
     {
         user = JsonConvert.DeserializeObject<User>(cookieValue);

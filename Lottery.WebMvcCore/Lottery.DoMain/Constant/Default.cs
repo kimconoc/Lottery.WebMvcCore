@@ -10,5 +10,6 @@ namespace Lottery.DoMain.Constant
     {
         public const int CachTrungDaXien = 2;
         public const string Link_Empty_Data = "~/lottery/empty-order/empty-order.png";
+        public const string Get_Signin_Token = "LotteryCookie";
     }
 }

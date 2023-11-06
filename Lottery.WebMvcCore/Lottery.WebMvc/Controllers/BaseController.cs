@@ -1,8 +1,10 @@
-﻿using Lottery.DoMain.Enum;
+﻿using Lottery.DoMain.Constant;
+using Lottery.DoMain.Enum;
 using Lottery.DoMain.Models;
 using Lottery.Service.ServiceProvider;
 using Lottery.Service.ServiceProvider.Interface;
 using Lottery.WebMvc.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
@@ -32,6 +34,11 @@ namespace Lottery.WebMvc.Controllers
             string jsonUserData = JsonConvert.SerializeObject(userData);
             Response.Cookies.Append(GetSigninToken(), jsonUserData, cookieOptions);
         }
+        protected void ExecuteSaveSession(User userData)
+        {
+            string jsonUserData = JsonConvert.SerializeObject(userData);
+            Response.HttpContext.Session.SetString(GetSigninToken(), jsonUserData);
+        }
         protected void RemoteCookies()
         {
             string value = string.Empty;
@@ -43,7 +50,7 @@ namespace Lottery.WebMvc.Controllers
         }
         protected string GetSigninToken()
         {
-            return "LotteryCookie";
+            return Default.Get_Signin_Token;
         }
         public User GetCurrentUser()
         {

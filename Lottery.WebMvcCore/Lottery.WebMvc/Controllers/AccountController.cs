@@ -27,7 +27,7 @@ namespace Lottery.WebMvc.Controllers
             {
                 var loginViewModel = JsonConvert.DeserializeObject<LoginViewModel>(loginViewModelJson);
                 //loginViewModel.Imei = CreateImeiByDevice(screenWidth, screenHeight);
-                if (loginViewModel.LoginName == "ducpv" && loginViewModel.Password == "123")
+                if (loginViewModel.LoginName.ToLower() == "ducpv" && loginViewModel.Password == "123")
                 {
                     loginViewModel.Imei = "Device-Developer-ScreenWidth=1000-ScreenHeight=1000";
                 } 

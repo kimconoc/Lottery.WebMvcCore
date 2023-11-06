@@ -9,7 +9,7 @@
 @{
     User user = new User();
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies["LotteryCookie"];
+    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies[Default.Get_Signin_Token];
     List<Phonebook> phonebooks = new List<Phonebook>();
     if (cookieValue != null)
     {
