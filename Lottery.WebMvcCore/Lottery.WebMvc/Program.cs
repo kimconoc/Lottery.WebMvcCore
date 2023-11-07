@@ -1,4 +1,9 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Lottery.Service.ServiceProvider;
+using Lottery.Service.ServiceProvider.Interface;
+using Lottery.WebMvc.MemCached;
+using Lottery.WebMvc.MemCached.Interface;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -13,6 +18,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = false;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddScoped<IProvider, Provider>();
+builder.Services.AddScoped<IMemCached, MemCached>();
 
 var app = builder.Build();
 

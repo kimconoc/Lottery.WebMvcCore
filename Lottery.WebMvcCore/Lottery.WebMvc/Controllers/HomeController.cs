@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Lottery.WebMvc.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 

@@ -2,7 +2,7 @@
 
 namespace Lottery.WebMvc.Controllers
 {
-    public class MainController : BaseController
+    public class MainController : Controller
     {
         public IActionResult Menu()
         {

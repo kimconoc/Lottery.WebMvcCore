@@ -3,6 +3,8 @@ using Lottery.DoMain.Enum;
 using Lottery.DoMain.Extentions;
 using Lottery.DoMain.FileLog;
 using Lottery.DoMain.Models;
+using Lottery.Service.ServiceProvider.Interface;
+using Lottery.WebMvc.MemCached.Interface;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,6 +16,10 @@ namespace Lottery.WebMvc.Controllers
 {
     public class PhonebookController : BaseController
     {
+        public PhonebookController(IProvider provider, IMemCached memCached) : base(provider, memCached)
+        {
+        }
+
         public IActionResult ListPlayer()
         {
             return View();
@@ -23,9 +29,9 @@ namespace Lottery.WebMvc.Controllers
             var phonebook = new Phonebook();
             if (playerId != null)
             {
-                var userData = GetCurrentUser();
+                var userData = _memCached.GetCurrentUser();
                 List<Phonebook> phonebooks = new List<Phonebook>();
-                var dataBase = provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", userData.Id));
+                var dataBase = _provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", userData.Id));
                 if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
                 {
                     phonebooks = dataBase.Result.Data;
@@ -54,7 +60,7 @@ namespace Lottery.WebMvc.Controllers
 
             try
             {
-                var userData = GetCurrentUser();
+                var userData = _memCached.GetCurrentUser();
                 var players = JsonConvert.DeserializeObject<List<PhonebookModel>>(playerJsons);
                 // Tạo mới and cập nhật
                 players[0].UserID = userData.Id;
@@ -62,7 +68,7 @@ namespace Lottery.WebMvc.Controllers
                 {
                     players[0].PhoneNumber = "";
                 }
-                var playerBase = provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
+                var playerBase = _provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
                 if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
                 {
                     return Json(Success_Request(playerBase.Result.IsSuccessful));
@@ -80,9 +86,9 @@ namespace Lottery.WebMvc.Controllers
         [HttpPost]
         public IActionResult ExecuteDeletePlayer(int playerId)
         {
-            var userData = GetCurrentUser();
+            var userData = _memCached.GetCurrentUser();
             List<Phonebook> phonebooks = new List<Phonebook>();
-            var dataBase = provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", userData.Id));
+            var dataBase = _provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", userData.Id));
             if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
             {
                 phonebooks = dataBase.Result.Data;
@@ -93,7 +99,7 @@ namespace Lottery.WebMvc.Controllers
             players.Add(phonebook);
 
             // Xóa
-            var playerBase = provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
+            var playerBase = _provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
             if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
             {
                 return Json(Success_Request(playerBase.Result.IsSuccessful));

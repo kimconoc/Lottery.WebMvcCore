@@ -6,6 +6,7 @@
 @using Lottery.Service.ServiceProvider.Interface;
 @using Lottery.DoMain.Extentions;
 @inject IHttpContextAccessor HttpContextAccessor
+@inject IProvider provider
 @{
     User user = new User();
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,7 +15,6 @@
     if (cookieValue != null)
     {
         user = JsonConvert.DeserializeObject<User>(cookieValue);
-        IProvider provider = new Provider();
         var dataBase = provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", user.Id));
         if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
         {

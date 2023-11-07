@@ -3,6 +3,7 @@ using Lottery.DoMain.Enum;
 using Lottery.DoMain.Models;
 using Lottery.Service.ServiceProvider;
 using Lottery.Service.ServiceProvider.Interface;
+using Lottery.WebMvc.MemCached.Interface;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,86 +14,22 @@ namespace Lottery.WebMvc.Controllers
 {
     public class BaseController : Controller
     {
-        protected IProvider provider = new Provider();
+        //protected IProvider provider = new Provider();
+        protected readonly IProvider _provider;
+        protected readonly IMemCached _memCached;
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                provider.Dispose();// = null;
+                _provider.Dispose();// = null;
                 //((IDisposable)provider).Dispose();
             }
             base.Dispose(disposing);
         }
-        protected void ExecuteSaveCookies(User userData)
+        public BaseController(IProvider provider, IMemCached memCached)
         {
-            userData.UserAgent = IdentifyUserAgent();
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTimeOffset.Now.AddDays(1),
-                HttpOnly = true,
-            };
-            string jsonUserData = JsonConvert.SerializeObject(userData);
-            Response.Cookies.Append(GetSigninToken(), jsonUserData, cookieOptions);
-        }
-        protected void ExecuteSaveSession(User userData)
-        {
-            string jsonUserData = JsonConvert.SerializeObject(userData);
-            Response.HttpContext.Session.SetString(GetSigninToken(), jsonUserData);
-        }
-        protected void RemoteCookies()
-        {
-            string value = string.Empty;
-            CookieOptions options = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(-1)
-            };
-            Response.Cookies.Append(GetSigninToken(), value, options);
-        }
-        protected string GetSigninToken()
-        {
-            return Default.Get_Signin_Token;
-        }
-        public User GetCurrentUser()
-        {
-            User user = null;
-            try
-            {
-                string cookieValue = Request.Cookies[GetSigninToken()];
-                if (!string.IsNullOrEmpty(cookieValue))
-                {
-                    user = JsonConvert.DeserializeObject<User>(cookieValue);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return user;
-        }
-
-        protected int IdentifyUserAgent()
-        {
-            string userAgent = HttpContext.Request.Headers["User-Agent"].ToString().ToLower();
-            if (userAgent.Contains("iphone") && userAgent.Contains("mobile"))
-            {
-                return (int)UserAgentEnum.MobileIphone;
-            }
-            else if (userAgent.Contains("android") && userAgent.Contains("mobile"))
-            {
-                return (int)UserAgentEnum.MobileAndroid;
-            }
-            else if(userAgent.Contains("windows"))
-            {
-                return (int)UserAgentEnum.ComputerWindows;
-            }
-            else if ((userAgent.Contains("ipad") && userAgent.Contains("mac os")) || (userAgent.Contains("macintosh") && userAgent.Contains("mac os")))
-            {
-                return (int)UserAgentEnum.IpadOs;
-            }
-            else
-            {
-                return (int)UserAgentEnum.UnknownDevice;
-            }    
+            _provider = provider;
+            _memCached = memCached;
         }
 
         protected DataResponse<TRequest> Success_Request<TRequest>(TRequest data)

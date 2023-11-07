@@ -2,6 +2,8 @@
 using Lottery.DoMain.Enum;
 using Lottery.DoMain.Extentions;
 using Lottery.DoMain.Models;
+using Lottery.Service.ServiceProvider.Interface;
+using Lottery.WebMvc.MemCached.Interface;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,10 @@ namespace Lottery.WebMvc.Controllers
 {
     public class PlayerMessagesController : BaseController
     {
+        public PlayerMessagesController(IProvider provider, IMemCached memCached) : base(provider, memCached)
+        {
+        }
+
         public IActionResult MessagesByDay(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, string strDateTime)
         {
             DateTime dateTime = Constant.ConvertStringToDateTime(strDateTime);
@@ -25,7 +31,7 @@ namespace Lottery.WebMvc.Controllers
                 IDKhach = idPlayer,
                 Mien = region
             };
-            var messgeByDayBase = provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
+            var messgeByDayBase = _provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
             if (messgeByDayBase == null || messgeByDayBase.Result == null || messgeByDayBase.Result.Data == null)
             {
                 return Json(Server_Error("Đã có lỗi xảy ra!"));
@@ -64,9 +70,9 @@ namespace Lottery.WebMvc.Controllers
             try
             {
                 var calculation3 = JsonConvert.DeserializeObject<Calculation3Model>(calculation3Json);
-                var userData = GetCurrentUser();
+                var userData = _memCached.GetCurrentUser();
                 calculation3.UserID = userData.Id;
-                var dataBase = provider.PostAsync<Cal3DetailDto>(ApiUri.POST_CalculationCal3, calculation3);
+                var dataBase = _provider.PostAsync<Cal3DetailDto>(ApiUri.POST_CalculationCal3, calculation3);
                 if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));
@@ -83,7 +89,7 @@ namespace Lottery.WebMvc.Controllers
         {
             var messgeByDaySessionModel = JsonConvert.DeserializeObject<MessgeByDaySession>(messgeByDaySessionModelJson);
             DetailMessage detailMessageModel = new DetailMessage();
-            var dataBase = provider.GetAsync<DetailMessage>(string.Format(ApiUri.Get_HandlMessage + "/{0}", iDMessage));
+            var dataBase = _provider.GetAsync<DetailMessage>(string.Format(ApiUri.Get_HandlMessage + "/{0}", iDMessage));
             if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
             {
                 detailMessageModel = dataBase.Result.Data;
@@ -120,7 +126,7 @@ namespace Lottery.WebMvc.Controllers
                 Mien = messgeByDaySessionModel.Region
             };
             List<DetailMessage> listMessage = new List<DetailMessage>();
-            var dataBase = provider.PostAsync<List<DetailMessage>>(ApiUri.POST_HandlMessagehandlMessage, messgeByDayModel);
+            var dataBase = _provider.PostAsync<List<DetailMessage>>(ApiUri.POST_HandlMessagehandlMessage, messgeByDayModel);
             if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
             {
                 return Json(Server_Error("Đã có lỗi xảy ra!"));
@@ -136,7 +142,7 @@ namespace Lottery.WebMvc.Controllers
         {
             try
             {
-                var dataBase = provider.DeleteAsync(string.Format(ApiUri.DELETE_HandlMessage + "/{0}", messageId));
+                var dataBase = _provider.DeleteAsync(string.Format(ApiUri.DELETE_HandlMessage + "/{0}", messageId));
                 if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));

@@ -1,6 +1,8 @@
 ﻿using Lottery.DoMain.Constant;
 using Lottery.DoMain.Enum;
 using Lottery.DoMain.Models;
+using Lottery.Service.ServiceProvider.Interface;
+using Lottery.WebMvc.MemCached.Interface;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,9 +12,13 @@ namespace Lottery.WebMvc.Controllers
 {
     public class AccountController : BaseController
     {
+        public AccountController(IProvider provider, IMemCached memCached) : base(provider, memCached)
+        {
+        }
+
         public IActionResult Login()
         {
-            var userData = GetCurrentUser();
+            var userData = _memCached.GetCurrentUser();
             if (userData != null)
             {
                 return RedirectToAction("Menu", "Main");
@@ -21,7 +27,7 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult ExecuteLogin(string loginViewModelJson, int screenWidth,int screenHeight)
+        public IActionResult ExecuteLogin(string loginViewModelJson,bool isSaveCookies, int screenWidth,int screenHeight)
         {
             try
             {
@@ -35,7 +41,7 @@ namespace Lottery.WebMvc.Controllers
                 {
                     loginViewModel.Imei = CreateImeiByDevice(screenWidth, screenHeight);
                 }    
-                var userBase = provider.PostAsync<User>(ApiUri.POST_UserLogin, loginViewModel);
+                var userBase = _provider.PostAsync<User>(ApiUri.POST_UserLogin, loginViewModel);
                 if (userBase == null || userBase.Result == null || userBase.Result.Data == null)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));
@@ -47,7 +53,7 @@ namespace Lottery.WebMvc.Controllers
                 }
                 else
                 {
-                    ExecuteSaveCookies(userData);
+                    _memCached.ExecuteSaveData(userData, isSaveCookies);
                     return Json(Success_Request(true));
                 }
             }
@@ -87,7 +93,7 @@ namespace Lottery.WebMvc.Controllers
 
         public IActionResult Logout()
         {
-            RemoteCookies();
+            _memCached.RemoteCookies();
             return RedirectToAction("Login", "Account");
         }
     }
