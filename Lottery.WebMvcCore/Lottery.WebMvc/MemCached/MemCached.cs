@@ -2,9 +2,11 @@
 using Lottery.DoMain.Enum;
 using Lottery.DoMain.Models;
 using Lottery.WebMvc.MemCached.Interface;
+using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.Text.Json.Nodes;
 
 namespace Lottery.WebMvc.MemCached
 {
@@ -17,26 +19,19 @@ namespace Lottery.WebMvc.MemCached
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public void ExecuteSaveData(User userData ,bool isSaveCookies)
+        public void ExecuteSaveData(User userData)
         {
             userData.UserAgent = IdentifyUserAgent();
-            if (isSaveCookies)
-            {
-                ExecuteSaveCookies(userData);
-            }   
-            else
-            {
-                ExecuteSaveSession(userData);
-            }    
+            ExecuteSaveSession(userData);
         }
         public void RemoveSavedData()
         {
-            string value = string.Empty;
-            CookieOptions options = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(-1)
-            };
-            _httpContextAccessor.HttpContext.Response.Cookies.Append(GetSigninToken(), value, options);
+            //string value = string.Empty;
+            //CookieOptions options = new CookieOptions
+            //{
+            //    Expires = DateTime.Now.AddDays(-1)
+            //};
+            //_httpContextAccessor.HttpContext.Response.Cookies.Append(GetSigninToken(), value, options);
             _httpContextAccessor.HttpContext.Session.Remove(GetSigninToken());
         }
 
@@ -45,18 +40,10 @@ namespace Lottery.WebMvc.MemCached
             User user = null;
             try
             {
-                string jsonValue = _httpContextAccessor.HttpContext.Request.Cookies[GetSigninToken()];
+                string jsonValue = _httpContextAccessor.HttpContext.Session.GetString(GetSigninToken());
                 if (!string.IsNullOrEmpty(jsonValue))
                 {
                     user = JsonConvert.DeserializeObject<User>(jsonValue);
-                }
-                else
-                {
-                    jsonValue = _httpContextAccessor.HttpContext.Session.GetString(GetSigninToken());
-                    if (!string.IsNullOrEmpty(jsonValue))
-                    {
-                        user = JsonConvert.DeserializeObject<User>(jsonValue);
-                    }
                 }
             }
             catch (Exception ex)
@@ -66,16 +53,35 @@ namespace Lottery.WebMvc.MemCached
             return user;
         }
 
-        private void ExecuteSaveCookies(User userData)
+        public LoginViewModel GetCurrentUserPassword()
+        {
+            LoginViewModel loginViewModel = null;
+            try
+            {
+                string jsonValue = _httpContextAccessor.HttpContext.Request.Cookies[GetSigninToken()];
+                if (!string.IsNullOrEmpty(jsonValue))
+                {
+                    loginViewModel = JsonConvert.DeserializeObject<LoginViewModel>(jsonValue);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return loginViewModel;
+        }
+
+        public void ExecuteSaveUserPassword(LoginViewModel loginViewModel)
         {
             var cookieOptions = new CookieOptions
             {
                 Expires = DateTimeOffset.Now.AddDays(7),
                 HttpOnly = true,
             };
-            string jsonUserData = JsonConvert.SerializeObject(userData);
-            _httpContextAccessor.HttpContext.Response.Cookies.Append(GetSigninToken(), jsonUserData, cookieOptions);
+            string jsonLoginViewModel = JsonConvert.SerializeObject(loginViewModel);
+            _httpContextAccessor.HttpContext.Response.Cookies.Append(GetSigninToken(), jsonLoginViewModel, cookieOptions);
         }
+
         private void ExecuteSaveSession(User userData)
         {
             string jsonUserData = JsonConvert.SerializeObject(userData);

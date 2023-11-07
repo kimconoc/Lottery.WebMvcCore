@@ -18,16 +18,11 @@ namespace Lottery.WebMvc.Controllers
 
         public IActionResult Login()
         {
-            var userData = _memCached.GetCurrentUser();
-            if (userData != null)
-            {
-                return RedirectToAction("Menu", "Main");
-            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult ExecuteLogin(string loginViewModelJson,bool isSaveCookies, int screenWidth,int screenHeight)
+        public IActionResult ExecuteLogin(string loginViewModelJson ,int screenWidth ,int screenHeight)
         {
             try
             {
@@ -53,7 +48,15 @@ namespace Lottery.WebMvc.Controllers
                 }
                 else
                 {
-                    _memCached.ExecuteSaveData(userData, isSaveCookies);
+                    if(!loginViewModel.IsSaveCookies)
+                    {
+                        loginViewModel.IsSaveCookies = false;
+                        loginViewModel.LoginName = string.Empty;
+                        loginViewModel.Password = string.Empty;
+                        loginViewModel.Imei = string.Empty;
+                    }
+                    _memCached.ExecuteSaveUserPassword(loginViewModel);
+                    _memCached.ExecuteSaveData(userData);
                     return Json(Success_Request(true));
                 }
             }

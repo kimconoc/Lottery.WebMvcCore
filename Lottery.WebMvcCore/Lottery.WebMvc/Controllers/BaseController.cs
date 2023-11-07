@@ -7,12 +7,13 @@ using Lottery.WebMvc.MemCached.Interface;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using System.Net;
 
 namespace Lottery.WebMvc.Controllers
 {
-    public class BaseController : Controller
+    public class BaseController : Controller, IAsyncActionFilter
     {
         //protected IProvider provider = new Provider();
         protected readonly IProvider _provider;
@@ -30,6 +31,23 @@ namespace Lottery.WebMvc.Controllers
         {
             _provider = provider;
             _memCached = memCached;
+        }
+
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            var userData = _memCached.GetCurrentUser();
+            var controller = context.Controller as Controller;
+            if (controller != null && userData == null 
+                && !context.HttpContext.Request.Path.Equals("/Account/Login") 
+                && !context.HttpContext.Request.Path.Equals("/Account/ExecuteLogin"))
+            {
+                context.Result = new RedirectResult("/Account/Login");
+                return;
+            }
+
+            // Thực thi action
+            var resultContext = await next();
+            // Đoạn code sau khi action được thực thi
         }
 
         protected DataResponse<TRequest> Success_Request<TRequest>(TRequest data)

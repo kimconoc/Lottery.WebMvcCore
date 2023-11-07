@@ -1,5 +1,12 @@
-﻿@{
+﻿@using Lottery.WebMvc.MemCached.Interface;
+@inject IMemCached memCached
+@{
     Layout = null;
+    var loginViewModel = memCached.GetCurrentUserPassword();
+    if (loginViewModel == null)
+    {
+        loginViewModel = new LoginViewModel();
+    }
 }
 
 <!DOCTYPE html>
@@ -65,10 +72,10 @@
             </div>
 
             <div id="box_login_form_account" class="box-input-login">
-                <input id="loginName" name="LoginName" required maxlength="10" placeholder="Tài khoản" value="">
+                <input id="loginName" name="LoginName" required maxlength="10" placeholder="Tài khoản" value="@loginViewModel.LoginName">
             </div>
             <div id="box_login_form_password" class="box-input-login">
-                <input type="password" id="password" name="Password" required maxlength="50" placeholder="Mật Khẩu" value="" />
+                <input type="password" id="password" name="Password" required maxlength="50" placeholder="Mật Khẩu" value="@loginViewModel.Password" />
                 <i id="hide_password" class="icon-show-password fa fa-eye-slash" aria-hidden="true"></i>
                 <i id="show_password" style="display:none;" class="icon-show-password fa fa-eye" aria-hidden="true"></i>
             </div>
@@ -84,8 +91,12 @@
     </div>
     <script>
        
-        var checkbox = new ej.buttons.CheckBox({ label: 'Lưu đăng nhập' });
+        var checkbox = new ej.buttons.CheckBox({ label: 'Lưu đăng nhập'});
         checkbox.appendTo('#checkbox_isSaveCookies');
+        if ('@loginViewModel.IsSaveCookies'.toLowerCase() == 'true') {
+            checkbox.checked = true;
+        }
+
         $(document).ready(function ()
         {
             $('#loginName').on('focus', function () {
@@ -120,6 +131,7 @@
             var loginViewModel = {
                 loginName: document.getElementsByName("LoginName")[0].value,
                 password: document.getElementsByName("Password")[0].value,
+                isSaveCookies:checkbox.checked,
             }
             loginJson = JSON.stringify(loginViewModel);
             ShowOverlay(true);
@@ -128,7 +140,6 @@
                 data:
                 {
                     "loginViewModelJson": loginJson,
-                    isSaveCookies: checkbox.checked,
                     screenWidth: screen_width,
                     screenHeight: screen_height,
                 },
