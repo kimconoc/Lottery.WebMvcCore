@@ -29,7 +29,7 @@ namespace Lottery.WebMvc.MemCached
                 ExecuteSaveSession(userData);
             }    
         }
-        public void RemoteCookies()
+        public void RemoveSavedData()
         {
             string value = string.Empty;
             CookieOptions options = new CookieOptions
@@ -37,6 +37,7 @@ namespace Lottery.WebMvc.MemCached
                 Expires = DateTime.Now.AddDays(-1)
             };
             _httpContextAccessor.HttpContext.Response.Cookies.Append(GetSigninToken(), value, options);
+            _httpContextAccessor.HttpContext.Session.Remove(GetSigninToken());
         }
 
         public User GetCurrentUser()

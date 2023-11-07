@@ -50,6 +50,11 @@
             background-color: #dee8fc;
         }
 
+        .e-checkbox-wrapper .e-frame + .e-label, .e-css.e-checkbox-wrapper .e-frame + .e-label {
+            margin-left: 10px;
+            font-size: 15px;
+        }
+
     </style>
 </head>
 <body>
@@ -67,12 +72,20 @@
                 <i id="hide_password" class="icon-show-password fa fa-eye-slash" aria-hidden="true"></i>
                 <i id="show_password" style="display:none;" class="icon-show-password fa fa-eye" aria-hidden="true"></i>
             </div>
-            <span class="validate-error" id="alert_login"></span>
+            <div style="margin-top: 8px;">
+                <input id="checkbox_isSaveCookies" type="checkbox" />
+            </div>
+            <div class="div-show-error">
+                <span class="validate-error" id="alert_login"></span>
+            </div>
+
             <button onclick="executeLogin()" class="btn-login btn-core-accept">Đăng nhập</button>
         </div>
     </div>
     <script>
        
+        var checkbox = new ej.buttons.CheckBox({ label: 'Lưu đăng nhập' });
+        checkbox.appendTo('#checkbox_isSaveCookies');
         $(document).ready(function ()
         {
             $('#loginName').on('focus', function () {
@@ -115,6 +128,7 @@
                 data:
                 {
                     "loginViewModelJson": loginJson,
+                    isSaveCookies: checkbox.checked,
                     screenWidth: screen_width,
                     screenHeight: screen_height,
                 },
@@ -132,6 +146,7 @@
                 },
             })
         }
+
     </script>
 
 </body>

@@ -5,7 +5,7 @@ namespace Lottery.WebMvc.MemCached.Interface
     public interface IMemCached
     {
         void ExecuteSaveData(User userData, bool isSaveCookies);
-        void RemoteCookies();
+        void RemoveSavedData();
         User GetCurrentUser();
     }
 }

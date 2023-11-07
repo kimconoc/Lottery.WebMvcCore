@@ -93,7 +93,7 @@ namespace Lottery.WebMvc.Controllers
 
         public IActionResult Logout()
         {
-            _memCached.RemoteCookies();
+            _memCached.RemoveSavedData();
             return RedirectToAction("Login", "Account");
         }
     }

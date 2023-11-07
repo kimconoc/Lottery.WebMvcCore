@@ -3,16 +3,14 @@
 @using Newtonsoft.Json;
 @using Lottery.DoMain.Enum;
 @using Lottery.WebMvc.MemCached;
+@using Lottery.WebMvc.MemCached.Interface;
+@inject IMemCached memCached
 @inject IHttpContextAccessor HttpContextAccessor
 @{
-    User user = new User();
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies[Default.Get_Signin_Token];
-    if (cookieValue != null)
-    {
-        user = JsonConvert.DeserializeObject<User>(cookieValue);
-    }
-    else
+    //var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies[Default.Get_Signin_Token];
+    User user = memCached.GetCurrentUser();
+    if (user == null)
     {
         HttpContextAccessor.HttpContext.Response.Redirect("/Account/Login");
     }

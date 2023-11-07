@@ -5,25 +5,20 @@
 @using Lottery.Service.ServiceProvider;
 @using Lottery.Service.ServiceProvider.Interface;
 @using Lottery.DoMain.Extentions;
-@inject IHttpContextAccessor HttpContextAccessor
+@using Lottery.WebMvc.MemCached.Interface;
+@inject IMemCached memCached
 @inject IProvider provider
-@{
-    User user = new User();
+@{  
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var cookieValue = HttpContextAccessor.HttpContext.Request.Cookies[Default.Get_Signin_Token];
     List<Phonebook> phonebooks = new List<Phonebook>();
-    if (cookieValue != null)
+    User user = memCached.GetCurrentUser();
+    if (user != null)
     {
-        user = JsonConvert.DeserializeObject<User>(cookieValue);
         var dataBase = provider.GetAsync<List<Phonebook>>(string.Format(ApiUri.Get_Phonebook + "/{0}", user.Id));
         if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
         {
             phonebooks = dataBase.Result.Data;
         }
-    }
-    else
-    {
-        HttpContextAccessor.HttpContext.Response.Redirect("/Account/Login");
     }
 }
 
