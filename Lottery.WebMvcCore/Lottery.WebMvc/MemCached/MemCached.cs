@@ -70,7 +70,7 @@ namespace Lottery.WebMvc.MemCached
         {
             var cookieOptions = new CookieOptions
             {
-                Expires = DateTimeOffset.Now.AddDays(1),
+                Expires = DateTimeOffset.Now.AddDays(7),
                 HttpOnly = true,
             };
             string jsonUserData = JsonConvert.SerializeObject(userData);
