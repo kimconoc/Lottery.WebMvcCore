@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using Lottery.DoMain.Models;
+@using Lottery.WebMvc.MemCached.Interface;
+@inject IMemCached memCached
+@{
+    User user = memCached.GetCurrentUser();
+    int remainingDays = (user.ExpireDate.Date - DateTime.Now.Date).Days;
+    var serializedRemainingDays = Newtonsoft.Json.JsonConvert.SerializeObject(remainingDays);
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -30,35 +39,69 @@
 
     <style>
 
-        .container {
-            padding-top: 55px;
-        }
-
     </style>
 
 </head>
 <body>
-    <header class="header-page">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <div class="title-page-layout">
-                    <button onclick="window.location.href='/Main/Menu';" style="text-align: start;" form="executePlayerForm" class="title-page-btn">
-                        <i class="fa fa-bars" aria-hidden="true"></i>
-                    </button>
-                    <strong>24/7</strong>
-                    <button onclick="window.location.href='/Phonebook/ExecutionPlayer';" form="executePlayerForm" class="title-page-btn">
-                        <i style="text-align: end;" class="fa fa-user-plus" aria-hidden="true"></i>
-                    </button>
+    @{
+        if (user == null || user.ExpireDate.Date < DateTime.Now.Date)
+        {
+            <header class="overlay-expireDate header-page">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container-fluid">
+                        <div class="title-page-layout">
+                            <button onclick="window.location.href='/Main/Menu';" style="text-align: start;" form="executePlayerForm" class="title-page-btn">
+                                <i class="fa fa-bars" aria-hidden="true"></i>
+                            </button>
+                            <strong>24/7</strong>
+                            <button onclick="window.location.href='/Phonebook/ExecutionPlayer';" form="executePlayerForm" class="title-page-btn">
+                                <i style="text-align: end;" class="fa fa-user-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div class="overlay-expireDate container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+            <div class="popup-Expiry-notice">
+                <div class="div-icon-ExpireDate">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                </div>
+                <div class="div-content-ExpireDate">
+                    <strong>
+                        Tài khoản của bạn đã hết hạn.
+                    </strong>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
+        }
+        else
+        {
+            <header class="header-page">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container-fluid">
+                        <div class="title-page-layout">
+                            <button onclick="window.location.href='/Main/Menu';" style="text-align: start;" form="executePlayerForm" class="title-page-btn">
+                                <i class="fa fa-bars" aria-hidden="true"></i>
+                            </button>
+                            <strong>24/7</strong>
+                            <button onclick="window.location.href='/Phonebook/ExecutionPlayer';" form="executePlayerForm" class="title-page-btn">
+                                <i style="text-align: end;" class="fa fa-user-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        }
+    }
+ 
     @*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - Lottery.WebMvc - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -69,6 +112,19 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)*@
     <script>
+        var remainingDays = @Html.Raw(serializedRemainingDays);
+        if (remainingDays <= 3){
+            awesomeAlert({
+                header: true,
+                type: 'warning',
+                title: 'Cảnh báo!',
+                message: 'Tài khoản sắp hết hạn',
+                //bgColor: '#2dd284',
+                img: '/assets/images/icon/warning.svg',
+                buttonOK: 'Oke!',
+                closeStyle: 'circle'
+            }).then(res => false)
+        }
         //function goBackMenuPage() {
         //    const previousPage = sessionStorage.getItem("menuPage");
         //    if (previousPage) {
