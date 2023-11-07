@@ -112,19 +112,20 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)*@
     <script>
-        var remainingDays = @Html.Raw(serializedRemainingDays);
-        if (remainingDays <= 3){
-            awesomeAlert({
-                header: true,
-                type: 'warning',
-                title: 'Cảnh báo!',
-                message: 'Tài khoản sắp hết hạn',
-                //bgColor: '#2dd284',
-                img: '/assets/images/icon/warning.svg',
-                buttonOK: 'Oke!',
-                closeStyle: 'circle'
-            }).then(res => false)
-        }
+        //var remainingDays = @Html.Raw(serializedRemainingDays);
+        //if (remainingDays <= 3){
+        //    awesomeAlert({
+        //        header: true,
+        //        type: 'warning',
+        //        title: 'Cảnh báo!',
+        //        message: 'Tài khoản sắp hết hạn',
+        //        //bgColor: '#2dd284',
+        //        img: '/assets/images/icon/warning.svg',
+        //        buttonOK: 'Oke!',
+        //        closeStyle: 'circle'
+        //    }).then(res => false)
+        //}
+
         //function goBackMenuPage() {
         //    const previousPage = sessionStorage.getItem("menuPage");
         //    if (previousPage) {
