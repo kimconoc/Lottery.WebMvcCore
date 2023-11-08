@@ -44,30 +44,49 @@
             background-color: #e3165b !important;
             color: white !important;
         }
+
+        .e-radio + label.e-right.e-rtl .e-label {
+            color: white;
+            font-size: 17px;
+        }
+
+        .e-radio + label::before {
+            background-color: none;
+            border-color: #e3165b;
+        }
+
     </style>
 </head>
 <body>
     <header class="header-page">
         <div class="title-page">
-            <div onclick="goToAddBackPage()" class="title-page-text">
-                <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                @{
-                    string titlePageGoBack = string.Empty;
-                    switch (Model.Region)
-                    {
-                        case (int)RegionEnum.MienNam:
-                            titlePageGoBack = RegionEnum.MienNam.GetDescription();
-                            break;
-                        case (int)RegionEnum.MienTrung:
-                            titlePageGoBack = RegionEnum.MienTrung.GetDescription();
-                            break;
-                        default:
-                            titlePageGoBack = RegionEnum.MienBac.GetDescription();
-                            break;
+            <div class="box-title-page">
+                <div onclick="goToAddBackPage()" class="title-page-text">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    @{
+                        string titlePageGoBack = string.Empty;
+                        switch (Model.Region)
+                        {
+                            case (int)RegionEnum.MienNam:
+                                titlePageGoBack = RegionEnum.MienNam.GetDescription();
+                                break;
+                            case (int)RegionEnum.MienTrung:
+                                titlePageGoBack = RegionEnum.MienTrung.GetDescription();
+                                break;
+                            default:
+                                titlePageGoBack = RegionEnum.MienBac.GetDescription();
+                                break;
+                        }
+                        titlePageGoBack = string.Format(Model.NamePlayer + " - " + titlePageGoBack);
+                        @titlePageGoBack
+                        ;
                     }
-                    titlePageGoBack = string.Format(Model.NamePlayer + " - " + titlePageGoBack);
-                    @titlePageGoBack;
-                }
+                </div>
+                
+                <div class="title-page-checkbox">
+                    <input type="radio" id="radiobutton_co_n">
+                    <input type="radio" id="radiobutton_ca_2">
+                </div>
             </div>
         </div>
     </header>
@@ -95,11 +114,17 @@
 
     <script>
         var model = @Html.Raw(serializedModel);
+        var radiobutton_co_n = new ej.buttons.RadioButton({ label: 'Có n', name: 'radiobutton_co_n_or_ca_2', value: '0', enableRtl: 'true', labelPosition: 'Before' });
+        var radiobutton_ca_2 = new ej.buttons.RadioButton({ label: 'Cả 2', name: 'radiobutton_co_n_or_ca_2', value: '1', enableRtl: 'true', labelPosition: 'Before', checked: true });
         var textareaObject;
         var buttonCharacter_filtering;
         var buttonSyntax_check;
         var buttonSave_data;
         $(document).ready(function () {
+
+            radiobutton_co_n.appendTo('#radiobutton_co_n');
+            radiobutton_ca_2.appendTo('#radiobutton_ca_2');
+
             buttonCharacter_filtering = new ej.buttons.Button({ isPrimary: true, content: "Lọc Ký Tự" });
             buttonCharacter_filtering.appendTo('#character_filtering');
             //
