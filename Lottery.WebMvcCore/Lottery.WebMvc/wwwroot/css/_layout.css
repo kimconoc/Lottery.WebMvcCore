@@ -31,7 +31,7 @@
     left: 50%;
     top: 150px;
     width: 300px;
-    height: 150px;
+    height: 160px;
     margin-left: -150px;
     border-radius: 10px;
     z-index: 1001;
@@ -45,4 +45,7 @@
 
 .div-content-ExpireDate {
     text-align: center;
+    display:flex;
+    flex-flow:column;
+    gap:3px;
 }

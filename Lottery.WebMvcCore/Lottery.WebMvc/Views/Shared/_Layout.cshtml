@@ -3,8 +3,6 @@
 @inject IMemCached memCached
 @{
     User user = memCached.GetCurrentUser();
-    int remainingDays = (user.ExpireDate.Date - DateTime.Now.Date).Days;
-    var serializedRemainingDays = Newtonsoft.Json.JsonConvert.SerializeObject(remainingDays);
 }
 
 <!DOCTYPE html>
@@ -68,9 +66,10 @@
             </div>
             <div class="popup-Expiry-notice">
                 <div class="div-icon-ExpireDate">
-                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    <i onclick="window.location.href='/Account/Logout';" style="cursor:pointer;" class="fa fa-sign-out" aria-hidden="true"></i>
                 </div>
                 <div class="div-content-ExpireDate">
+                    <strong style="color:#e3165b">Hạn sử dụng:@string.Format(" " +user?.ExpireDate.ToString("dd/MM/yyyy"))</strong>
                     <strong>
                         Tài khoản của bạn đã hết hạn.
                     </strong>
@@ -111,21 +110,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)*@
-    <script>
-        //var remainingDays = @Html.Raw(serializedRemainingDays);
-        //if (remainingDays <= 3){
-        //    awesomeAlert({
-        //        header: true,
-        //        type: 'warning',
-        //        title: 'Cảnh báo!',
-        //        message: 'Tài khoản sắp hết hạn',
-        //        //bgColor: '#2dd284',
-        //        img: '/assets/images/icon/warning.svg',
-        //        buttonOK: 'Oke!',
-        //        closeStyle: 'circle'
-        //    }).then(res => false)
-        //}
-
+    <script>   
         //function goBackMenuPage() {
         //    const previousPage = sessionStorage.getItem("menuPage");
         //    if (previousPage) {

@@ -48,16 +48,16 @@ namespace Lottery.WebMvc.Controllers
                 }
                 else
                 {
-                    if(!loginViewModel.IsSaveCookies)
+                    if(!loginViewModel.IsSaveCookies || userData.ExpireDate.Date < DateTime.Now.Date)
                     {
                         loginViewModel.IsSaveCookies = false;
-                        loginViewModel.LoginName = string.Empty;
                         loginViewModel.Password = string.Empty;
                         loginViewModel.Imei = string.Empty;
-                    }
+                    }                    
                     _memCached.ExecuteSaveUserPassword(loginViewModel);
                     _memCached.ExecuteSaveData(userData);
-                    return Json(Success_Request(true));
+                    int remainingDays = (userData.ExpireDate.Date - DateTime.Now.Date).Days;
+                    return Json(Success_Request(remainingDays));
                 }
             }
             catch (Exception ex)
