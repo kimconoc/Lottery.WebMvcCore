@@ -193,9 +193,7 @@
                     if (data.success && data.data) {
                         if (data.data.error != null){
                             document.getElementById("error_message").textContent = data.data.error.message;
-                            setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
-                            if ('@user.UserAgent' == '@((int)UserAgentEnum.MobileIphone)')
-                            {
+                            if ('@user.UserAgent' == '@((int)UserAgentEnum.MobileIphone)') {
                                 awesomeAlert({
                                     header: false,
                                     type: 'error',
@@ -205,7 +203,10 @@
                                     img: '/assets/images/icon/error.svg',
                                     buttonOK: 'Oke!',
                                     closeStyle: 'circle'
-                                }).then(res => false)
+                                }).then(res => setSelectionRangeError(data.data.error.startIndex, data.data.error.count))
+                            }
+                            else{
+                                setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
                             }
                             //let timeoutID = setTimeout(function () {
                             //    setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
