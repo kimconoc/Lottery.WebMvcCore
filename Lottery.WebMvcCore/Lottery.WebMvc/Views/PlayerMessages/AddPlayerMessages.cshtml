@@ -3,10 +3,13 @@
 @using Lottery.DoMain.Enum;
 @using Lottery.DoMain.Models;
 @using Lottery.DoMain.Extentions;
+@using Lottery.WebMvc.MemCached.Interface;
+@inject IMemCached memCached
 @model MessgeByDaySession
 @{
     Layout = null;
     var serializedModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+    User user = memCached.GetCurrentUser();
 }
 
 <!DOCTYPE html>
@@ -114,8 +117,8 @@
 
     <script>
         var model = @Html.Raw(serializedModel);
-        var radiobutton_co_n = new ej.buttons.RadioButton({ label: 'Có n', name: 'radiobutton_co_n_or_ca_2', value: '0', enableRtl: 'true', labelPosition: 'Before' });
-        var radiobutton_ca_2 = new ej.buttons.RadioButton({ label: 'Cả 2', name: 'radiobutton_co_n_or_ca_2', value: '1', enableRtl: 'true', labelPosition: 'Before', checked: true });
+        var radiobutton_co_n = new ej.buttons.RadioButton({ label: 'Có n', name: 'radiobutton_co_n_or_ca_2', value: 'true', enableRtl: 'true', labelPosition: 'Before' });
+        var radiobutton_ca_2 = new ej.buttons.RadioButton({ label: 'Cả 2', name: 'radiobutton_co_n_or_ca_2', value: 'false', enableRtl: 'true', labelPosition: 'Before', checked: true });
         var textareaObject;
         var buttonCharacter_filtering;
         var buttonSyntax_check;
@@ -161,6 +164,7 @@
         function characterFilteringSyntax(){
             document.getElementById("error_message").textContent = "";
             document.getElementById("div_success_message").style.display = "none";
+            var selectedRadio_CoN = document.querySelector('input[name="radiobutton_co_n_or_ca_2"]:checked');
             if (isNullOrEmpty(textareaObject.value)) {
                 return
             }
@@ -172,6 +176,7 @@
                 cachTrungDaThang: model.CachTrungDaThang,
                 cachTrungDaXien: model.CachTrungDaXien,
                 isSave: false,
+                coN: selectedRadio_CoN.value,
                 synTax: textareaObject.value,
             }
             calculation3ModelJson = JSON.stringify(calculation3Model);
@@ -189,6 +194,14 @@
                         if (data.data.error != null){
                             document.getElementById("error_message").textContent = data.data.error.message;
                             setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            if ('@user.UserAgent' == '@((int)UserAgentEnum.MobileIphone)')
+                            {
+                                const textarea = document.createElement('textarea');
+                                textarea.value = synTaxValue;
+                                document.body.appendChild(textarea);
+                                textarea.select();
+                                document.body.removeChild(textarea);
+                            }
                             //let timeoutID = setTimeout(function () {
                             //    setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
                             //    clearTimeout(timeoutID);
@@ -222,6 +235,7 @@
             })
         }
         function saveDataSyntax() {
+            var selectedRadio_CoN = document.querySelector('input[name="radiobutton_co_n_or_ca_2"]:checked');
             var calculation3Model = {
                 idMessage: null,
                 idKhach: model.IdPlayer,
@@ -230,6 +244,7 @@
                 cachTrungDaThang: model.CachTrungDaThang,
                 cachTrungDaXien: model.CachTrungDaXien,
                 isSave: true,
+                coN: selectedRadio_CoN.value,
                 synTax: textareaObject.value,
             }
             calculation3ModelJson = JSON.stringify(calculation3Model);

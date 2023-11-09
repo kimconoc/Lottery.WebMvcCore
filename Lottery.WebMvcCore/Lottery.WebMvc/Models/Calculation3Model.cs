@@ -11,6 +11,7 @@
         public int CachTrungDaThang { get; set; }
         public int CachTrungDaXien { get; set; }
         public bool IsSave { get; set; }
+        public bool CoN { get; set; }
         public string SynTax { get; set; }
     }
 }
