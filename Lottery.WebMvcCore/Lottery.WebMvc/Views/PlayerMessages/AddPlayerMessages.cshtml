@@ -196,11 +196,16 @@
                             setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
                             if ('@user.UserAgent' == '@((int)UserAgentEnum.MobileIphone)')
                             {
-                                const textarea = document.createElement('textarea');
-                                textarea.value = synTaxValue;
-                                document.body.appendChild(textarea);
-                                textarea.select();
-                                document.body.removeChild(textarea);
+                                awesomeAlert({
+                                    header: false,
+                                    type: 'error',
+                                    title: '',
+                                    message: 'Lỗi cú pháp!',
+                                    //bgColor: '#2dd284',
+                                    img: '/assets/images/icon/error.svg',
+                                    buttonOK: 'Oke!',
+                                    closeStyle: 'circle'
+                                }).then(res => false)
                             }
                             //let timeoutID = setTimeout(function () {
                             //    setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
