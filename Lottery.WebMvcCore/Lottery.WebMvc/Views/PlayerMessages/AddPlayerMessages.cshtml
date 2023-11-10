@@ -48,69 +48,56 @@
             color: white !important;
         }
 
-        .e-radio + label.e-right.e-rtl .e-label {
-            color: white;
-            font-size: 17px;
-        }
-
-        .e-radio + label::before {
-            background-color: none;
-            border-color: #e3165b;
-        }
-
     </style>
 </head>
 <body>
     <header class="header-page">
         <div class="title-page">
-            <div class="box-title-page">
-                <div onclick="goToAddBackPage()" class="title-page-text">
-                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                    @{
-                        string titlePageGoBack = string.Empty;
-                        switch (Model.Region)
-                        {
-                            case (int)RegionEnum.MienNam:
-                                titlePageGoBack = RegionEnum.MienNam.GetDescription();
-                                break;
-                            case (int)RegionEnum.MienTrung:
-                                titlePageGoBack = RegionEnum.MienTrung.GetDescription();
-                                break;
-                            default:
-                                titlePageGoBack = RegionEnum.MienBac.GetDescription();
-                                break;
-                        }
-                        titlePageGoBack = string.Format(Model.NamePlayer + " - " + titlePageGoBack);
-                        @titlePageGoBack
-                        ;
+            <div onclick="goToAddBackPage()" class="title-page-text">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                @{
+                    string titlePageGoBack = string.Empty;
+                    switch (Model.Region)
+                    {
+                        case (int)RegionEnum.MienNam:
+                            titlePageGoBack = RegionEnum.MienNam.GetDescription();
+                            break;
+                        case (int)RegionEnum.MienTrung:
+                            titlePageGoBack = RegionEnum.MienTrung.GetDescription();
+                            break;
+                        default:
+                            titlePageGoBack = RegionEnum.MienBac.GetDescription();
+                            break;
                     }
-                </div>
-                
-                <div class="title-page-checkbox">
-                    <input type="radio" id="radiobutton_co_n">
-                    <input type="radio" id="radiobutton_ca_2">
-                </div>
+                    titlePageGoBack = string.Format(Model.NamePlayer + " - " + titlePageGoBack);
+                    @titlePageGoBack;
+                }
             </div>
         </div>
     </header>
     <div class="container-addPlayerMessages">
-        <div class="div-list-btn-event">
-            <button id="character_filtering"></button>
-            <button onclick="characterFilteringSyntax()" id="syntax_check"></button>
-            <button onclick="saveDataSyntax()" id="save_data"></button>
+        <div class="box-radio-checkbox">
+            <input type="radio" id="radiobutton_co_n">
+            <input type="radio" id="radiobutton_ca_2">
         </div>
-        <div class="div-text-import-multiline">
-            <textarea id="text_import_multiline" name="text"></textarea>
-        </div>
-        <div class="div-error-message">
-            <span id="error_message"></span>
-        </div>
-        <div style="margin-top:5px;display:none;" id="div_success_message">
-            <strong>
-                Ngày: @Model.HandlDate?.ToString("dd/MM/yyyy")
-            </strong>
-            <div style="margin-top:5px;" id="patial_message_detail">
-
+        <div style="padding:0px 10px 0px 10px">
+            <div class="div-list-btn-event">
+                <button id="character_filtering"></button>
+                <button onclick="characterFilteringSyntax()" id="syntax_check"></button>
+                <button onclick="saveDataSyntax()" id="save_data"></button>
+            </div>
+            <div class="div-text-import-multiline">
+                <textarea id="text_import_multiline" name="text"></textarea>
+            </div>
+            <div class="div-error-message">
+                <span id="error_message"></span>
+            </div>
+            <div style="margin-top:5px;display:none;" id="div_success_message">
+                <strong>
+                    Ngày: @Model.HandlDate?.ToString("dd/MM/yyyy")
+                </strong>
+                <div style="margin-top:5px;" id="patial_message_detail">
+                </div>
             </div>
         </div>
     </div>
