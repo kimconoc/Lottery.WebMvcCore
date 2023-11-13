@@ -18,12 +18,6 @@ namespace Lottery.DoMain.Models
         public string PhoneNumber { get; set; }
         public bool IsLoginSuccess { get; set; }
         public int UserAgent { get; set; }
-        //public List<PhonebookUser> Phonebooks { get; set; }
+        public bool IsAdmin { get; set; }
     }
-    //public class PhonebookUser
-    //{
-    //    public string Name { get; set; }
-    //    public string PhoneNumber { get; set; }
-    //    public bool IsChu { get; set; }
-    //}
 }

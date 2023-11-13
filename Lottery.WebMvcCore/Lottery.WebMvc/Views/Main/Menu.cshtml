@@ -37,6 +37,16 @@
                 <strong>Tài khoản: @string.Format(" " +user?.UserName)</strong>
             </div>
         </div>
+        @if(user.IsAdmin)
+        {
+            <div class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-cogs" aria-hidden="true"></i>
+                    <span>Quản Lý Tài Khoản</span>
+                </div>
+            </div>
+        }
         <div class="div-menu">
             <div class="border-bottom-row"></div>
             <div class="row-menu">
