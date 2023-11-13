@@ -22,6 +22,7 @@ namespace Lottery.WebMvc.Controllers
         {
             if (disposing)
             {
+                _memCached.Dispose();
                 _provider.Dispose();// = null;
                 //((IDisposable)provider).Dispose();
             }

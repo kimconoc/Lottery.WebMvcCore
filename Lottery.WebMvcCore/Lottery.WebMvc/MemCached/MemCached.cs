@@ -5,7 +5,9 @@ using Lottery.WebMvc.MemCached.Interface;
 using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 using System.Text.Json.Nodes;
 
 namespace Lottery.WebMvc.MemCached
@@ -17,6 +19,29 @@ namespace Lottery.WebMvc.MemCached
         public MemCached(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
+        }
+
+        // To detect redundant calls
+        private bool _disposedValue;
+
+        // Instantiate a SafeHandle instance.
+        private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
+
+        // Public implementation of Dispose pattern callable by consumers.
+        public void Dispose() => Dispose(true);
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _safeHandle.Dispose();
+                }
+
+                _disposedValue = true;
+            }
         }
 
         public void ExecuteSaveData(User userData)
