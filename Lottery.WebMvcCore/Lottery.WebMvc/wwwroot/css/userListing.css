@@ -1,1 +1,100 @@
-﻿
+﻿@media (min-width: 768px) {
+    .floating-button {
+        right: calc(100%/2 - 300px + 20px) !important;
+    }
+    /*ghi đè class css*/
+    .xdsoft_datetimepicker {
+        left: calc(100%/2 + 45px) !important;
+        top: 50px !important;
+    }
+}
+
+.container-userListing {
+    margin-top: 20px;
+}
+
+.div-list-userListing {
+    display: flex;
+    padding: 5px;
+    gap: 10px;
+    margin-bottom: -10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.avatar {
+    font-size: 35px;
+    display: flex;
+    justify-content: center;
+    color: rgba(0,0,0,.14);
+    margin-bottom: 20px;
+}
+
+.info-detail {
+    margin-top: 3px;
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+}
+
+.icon-danger-delete {
+    color: red;
+    position: absolute;
+    font-size: 22px;
+    top: 6px;
+    right: 115px;
+    cursor: pointer;
+}
+
+.icon-danger-refresh {
+    color: blue;
+    position: absolute;
+    font-size: 20px;
+    margin-top: -1px;
+    top: 8px;
+    right: 65px;
+    cursor: pointer;
+}
+
+.icon-danger-info {
+    color: #4286f4;
+    position: absolute;
+    font-size: 25px;
+    margin-top: -1px;
+    top: 6px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.status-dot {
+    position: absolute;
+    top: 28px;
+    left: 25px;
+    width: 15px;
+    height: 15px;
+    background-color: green;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #e3165b;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    line-height: 50px;
+    cursor: pointer;
+    border: none;
+    z-index: 999;
+}
+
+.btn-title-executionPlayer {
+    display: none;
+}
