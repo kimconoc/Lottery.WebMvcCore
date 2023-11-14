@@ -23,5 +23,10 @@ namespace Lottery.WebMvc.Controllers
             }
             return View(users);
         }
+
+        public IActionResult AddUser()
+        {
+            return View();
+        }
     }
 }
