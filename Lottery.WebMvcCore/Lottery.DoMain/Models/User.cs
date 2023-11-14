@@ -20,4 +20,12 @@ namespace Lottery.DoMain.Models
         public int UserAgent { get; set; }
         public bool IsAdmin { get; set; }
     }
+    public class UserManagement : VBaseModel<int>
+    {
+        public string Name { get; set; }
+        public string Account { get; set; }
+        public DateTime ExpireDate { get; set; }
+        public int Status { get; set; }
+        public string Note { get; set; }
+    }
 }

@@ -72,4 +72,15 @@ namespace Lottery.DoMain.Enum
         BaoBonCon = 14,
         BonConDao = 15,
     }
+    public enum ActiveStatusEnum
+    {
+        [Description("Hoạt động")]
+        Active = 0,
+        [Description("Sắp hết hạn")]
+        ToExpire = 1,
+        [Description("Hết hạn")]
+        Expire = 2,
+        [Description("Chưa dùng")]
+        NotUse = 3,
+    }
 }

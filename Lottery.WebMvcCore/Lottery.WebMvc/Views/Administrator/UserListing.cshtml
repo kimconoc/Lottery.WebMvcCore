@@ -1,1 +1,163 @@
-﻿
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@model List<UserManagement>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/userListing.css" rel="stylesheet" />
+    <style>
+        .container-userListing {
+            margin-top:20px;
+        }
+
+        .div-list-userListing {
+            display: flex;
+            padding: 5px;
+            gap: 10px;
+            margin-bottom: -10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .avatar {
+            font-size: 35px;
+            display: flex;
+            justify-content: center;
+            color: rgba(0,0,0,.14);
+            margin-bottom: 20px;
+        }
+
+        .info-detail {
+            margin-top: 3px;
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .icon-danger-delete {
+            color: red;
+            position: absolute;
+            font-size: 22px;
+            top: 6px;
+            right: 115px;
+            cursor: pointer;
+        }
+
+        .icon-danger-refresh {
+            color: blue;
+            position: absolute;
+            font-size: 20px;
+            margin-top: -1px;
+            top: 8px;
+            right: 65px;
+            cursor: pointer;
+        }
+
+        .icon-danger-info {
+            color: #4286f4;
+            position: absolute;
+            font-size: 25px;
+            margin-top: -1px;
+            top: 6px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container-userListing">
+        @{
+            if (Model == null || Model.Count == 0)
+            {
+                <div class="box-no-data-found">
+                    <img src="~/lottery/empty-order/empty-order.png">
+                    <span>Không có tài khoản</span>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <div class="div-list-userListing">
+                        <div class="avatar">
+                            <i class="fa fa-user-circle"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div class="info-detail">
+                                <strong style="font-size:18px;">@item.Name</strong>
+                                <span style="margin-top:5px;">@string.Format("Hết hạn: " + item.ExpireDate.ToString("dd/MM/yyyy"))</span>
+                            </div>
+                            <i id="@item.Id" onclick="deletePlayer(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                            <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id&isCopy=true';" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
+                            <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id';" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
+                            <div style="margin-bottom:20px;" class="border-bottom-row"></div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+    </div>
+    <script>
+        function deletePlayer(dom) {
+            if (confirm("Bạn muốn xóa người chơi này?")) {
+                executeConfirm(dom.id);
+            }
+        }
+
+        function executeConfirm(playerId) {
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                data:
+                {
+                    "playerId": playerId,
+                },
+                url: "@Url.Action("ExecuteDeletePlayer", "Phonebook")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Xóa người chơi thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location = "/Phonebook/ListPlayer")
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.Message)) {
+                            message = data.message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                },
+            })
+        }
+    </script>
+</body>
+</html>
