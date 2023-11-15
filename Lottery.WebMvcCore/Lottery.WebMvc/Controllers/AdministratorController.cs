@@ -31,6 +31,17 @@ namespace Lottery.WebMvc.Controllers
         {
             return View();
         }
+        public IActionResult ExtendExpireDate(int userId, string name, string account, DateTime expireDate)
+        {
+            UserManagement userManagement = new UserManagement()
+            {
+                Id= userId,
+                Name = name,
+                Account = account,
+                ExpireDate= expireDate
+            };
+            return View(userManagement);
+        }
 
         [HttpPost]
         public IActionResult ExecuteAddUser(string userManagementJson)
@@ -45,6 +56,27 @@ namespace Lottery.WebMvc.Controllers
                     return Json(Server_Error("Đã có lỗi xảy ra!"));
                 }
                 return Json(Success_Request(dataBase.Result.IsSuccessful));
+            }
+            catch (Exception ex)
+            {
+                return Json(Server_Error("Đã có lỗi hệ thông!"));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ExecuteExtendExpireDate(int userId, string strExtendExpireDate)
+        {
+            try
+            {
+                //var userManagementModel = JsonConvert.DeserializeObject<UserManagementModel>(userManagementJson);
+                //userManagementModel.ExpireDate = Constant.ConvertStringToDateTime(userManagementModel.StrExpireDate);
+                //var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminAdd, userManagementModel);
+                //if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
+                //{
+                //    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                //}
+                //return Json(Success_Request(dataBase.Result.IsSuccessful));
+                return Json(Server_Error("Đã có lỗi hệ thông!"));
             }
             catch (Exception ex)
             {

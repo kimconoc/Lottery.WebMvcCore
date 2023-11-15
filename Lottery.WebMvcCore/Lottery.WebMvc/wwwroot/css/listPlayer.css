@@ -26,31 +26,4 @@
     flex-flow: column;
 }
 
-.icon-danger-delete {
-    color: red;
-    position: absolute;
-    font-size: 22px;
-    top: 6px;
-    right: 115px;
-    cursor: pointer;
-}
 
-.icon-danger-copy {
-    color: blue;
-    position: absolute;
-    font-size: 20px;
-    margin-top: -1px;
-    top: 8px;
-    right: 65px;
-    cursor: pointer;
-}
-
-.icon-danger-info {
-    color: #4286f4;
-    position: absolute;
-    font-size: 25px;
-    margin-top: -1px;
-    top: 6px;
-    right: 10px;
-    cursor: pointer;
-}

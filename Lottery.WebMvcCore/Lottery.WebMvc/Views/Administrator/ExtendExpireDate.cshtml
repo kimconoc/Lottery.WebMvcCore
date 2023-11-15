@@ -5,14 +5,14 @@
 @{
     Layout = null;
 }
-
+@model UserManagement
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="~/css/addUser.css" rel="stylesheet" />
+    <link href="~/css/extendExpireDate.css" rel="stylesheet" />
     <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
     <script src="~/js/constant.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -71,7 +71,7 @@
                         <span>
                             Tên:
                         </span>
-                        <input tabindex="1" id="cr_name" required value="">
+                        <input tabindex="1" id="up_name" readonly required value="@Model.Name">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -79,7 +79,7 @@
                         <span>
                             Tài khoản:
                         </span>
-                        <input tabindex="1" id="cr_account" required value="">
+                        <input tabindex="1" id="up_account" readonly required value="@Model.Account">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -87,55 +87,31 @@
                         <span>
                             Hạn xử dụng:
                         </span>
-                        <input style="cursor:pointer;" tabindex="1" readonly id="cr_expireDate" required value="@DateTime.Now.ToString("dd/MM/yyyy")">
+                        <input tabindex="1" readonly id="up_expireDate" required value="@Model.ExpireDate.ToString("dd/MM/yyyy")">
                     </div>
                 </div>
                 <div class="div-row-input-val">
                     <div class="row row-input-val">
                         <span>
-                            Số điện thoại:
+                            Gia hạn:
                         </span>
-                        <input tabindex="1" id="cr_phoneNumber" value="">
+                        <input style="cursor:pointer;" tabindex="1" readonly id="up_extend_expireDate" required value="">
                     </div>
                 </div>
                 <div class="div-row-input-val">
                     <div class="row row-input-val">
-                        <span>
-                            Mật khẩu:
-                        </span>
-                        <input tabindex="1" id="cr_password" required value="">
-                    </div>
-                </div>
-                <div class="div-row-input-val">
-                    <div class="row row-input-val">
-                        <span>
-                            Nhập lại mật khẩu:
-                        </span>
-                        <input tabindex="1" id="cr_rePassword" required value="">
-                    </div>
-                </div>
-                <div class="div-row-input-val">
-                    <div class="row row-input-val">
-                        <span>
-                            Ghi chú:
-                        </span>
-                        <input tabindex="1" id="cr_note" value="">
-                    </div>
-                </div>
-                <div class="div-row-input-val">
-                    <div class="row row-input-val">
-                        <input type="submit" tabindex="1" value="Đăng ký">
+                        <input type="submit" tabindex="1" value="Cập nhật">
                     </div>
                 </div>
             </form>
-           
+
         </div>
-        <input id="datetimepicker" style="display:none;" type="text">
+        <input id="extenddatetimepicker" style="display:none;" type="text">
         <div id="datepicker_open"></div>
     </div>
     <script>
         jQuery.datetimepicker.setLocale('vi');
-        jQuery('#datetimepicker').datetimepicker({
+        jQuery('#extenddatetimepicker').datetimepicker({
             timepicker: false,
             value: '@DateTime.Now.ToString("yyyy/MM/dd HH:mm")',
             onShow: function (ct, input) {
@@ -145,34 +121,23 @@
                 document.getElementById("datepicker_open").classList.remove("datepicker-open");
             }
         });
-        $('#cr_expireDate').on('click', function () {
-            $('#datetimepicker').datetimepicker('show');
+        $('#up_extend_expireDate').on('click', function () {
+            $('#extenddatetimepicker').datetimepicker('show');
         });
-         $('#datetimepicker').on('change', function () {
+        $('#extenddatetimepicker').on('change', function () {
             var dateString = $(this).val();
             let dateParts = dateString.split(' ')[0].split('/');
             let formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
-            document.getElementById("cr_expireDate").value = formattedDate;
+            document.getElementById("up_extend_expireDate").value = formattedDate;
         });
 
         // Bắt sự kiện submit của biểu mẫu create
         document.getElementById("executeAddUserForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
 
-            if (document.getElementById("cr_password").value === document.getElementById("cr_rePassword").value) {
-
-            } else {
-                alert('Mật khẩu không khớp. Vui lòng nhập lại.');
-                return;
-            }
-
             var userManagementModel = {
-                name: document.getElementById("cr_name").value,
-                account: document.getElementById("cr_account").value,
-                strExpireDate: document.getElementById("datetimepicker").value,
-                phoneNumber: document.getElementById("cr_phoneNumber").value,
-                password: document.getElementById("cr_password").value,
-                note: document.getElementById("cr_note").value,
+                id:@Model.Id,
+                strExtendExpireDate: document.getElementById("extenddatetimepicker").value,
             }
 
             ShowOverlay(true);
@@ -181,7 +146,8 @@
                 type: "POST",
                 data:
                 {
-                    "userManagementJson": userManagementJson,
+                    userId: @Model.Id,
+                    strExtendExpireDate: @Model.Id,
                 },
                 url: "@Url.Action("ExecuteAddUser", "Administrator")",
                 success: function (data) {
