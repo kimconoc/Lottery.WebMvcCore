@@ -44,176 +44,10 @@
             padding: 0px 0px 0px 5px;
         }
 
-        .title-page {
-            padding: 3px 10px 3px 5px;
-            display: inline-block;
-        }
-
-        .title-page-text {
-            margin-top: 12px;
-            cursor: pointer;
-        }
-
-        .container-addUser {
-            display: flex;
-            flex-flow: column;
-            height: 85vh;
-            padding:10px;
-            padding-top:55px;
-        }
-
-        .div-form-account {
-            justify-content: center;
-            font-family: Roboto, Arial, sans-serif;
-            font-size: 15px;
-            background-color: white;
-            border: 5px solid #f1f1f1;
-        }
-
-        .icon-account {
-            font-size: 110px;
-            display: flex;
-            justify-content: center;
-            color: #4286f4;
-            margin-bottom: 20px;
-            margin-top:20px;
-        }
-
-        .wrapper {
-            width: 100%;
-            background: #fff;
-            border-radius: 5px;
-        }
-
-            .wrapper .title {
-                height: 55px;
-                background: #e3165b;
-                /*background: #16a085;*/
-                border-radius: 5px 5px 0 0;
-                color: #fff;
-                font-size: 30px;
-                font-weight: 600;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-                .wrapper .title span {
-                    font-size: 18px;
-                }
-
-            .wrapper form {
-                margin-top: 10px;
-                padding: 0px 10px 0px;
-            }
-
-                .wrapper form .row {
-                    font-size: 16px;
-                    height: 52px;
-                    margin-bottom: 15px;
-                    position: relative;
-                }
-
-                    .wrapper form .row input {
-                        font-size: 15px;
-                        height: 100%;
-                        width: 100%;
-                        outline: none;
-                        border-radius: 5px;
-                        border: 1px solid lightgrey;
-                        transition: all 0.3s ease;
-                    }
-
-        form .row input:focus {
-            border-color: #e3165b;
-            /*box-shadow: inset 0px 0px 2px 2px rgba(26,188,156,0.25);*/
-        }
-
-        form .row input::placeholder {
-            color: #999;
-        }
-
-        .wrapper form .row i {
-            position: absolute;
-            width: 47px;
-            height: 100%;
-            color: #fff;
-            background: #e3165b;
-            border: 1px solid #e3165b;
-            border-radius: 5px 0 0 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .wrapper form .pass {
-            margin: -8px 0 20px 0;
-        }
-
-            .wrapper form .pass a {
-                color: #e3165b;
-                text-decoration: none;
-            }
-
-                .wrapper form .pass a:hover {
-                    text-decoration: underline;
-                }
-
-        .wrapper form .button input {
-            margin-top: 10px;
-            color: #fff;
-            font-weight: 500;
-            padding-left: 0px;
-            background: #e3165b;
-            border: 1px solid #e3165b;
-            cursor: pointer;
-        }
-
-        form .button input:hover {
-            /*background: #12876f;*/
-        }
-
-        .wrapper form .signup-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-            .wrapper form .signup-link a {
-                color: #e3165b;
-                text-decoration: none;
-            }
-
-        form .signup-link a:hover {
-            text-decoration: underline;
-        }
-
-        .div-row-input-val {
-            display: flex;
-            gap: 20px;
-        }
-
-        .div-row-radio-cach-trung {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            margin-top: 5px;
-        }
-
-        .div-row-input-val-radio {
-            margin-bottom: 15px;
-        }
-
-        .div-row-span-title {
-            font-weight: 600;
-            font-size: 16px;
-            margin-left: -5px;
-            margin-top: 10px;
-            margin-bottom: 5px;
-        }
-
-        .row-input-val {
-            flex: 1;
-            display: flex;
-            flex-flow: column;
+        .xdsoft_datetimepicker {
+            left: 50% !important;
+            top: 250px !important;
+            margin-left: -120px !important;
         }
 
     </style>
@@ -228,7 +62,6 @@
         </div>
     </header>
     <div class="container-addUser">
-
         <div class="wrapper div-form-account">
             <div class="icon-account">
                 <i class="fa fa-user-circle"></i>
@@ -239,7 +72,7 @@
                         <span>
                             Tên:
                         </span>
-                        <input tabindex="1" id="cr_nPhanTramTong" required value="">
+                        <input tabindex="1" id="cr_name" required value="">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -247,7 +80,7 @@
                         <span>
                             Tài khoản:
                         </span>
-                        <input tabindex="1" id="cr_nPhanTramTong" required value="">
+                        <input tabindex="1" id="cr_account" required value="">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -255,7 +88,7 @@
                         <span>
                             Hạn xử dụng:
                         </span>
-                        <input tabindex="1" id="cr_nPhanTramTong" required value="">
+                        <input style="cursor:pointer;" tabindex="1" readonly id="cr_expireDate" required value="@DateTime.Now.ToString("dd/MM/yyyy")">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -263,7 +96,7 @@
                         <span>
                             Số điện thoại:
                         </span>
-                        <input tabindex="1" id="cr_nPhanTramTong" value="">
+                        <input tabindex="1" id="cr_phoneNumber" value="">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -271,7 +104,7 @@
                         <span>
                             Mật khẩu:
                         </span>
-                        <input tabindex="1" id="cr_nPhanTramTong" required value="">
+                        <input tabindex="1" id="cr_password" required value="">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -279,24 +112,49 @@
                         <span>
                             Nhập lại mật khẩu:
                         </span>
-                        <input tabindex="1" id="cr_nPhanTramTong" required value="">
+                        <input tabindex="1" id="cr_rePassword" required value="">
                     </div>
                 </div>
-                 <div class="div-row-input-val">
+                <div class="div-row-input-val">
                     <div class="row row-input-val">
                         <span>
                             Ghi chú:
                         </span>
-                        <input tabindex="1" id="cr_nPhanTramTong" value="">
+                        <input tabindex="1" id="cr_note" value="">
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <input type="submit" tabindex="1" value="Đăng ký">
                     </div>
                 </div>
             </form>
            
         </div>
-
+        <input id="datetimepicker" style="display:none;" type="text">
+        <div id="datepicker_open"></div>
     </div>
     <script>
-
+        jQuery.datetimepicker.setLocale('vi');
+        jQuery('#datetimepicker').datetimepicker({
+            timepicker: false,
+            value: '@DateTime.Now.ToString("yyyy/MM/dd HH:mm")',
+            onShow: function (ct, input) {
+                document.getElementById("datepicker_open").classList.add("datepicker-open");
+            },
+            onClose: function (current_time, input) {
+                document.getElementById("datepicker_open").classList.remove("datepicker-open");
+            }
+        });
+        $('#cr_expireDate').on('click', function () {
+            $('#datetimepicker').datetimepicker('show');
+        });
+         $('#datetimepicker').on('change', function () {
+            var dateString = $(this).val();
+            let dateParts = dateString.split(' ')[0].split('/');
+            let formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+            document.getElementById("cr_expireDate").value = formattedDate;
+        });
     </script>
 </body>
 </html>
