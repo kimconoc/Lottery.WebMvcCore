@@ -25,5 +25,6 @@ namespace Lottery.DoMain.Constant
         public const string POST_HandlMessageCountManyDay = "HandlMessage/count-many-day";
         public const string GET_AdminListing = "Admin/listing";
         public const string POST_AdminAdd = "Admin/add";
+        public const string DELETE_Admin = "Admin";
     }
 }

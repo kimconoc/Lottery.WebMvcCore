@@ -73,7 +73,7 @@
                                     <strong>@item.ExpireDate.ToString("dd/MM/yyyy")</strong>
                                 </span>
                             </div>
-                            <i id="@item.Id" onclick="deletePlayer(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                            <i id="@item.Id" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id&isCopy=true';" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id';" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
                             <div style="margin-bottom:20px;" class="border-bottom-row"></div>
@@ -86,22 +86,22 @@
         <button onclick="window.location.href='/Administrator/AddUser';" class="floating-button">+</button>
     </div>
     <script>
-        function deletePlayer(dom) {
-            if (confirm("Bạn muốn xóa người chơi này?")) {
+        function deleteUser(dom) {
+            if (confirm("Bạn muốn xóa tài khoản này?")) {
                 executeConfirm(dom.id);
             }
         }
 
-        function executeConfirm(playerId) {
+        function executeConfirm(userId) {
             ShowOverlay(true);
             $.ajax({
                 type: "POST",
                 traditional: true,
                 data:
                 {
-                    "playerId": playerId,
+                    "userId": userId,
                 },
-                url: "@Url.Action("ExecuteDeletePlayer", "Phonebook")",
+                url: "@Url.Action("ExecuteDeleteUser", "Administrator")",
                 success: function (data) {
                     hideOverlay();
                     if (data.success && data.data) {
@@ -109,12 +109,12 @@
                             header: true,
                             type: 'success',
                             title: 'Thành công!',
-                            message: 'Xóa người chơi thành công.',
+                            message: 'Xóa tài khoản thành công.',
                             //bgColor: '#2dd284',
                             img: '/assets/images/icon/success.svg',
                             buttonOK: 'Xong!',
                             closeStyle: 'circle'
-                        }).then(res => window.location = "/Phonebook/ListPlayer")
+                        }).then(res => window.location = "/Administrator/UserListing")
                     }
                     else {
                         var message = "Đã có lỗi xảy ra."
