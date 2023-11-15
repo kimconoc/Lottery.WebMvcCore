@@ -3,7 +3,10 @@ using Lottery.DoMain.Models;
 using Lottery.Service.ServiceProvider;
 using Lottery.Service.ServiceProvider.Interface;
 using Lottery.WebMvc.MemCached.Interface;
+using Lottery.WebMvc.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Data.SqlTypes;
 
 namespace Lottery.WebMvc.Controllers
 {
@@ -27,6 +30,26 @@ namespace Lottery.WebMvc.Controllers
         public IActionResult AddUser()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult ExecuteAddUser(string userManagementJson)
+        {
+            try
+            {
+                var userManagementModel = JsonConvert.DeserializeObject<UserManagementModel>(userManagementJson);
+                userManagementModel.ExpireDate = Constant.ConvertStringToDateTime(userManagementModel.StrExpireDate);
+                var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminAdd, userManagementModel);
+                if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
+                {
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                }
+                return Json(Success_Request(dataBase.Result.IsSuccessful));
+            }
+            catch (Exception ex)
+            {
+                return Json(Server_Error("Đã có lỗi hệ thông!"));
+            }
         }
     }
 }

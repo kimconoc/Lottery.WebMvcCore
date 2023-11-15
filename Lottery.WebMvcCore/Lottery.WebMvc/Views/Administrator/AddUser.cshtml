@@ -66,7 +66,7 @@
             <div class="icon-account">
                 <i class="fa fa-user-circle"></i>
             </div>
-            <form>
+            <form id="executeAddUserForm">
                 <div class="div-row-input-val">
                     <div class="row row-input-val">
                         <span>
@@ -154,6 +154,83 @@
             let dateParts = dateString.split(' ')[0].split('/');
             let formattedDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
             document.getElementById("cr_expireDate").value = formattedDate;
+        });
+
+        // Bắt sự kiện submit của biểu mẫu create
+        document.getElementById("executeAddUserForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
+
+            if (document.getElementById("cr_password").value === document.getElementById("cr_rePassword").value) {
+
+            } else {
+                alert('Mật khẩu không khớp. Vui lòng nhập lại.');
+                return;
+            }
+
+            var userManagementModel = {
+                name: document.getElementById("cr_name").value,
+                account: document.getElementById("cr_account").value,
+                strExpireDate: document.getElementById("cr_expireDate").value,
+                phoneNumber: document.getElementById("cr_phoneNumber").value,
+                password: document.getElementById("cr_password").value,
+                note: document.getElementById("cr_note").value,
+            }
+
+            ShowOverlay(true);
+            userManagementJson = JSON.stringify(userManagementModel);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "userManagementJson": userManagementJson,
+                },
+                url: "@Url.Action("ExecuteAddUser", "Administrator")",
+                success: function (data) {
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location = "/Administrator/UserListing")
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.message)) {
+                            message = data.message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    awesomeAlert({
+                        header: true,
+                        type: 'error',
+                        title: 'Có lỗi!',
+                        message: 'Lỗi hệ thống',
+                        //bgColor: '#2dd284',
+                        img: '/assets/images/icon/error.svg',
+                        buttonOK: 'Oke!',
+                        closeStyle: 'circle'
+                    }).then(res => false)
+                },
+                complete: function () {
+                    hideOverlay();
+                }
+            })
         });
     </script>
 </body>
