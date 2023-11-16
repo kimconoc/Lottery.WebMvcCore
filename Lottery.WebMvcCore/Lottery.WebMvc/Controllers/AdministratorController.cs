@@ -70,8 +70,8 @@ namespace Lottery.WebMvc.Controllers
             {
                 ExtendExpireDateModel extendExpireDateModel = new ExtendExpireDateModel()
                 {
-                    Id = userId,
-                    ExpireDate = Constant.ConvertStringToDateTime(strExtendExpireDate),
+                    UserId = userId,
+                    NewExpireDate = Constant.ConvertStringToDateTime(strExtendExpireDate),
 
                 };
 

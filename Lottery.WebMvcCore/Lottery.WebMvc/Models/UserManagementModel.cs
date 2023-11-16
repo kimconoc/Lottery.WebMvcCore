@@ -12,7 +12,7 @@
     }
     public class ExtendExpireDateModel
     {
-        public int Id { get; set; }
-        public DateTime ExpireDate { get; set; }
+        public int UserId { get; set; }
+        public DateTime NewExpireDate { get; set; }
     }
 }
