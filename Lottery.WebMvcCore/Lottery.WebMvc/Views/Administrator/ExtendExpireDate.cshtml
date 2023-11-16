@@ -134,29 +134,22 @@
         // Bắt sự kiện submit của biểu mẫu create
         document.getElementById("executeAddUserForm").addEventListener("submit", function (event) {
             event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
-
-            var userManagementModel = {
-                id:@Model.Id,
-                strExtendExpireDate: document.getElementById("extenddatetimepicker").value,
-            }
-
             ShowOverlay(true);
-            userManagementJson = JSON.stringify(userManagementModel);
             $.ajax({
                 type: "POST",
                 data:
                 {
                     userId: @Model.Id,
-                    strExtendExpireDate: @Model.Id,
+                    strExtendExpireDate: document.getElementById("extenddatetimepicker").value,
                 },
-                url: "@Url.Action("ExecuteAddUser", "Administrator")",
+                url: "@Url.Action("ExecuteExtendExpireDate", "Administrator")",
                 success: function (data) {
                     if (data.success && data.data) {
                         awesomeAlert({
                             header: true,
                             type: 'success',
                             title: 'Thành công!',
-                            message: 'Thành công.',
+                            message: 'Gia hạn thành công.',
                             //bgColor: '#2dd284',
                             img: '/assets/images/icon/success.svg',
                             buttonOK: 'Xong!',

@@ -68,15 +68,19 @@ namespace Lottery.WebMvc.Controllers
         {
             try
             {
-                //var userManagementModel = JsonConvert.DeserializeObject<UserManagementModel>(userManagementJson);
-                //userManagementModel.ExpireDate = Constant.ConvertStringToDateTime(userManagementModel.StrExpireDate);
-                //var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminAdd, userManagementModel);
-                //if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
-                //{
-                //    return Json(Server_Error("Đã có lỗi xảy ra!"));
-                //}
-                //return Json(Success_Request(dataBase.Result.IsSuccessful));
-                return Json(Server_Error("Đã có lỗi hệ thông!"));
+                ExtendExpireDateModel extendExpireDateModel = new ExtendExpireDateModel()
+                {
+                    Id = userId,
+                    ExpireDate = Constant.ConvertStringToDateTime(strExtendExpireDate),
+
+                };
+
+                var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminRenew, extendExpireDateModel);
+                if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
+                {
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                }
+                return Json(Success_Request(dataBase.Result.IsSuccessful));
             }
             catch (Exception ex)
             {

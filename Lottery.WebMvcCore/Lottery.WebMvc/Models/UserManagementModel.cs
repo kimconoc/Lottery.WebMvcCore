@@ -10,4 +10,9 @@
         public string Password { get; set; }
         public string Note { get; set; }
     }
+    public class ExtendExpireDateModel
+    {
+        public int Id { get; set; }
+        public DateTime ExpireDate { get; set; }
+    }
 }
