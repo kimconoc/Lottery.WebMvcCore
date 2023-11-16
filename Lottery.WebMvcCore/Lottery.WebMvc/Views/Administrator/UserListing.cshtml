@@ -15,44 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="~/css/userListing.css" rel="stylesheet" />
     <style>
-        .icon-danger-delete {
-            color: red;
-            position: absolute;
-            font-size: 22px;
-            top: 6px;
-            right: 150px;
-            cursor: pointer;
-        }
-
-        .icon-danger-refresh {
-            color: blue;
-            position: absolute;
-            font-size: 20px;
-            margin-top: -1px;
-            top: 8px;
-            right: 105px;
-            cursor: pointer;
-        }
-
-        .icon-danger-expireDate {
-            color: #4286f4;
-            position: absolute;
-            font-size: 25px;
-            margin-top: -1px;
-            top: 6px;
-            right: 60px;
-            cursor: pointer;
-        }
-
-        .icon-danger-password {
-            color: #4286f4;
-            position: absolute;
-            font-size: 25px;
-            margin-top: -1px;
-            top: 6px;
-            right: 10px;
-            cursor: pointer;
-        }
+        
     </style>
 </head>
 <body>
@@ -86,7 +49,7 @@
                             txtStatus = ActiveStatusEnum.Expire.GetDescription();
                             break;
                         default:
-                            colorStatus = "#00BCD4";
+                            colorStatus = "#9E9E9E";
                             txtStatus = ActiveStatusEnum.NotUse.GetDescription();
                             break;
                     }
