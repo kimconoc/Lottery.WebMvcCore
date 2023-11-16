@@ -15,4 +15,9 @@
         public int UserId { get; set; }
         public DateTime NewExpireDate { get; set; }
     }
+    public class NewPassModel
+    {
+        public int UserId { get; set; }
+        public string NewPass { get; set; }
+    }
 }

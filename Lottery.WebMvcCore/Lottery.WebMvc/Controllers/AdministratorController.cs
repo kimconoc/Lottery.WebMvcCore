@@ -31,17 +31,6 @@ namespace Lottery.WebMvc.Controllers
         {
             return View();
         }
-        public IActionResult ExtendExpireDate(int userId, string name, string account, DateTime expireDate)
-        {
-            UserManagement userManagement = new UserManagement()
-            {
-                Id= userId,
-                Name = name,
-                Account = account,
-                ExpireDate= expireDate
-            };
-            return View(userManagement);
-        }
 
         [HttpPost]
         public IActionResult ExecuteAddUser(string userManagementJson)
@@ -63,6 +52,18 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
+        public IActionResult ExtendExpireDate(int userId, string name, string account, DateTime expireDate)
+        {
+            UserManagement userManagement = new UserManagement()
+            {
+                Id = userId,
+                Name = name,
+                Account = account,
+                ExpireDate = expireDate
+            };
+            return View(userManagement);
+        }
+
         [HttpPost]
         public IActionResult ExecuteExtendExpireDate(int userId, string strExtendExpireDate)
         {
@@ -76,6 +77,42 @@ namespace Lottery.WebMvc.Controllers
                 };
 
                 var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminRenew, extendExpireDateModel);
+                if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
+                {
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                }
+                return Json(Success_Request(dataBase.Result.IsSuccessful));
+            }
+            catch (Exception ex)
+            {
+                return Json(Server_Error("Đã có lỗi hệ thông!"));
+            }
+        }
+
+        public IActionResult ChangePassword(int userId, string name, string account)
+        {
+            UserManagement userManagement = new UserManagement()
+            {
+                Id = userId,
+                Name = name,
+                Account = account,
+            };
+            return View(userManagement);
+        }
+
+        [HttpPost]
+        public IActionResult ExecuteChangePassword(int userId, string newPass)
+        {
+            try
+            {
+                NewPassModel newPassModel = new NewPassModel()
+                {
+                    UserId = userId,
+                    NewPass = newPass,
+
+                };
+
+                var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminChangePass, newPassModel);
                 if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));
