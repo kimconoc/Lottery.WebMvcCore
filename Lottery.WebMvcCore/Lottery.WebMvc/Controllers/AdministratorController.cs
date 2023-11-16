@@ -126,6 +126,17 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
+        public IActionResult ExecuteRefreshImeiUser(int userId)
+        {
+            var dataBase = _provider.GetAsync<object>(string.Format(ApiUri.POST_AdminReset + "/{0}", userId));
+            if (dataBase != null && dataBase.Result != null && dataBase.Result.IsSuccessful)
+            {
+                return Json(Success_Request(dataBase.Result.IsSuccessful));
+            }
+            return View(Server_Error());
+        }
+
+        [HttpPost]
         public IActionResult ExecuteDeleteUser(int userId)
         {
             var dataBase = _provider.DeleteAsync(string.Format(ApiUri.DELETE_Admin + "/{0}", userId));

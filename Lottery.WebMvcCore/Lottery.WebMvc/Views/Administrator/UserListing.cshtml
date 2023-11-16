@@ -74,7 +74,7 @@
                                 </span>
                             </div>
                             <i id="@item.Id" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                            <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id&isCopy=true';" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
+                            <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
                             <div style="margin-bottom:20px;" class="border-bottom-row"></div>
@@ -89,11 +89,11 @@
     <script>
         function deleteUser(dom) {
             if (confirm("Bạn muốn xóa tài khoản này?")) {
-                executeConfirm(dom.id);
+                executeDeleteUser(dom.id);
             }
         }
 
-        function executeConfirm(userId) {
+        function executeDeleteUser(userId) {
             ShowOverlay(true);
             $.ajax({
                 type: "POST",
@@ -111,6 +111,56 @@
                             type: 'success',
                             title: 'Thành công!',
                             message: 'Xóa tài khoản thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location = "/Administrator/UserListing")
+                    }
+                    else {
+                        var message = "Đã có lỗi xảy ra."
+                        if (!isNullOrEmpty(data.Message)) {
+                            message = data.message;
+                        }
+                        awesomeAlert({
+                            header: true,
+                            type: 'error',
+                            title: 'Có lỗi!',
+                            message: message,
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/error.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false)
+                    }
+                },
+            })
+        }
+
+        function refreshImeiUser(dom) {
+            if (confirm("Bạn muốn làm mới Imei tài khoản này?")) {
+                executeRefreshImeiUser(dom.id);
+            }
+        }
+
+        function executeRefreshImeiUser(userId) {
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                data:
+                {
+                    "userId": userId,
+                },
+                url: "@Url.Action("ExecuteRefreshImeiUser", "Administrator")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Làm mới Imei thành công.',
                             //bgColor: '#2dd284',
                             img: '/assets/images/icon/success.svg',
                             buttonOK: 'Xong!',

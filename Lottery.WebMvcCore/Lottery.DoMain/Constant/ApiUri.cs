@@ -27,6 +27,7 @@ namespace Lottery.DoMain.Constant
         public const string POST_AdminAdd = "Admin/add";
         public const string DELETE_Admin = "Admin";
         public const string POST_AdminRenew = "Admin/Renew";
+        public const string POST_AdminReset = "Admin/Reset";
         public const string POST_AdminChangePass = "Admin/change-pass";
     }
 }
