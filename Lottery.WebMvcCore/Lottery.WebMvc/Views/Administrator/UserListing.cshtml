@@ -72,6 +72,13 @@
                                     Hết hạn:
                                     <strong>@item.ExpireDate.ToString("dd/MM/yyyy")</strong>
                                 </span>
+                                @if (!string.IsNullOrEmpty(item.Note))
+                                {
+                                    <span style="margin-top:5px;">
+                                        Ghi chú:
+                                        <span>@item.Note</span>
+                                    </span>
+                                }  
                             </div>
                             <i id="@item.Id" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
                             <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
