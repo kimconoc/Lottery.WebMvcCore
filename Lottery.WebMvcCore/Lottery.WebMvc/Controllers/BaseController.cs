@@ -41,7 +41,16 @@ namespace Lottery.WebMvc.Controllers
             if ((controller != null && userData == null && !context.HttpContext.Request.Path.Equals("/Account/Login") && !context.HttpContext.Request.Path.Equals("/Account/ExecuteLogin"))
                 || (userData != null && !userData.IsAdmin && (context.HttpContext.Request.Path.Equals("/Administrator/UserListing") || context.HttpContext.Request.Path.Equals("/Administrator/AddUser") || context.HttpContext.Request.Path.Equals("/Administrator/ExtendExpireDate") || context.HttpContext.Request.Path.Equals("/Administrator/ChangePassword"))))
             {
-                context.Result = new RedirectResult("/Account/Login");
+                if (context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    // Xử lý chuyển hướng Ajax bằng cách trả về một phản hồi JSON
+                    context.Result = new JsonResult(new { redirectTo = "/Account/Login" });
+                }
+                else
+                {
+                    // Xử lý chuyển hướng thông thường
+                    context.Result = new RedirectResult("/Account/Login");
+                }
                 return;
             }
 

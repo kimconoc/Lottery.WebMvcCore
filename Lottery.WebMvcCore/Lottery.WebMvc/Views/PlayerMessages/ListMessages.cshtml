@@ -174,20 +174,25 @@
                         }).then(res => window.location.reload())
                     }
                     else {
-                        var message = "Đã có lỗi xảy ra."
-                        if (!isNullOrEmpty(data.Message)) {
-                            message = data.message;
+                        if (data.redirectTo) {
+                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Đã có lỗi xảy ra."
+                            if (!isNullOrEmpty(data.message)) {
+                                message = data.message;
+                            }
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: message,
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
                         }
-                        awesomeAlert({
-                            header: true,
-                            type: 'error',
-                            title: 'Có lỗi!',
-                            message: message,
-                            //bgColor: '#2dd284',
-                            img: '/assets/images/icon/error.svg',
-                            buttonOK: 'Oke!',
-                            closeStyle: 'circle'
-                        }).then(res => false)
                     }
                 },
             })
