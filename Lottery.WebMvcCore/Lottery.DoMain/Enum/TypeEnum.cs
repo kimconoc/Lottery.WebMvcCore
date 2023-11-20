@@ -71,6 +71,14 @@ namespace Lottery.DoMain.Enum
         XcDao = 13,
         BaoBonCon = 14,
         BonConDao = 15,
+        [Description("Bao{0}LoDau")]
+        BaoLoDau = 16,
+        [Description("Bao{0}LoDuoi")]
+        BaoLoDuoi = 17,
+        [Description("Bao{0}BaConDau")]
+        BaoBaConDau = 18,
+        [Description("Bao{0}BaConDuoi")]
+        BaoBaConDuoi = 19,
     }
     public enum ActiveStatusEnum
     {

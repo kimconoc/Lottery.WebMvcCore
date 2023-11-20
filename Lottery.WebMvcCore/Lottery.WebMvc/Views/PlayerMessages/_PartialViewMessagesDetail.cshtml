@@ -2,6 +2,7 @@
 @using Lottery.DoMain.Models;
 @using System;
 @using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Extentions;
 @model Cal3DetailDto
 <style>
 
@@ -150,7 +151,30 @@
                                 <tr style="color:#e3165b;">
                                     <td>@item.Dai</td>
                                     <td>@string.Join(", ", item.So)</td>
-                                    <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    @if (item.CachChoi >= (int)CachChoiEnum.BaoLoDau)
+                                    {
+                                        string cachChoi = string.Empty;
+                                        switch (item.CachChoi)
+                                        {
+                                            case (int)CachChoiEnum.BaoLoDau:
+                                                cachChoi = string.Format(CachChoiEnum.BaoLoDau.GetDescription(), item.SlBaoLo);
+                                                break;
+                                            case (int)CachChoiEnum.BaoLoDuoi:
+                                                cachChoi = string.Format(CachChoiEnum.BaoLoDuoi.GetDescription(), item.SlBaoLo);
+                                                break;
+                                            case (int)CachChoiEnum.BaoBaConDau:
+                                                cachChoi = string.Format(CachChoiEnum.BaoBaConDau.GetDescription(), item.SlBaoLo);
+                                                break;
+                                            default:
+                                                cachChoi = string.Format(CachChoiEnum.BaoBaConDuoi.GetDescription(), item.SlBaoLo);
+                                                break;
+                                        }
+                                        <td>@cachChoi</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    }
                                     <td>@item.SoTien</td>
                                 </tr>
                             }
@@ -159,7 +183,30 @@
                                  <tr>
                                     <td>@item.Dai</td>
                                     <td>@string.Join(", ", item.So)</td>
-                                    <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    @if (item.CachChoi >= (int)CachChoiEnum.BaoLoDau)
+                                    {
+                                        string cachChoi = string.Empty;
+                                        switch (item.CachChoi)
+                                        {
+                                            case (int)CachChoiEnum.BaoLoDau:
+                                                cachChoi = string.Format(CachChoiEnum.BaoLoDau.GetDescription(), item.SlBaoLo);
+                                                break;
+                                            case (int)CachChoiEnum.BaoLoDuoi:
+                                                cachChoi = string.Format(CachChoiEnum.BaoLoDuoi.GetDescription(), item.SlBaoLo);
+                                                break;
+                                            case (int)CachChoiEnum.BaoBaConDau:
+                                                cachChoi = string.Format(CachChoiEnum.BaoBaConDau.GetDescription(), item.SlBaoLo);
+                                                break;
+                                            default:
+                                                cachChoi = string.Format(CachChoiEnum.BaoBaConDuoi.GetDescription(), item.SlBaoLo);
+                                                break;
+                                        }
+                                        <td>@cachChoi</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    }
                                     <td>@item.SoTien</td>
                                 </tr>
                             }

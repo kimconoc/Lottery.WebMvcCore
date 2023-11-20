@@ -31,6 +31,7 @@ namespace Lottery.DoMain.Models
         public int CachChoi { get; set; }
         public double SoTien { get; set; }
         public double SlTrung { get; set; }
+        public int SlBaoLo { get; set; }
     }
     public class Summary
     {
