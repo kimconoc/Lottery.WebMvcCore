@@ -59,6 +59,30 @@ namespace Lottery.WebMvc.Controllers
             // Đoạn code sau khi action được thực thi
         }
 
+        protected void ExecuteSaveDateSession(DateTime date)
+        {
+            string jsonDate = JsonConvert.SerializeObject(date);
+            HttpContext.Session.SetString(Default.Get_Signin_Date, jsonDate);
+        }
+
+        protected DateTime GetDateSession()
+        {
+            DateTime date = DateTime.Now;
+            try
+            {
+                string jsonValue = HttpContext.Session.GetString(Default.Get_Signin_Date);
+                if (!string.IsNullOrEmpty(jsonValue))
+                {
+                    date = JsonConvert.DeserializeObject<DateTime>(jsonValue);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return date;
+        }
+
         protected DataResponse<TRequest> Success_Request<TRequest>(TRequest data)
         {
             return new DataResponse<TRequest>()

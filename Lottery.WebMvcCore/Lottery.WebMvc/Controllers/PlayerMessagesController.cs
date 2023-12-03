@@ -27,6 +27,14 @@ namespace Lottery.WebMvc.Controllers
         {
             MessgeByDay messgeByDay = new MessgeByDay();
             DateTime dateTime = Constant.ConvertStringToDateTime(strDateTime);
+            if (string.IsNullOrEmpty(strDateTime))
+            {
+                dateTime = GetDateSession();
+            }    
+            else
+            {
+                ExecuteSaveDateSession(dateTime);
+            }    
             MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
             {
                 HandlDate = dateTime,
