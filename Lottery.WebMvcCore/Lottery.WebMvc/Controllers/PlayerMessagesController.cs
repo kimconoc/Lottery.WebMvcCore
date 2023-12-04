@@ -156,11 +156,13 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult DELETEHandlMessage(int messageId)
+        public IActionResult DELETEHandlMessage(string listmessageIdJson)
         {
             try
             {
-                var dataBase = _provider.DeleteAsync(string.Format(ApiUri.DELETE_HandlMessage + "/{0}", messageId));
+                var listmessageId = JsonConvert.DeserializeObject<List<int>>(listmessageIdJson);
+                DeleteMulti deleteMulti = new DeleteMulti() { Ids = listmessageId };
+                var dataBase = _provider.PostAsync<object>(ApiUri.DELETE_HandlMessageDelete_Multi, deleteMulti);
                 if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));

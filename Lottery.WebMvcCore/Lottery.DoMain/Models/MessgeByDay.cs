@@ -51,4 +51,9 @@ namespace Lottery.DoMain.Models
         public double BonCon { get; set; }
     }
 
+    public class DeleteMulti
+    {
+        public List<int> Ids { get ; set; }
+    }
+
 }

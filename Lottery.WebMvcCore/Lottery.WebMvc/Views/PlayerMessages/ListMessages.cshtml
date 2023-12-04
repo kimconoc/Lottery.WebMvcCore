@@ -42,7 +42,12 @@
     <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
     <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
-        
+        .e-checkbox-wrapper .e-frame, .e-css.e-checkbox-wrapper .e-frame {
+            background-color: #fff;
+            border-color: blue;
+            width: 20px;
+            height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -68,6 +73,14 @@
                     @titlePageGoBack;
                 }
             </div>
+
+            <button class="button-icon-danger title-page-btn">
+                <i onclick="deleteMessage()" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+            </button>
+
+            <button onclick="executionMessageCopy()" class="button-icon-danger title-page-btn">
+                <i class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
+            </button>
 
             <button class="somebutton title-page-btn">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -102,8 +115,9 @@
                                     @item.Message
                                 </div>
                             </div>
-                            <i id="delete-@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                            <i id="copy-@item.ID" onclick="executionMessageCopy(this)" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
+                            <div class="input-check-box">
+                                <input id="checkbox-@item.ID" type="checkbox" />
+                            </div>
                             <i id="edit-@item.ID" onclick="executionMessageEdit(this)" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
                             <div style="margin-bottom:20px;" class="border-bottom-row"></div>
                         </div>
@@ -117,6 +131,14 @@
     <script>
         var model1 = @Html.Raw(serializedModel1);
         var model2 = @Html.Raw(serializedModel2);
+
+        var prefix = "checkbox-";
+        for (let i = 0; i < model2.length; i++) {
+            var idCheckbox = prefix + model2[i].ID
+            var checkbox = new ej.buttons.CheckBox();
+            checkbox.appendTo('#' + idCheckbox);
+        }
+
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
@@ -143,20 +165,36 @@
         });
 
         function deleteMessage(dom) {
-            var prefix = "delete-";
-            var id = dom.id.substring(prefix.length);
-            if (confirm("Bạn muốn xóa tin nhắn này?")) {
-                executeConfirm(id);
+            var prefix = "checkbox-";
+            var listmessageId = [];
+            var isSelectedCheckbox = false;
+            for (let i = 0; i < model2.length; i++) {
+                var idCheckbox = prefix + model2[i].ID
+                var checkbox = document.getElementById(idCheckbox);
+                if (checkbox.checked) {
+                    listmessageId.push(model2[i].ID);
+                    isSelectedCheckbox = true;
+                }
             }
+
+            if (!isSelectedCheckbox) {
+                showToasinette_Error_Bottom_Center('Vui lòng chọn tin nhắn!');
+                return;
+            }
+
+            if (confirm("Bạn muốn xóa tin nhắn này?")) {
+                executeConfirm(listmessageId);
+            }  
         }
-        function executeConfirm(messageId) {
+        function executeConfirm(listmessageId) {
+            listmessageIdModelJson = JSON.stringify(listmessageId);
             ShowOverlay(true);
             $.ajax({
                 type: "POST",
                 traditional: true,
                 data:
                 {
-                    "messageId": messageId,
+                    "listmessageIdJson": listmessageIdModelJson,
                 },
                 url: "@Url.Action("DELETEHandlMessage", "PlayerMessages")",
                 success: function (data) {
@@ -198,15 +236,22 @@
             })
         }
         
-        function executionMessageCopy(dom) {
-            var prefix = "copy-";
-            var id = dom.id.substring(prefix.length);
+        function executionMessageCopy() {
+            var prefix = "checkbox-";
             var synTaxValue = "";
+            var isSelectedCheckbox = false;
             for (let i = 0; i < model2.length; i++) {
-                if (model2[i].ID == id) {
-                    synTaxValue = model2[i].Message;
-                    break
+                var idCheckbox = prefix + model2[i].ID
+                var checkbox = document.getElementById(idCheckbox);
+                if (checkbox.checked)
+                {
+                    synTaxValue = synTaxValue + model2[i].Message + "\n" ;
+                    isSelectedCheckbox = true;
                 }
+            }
+            if (!isSelectedCheckbox){
+                showToasinette_Error_Bottom_Center('Vui lòng chọn tin nhắn!');
+                return;
             }
             const textarea = document.createElement('textarea');
             textarea.value = synTaxValue;

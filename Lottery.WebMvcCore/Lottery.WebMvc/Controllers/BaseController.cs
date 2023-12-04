@@ -67,7 +67,7 @@ namespace Lottery.WebMvc.Controllers
 
         protected DateTime GetDateSession()
         {
-            DateTime date = DateTime.Now;
+            DateTime date = Constant.ConvertStringToDateTime();
             try
             {
                 string jsonValue = HttpContext.Session.GetString(Default.Get_Signin_Date);
@@ -81,6 +81,11 @@ namespace Lottery.WebMvc.Controllers
                 throw ex;
             }
             return date;
+        }
+
+        public void RemoveSavedDateSession()
+        {
+            HttpContext.Session.Remove(Default.Get_Signin_Date);
         }
 
         protected DataResponse<TRequest> Success_Request<TRequest>(TRequest data)

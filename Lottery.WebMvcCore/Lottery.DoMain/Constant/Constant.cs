@@ -26,5 +26,10 @@ namespace Lottery.DoMain.Constant
 
             return result;
         }
+        public static DateTime ConvertStringToDateTime()
+        {
+            DateTime now = DateTime.Now;
+            return new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
+        }
     }
 }

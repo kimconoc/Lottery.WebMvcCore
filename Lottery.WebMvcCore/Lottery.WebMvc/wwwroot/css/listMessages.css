@@ -19,8 +19,8 @@
 
 .title-page {
     padding: 3px 10px 3px 5px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
 }
 
 .title-page-text {
@@ -36,6 +36,7 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+    margin-left: auto;
 }
 
     .somebutton i {
@@ -80,23 +81,33 @@
     flex-flow: column;
 }
 
+.button-icon-danger {
+    display: flex;
+    flex-flow: column;
+}
+
 .icon-danger-delete {
-    color: red;
-    position: absolute;
-    font-size: 22px;
-    top: 6px;
-    right: 115px;
+    color: white;
+    font-size: 30px;
     cursor: pointer;
+    margin-top: 5px;
 }
 
 .icon-danger-copy {
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+    margin-top: 7px;
+}
+
+.input-check-box {
     color: blue;
     position: absolute;
     font-size: 20px;
-    margin-top: -1px;
-    top: 8px;
-    right: 65px;
+    top: 4px;
+    right: 80px;
     cursor: pointer;
+    border-color: none;
 }
 
 .icon-danger-info {
@@ -108,3 +119,5 @@
     right: 10px;
     cursor: pointer;
 }
+
+
