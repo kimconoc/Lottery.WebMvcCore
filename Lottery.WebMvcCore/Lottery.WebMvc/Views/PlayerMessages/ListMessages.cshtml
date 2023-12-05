@@ -82,6 +82,10 @@
                 <i class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
             </button>
 
+            <button onclick="executionCheckboxAll()" class="button-icon-danger title-page-btn">
+                <i class="icon-danger-checkbox-all fa fa-check-square-o" aria-hidden="true"></i>
+            </button>
+
             <button class="somebutton title-page-btn">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
                 <span>@Model.Item1.HandlDate?.ToString("dd/MM/yyyy")</span>
@@ -99,11 +103,21 @@
             }
             else
             {
+                int row = 0;
                 foreach (var item in Model.Item2)
                 {
+                    row++;
                     <div class="div-list-message">
-                        <div class="avatar">
+                        <div class="box-icon-msg">
                             <i class="fa fa-comments-o"></i>
+                            @if (row < 10)
+                            {
+                                <strong>@row</strong>
+                            }
+                            else
+                            {
+                                <strong style="left:6px">@row</strong>
+                            }
                         </div>
                         <div style="flex: 1;">
                             <div class="info-detail">
@@ -270,6 +284,17 @@
                 showToasinette_Error_Bottom_Center(msg);
             }
             document.body.removeChild(textarea);
+        }
+
+        function executionCheckboxAll(){
+            var prefix = "checkbox-";
+            for (let i = 0; i < model2.length; i++) {
+                var idCheckbox = prefix + model2[i].ID
+                var checkbox = document.getElementById(idCheckbox).ej2_instances[0];
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            }
         }
 
         function executionMessageEdit(dom) {

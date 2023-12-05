@@ -20,7 +20,7 @@
 .title-page {
     padding: 3px 10px 3px 5px;
     display: grid;
-    grid-template-columns: 3fr 1fr 1fr 1fr;
+    grid-template-columns: 2.5fr 0.75fr 0.75fr 0.75fr 1fr;
 }
 
 .title-page-text {
@@ -65,14 +65,22 @@
     position: relative;
 }
 
-.avatar {
-    font-size: 35px;
+.box-icon-msg {
+    font-size: 40px;
     justify-content: center;
     color: rgba(0,0,0,.14);
     position: absolute;
     left:0;
     top:0;
 }
+
+    .box-icon-msg strong {
+        color: #e3165b;
+        left: 11px;
+        top: 10px;
+        position: absolute;
+        font-size: 18px;
+    }
 
 .info-detail {
     margin-top: 3px;
@@ -88,23 +96,30 @@
 
 .icon-danger-delete {
     color: white;
-    font-size: 30px;
+    font-size: 28px;
     cursor: pointer;
-    margin-top: 5px;
+    margin-top: 6px;
 }
 
 .icon-danger-copy {
     color: white;
+    font-size: 24px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.icon-danger-checkbox-all {
+    color: white;
     font-size: 27px;
     cursor: pointer;
-    margin-top: 7px;
+    margin-top: 8px;
 }
 
 .input-check-box {
     color: blue;
     position: absolute;
     font-size: 20px;
-    top: 3px;
+    top: 2px;
     right: 80px;
     cursor: pointer;
     border-color: none;
