@@ -310,20 +310,25 @@
             const textarea = document.createElement('textarea');
             textarea.value = synTaxValue;
             document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                var successful = document.execCommand('copy');
-                var msg = successful ? 'Đã sao chép nội dung tin nhắn.' : 'Trình duyệt chặn sao chép.';
-                if (successful) {
-                    showToasinette_Success_Bottom_Center(msg);
+            // Sử dụng requestAnimationFrame để giảm giật màn hình
+            requestAnimationFrame(() => {
+                textarea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    var msg = successful ? 'Đã sao chép nội dung tin nhắn.' : 'Trình duyệt chặn sao chép.';
+                    if (successful) {
+                        showToasinette_Success_Bottom_Center(msg);
+                    } else {
+                        showToasinette_Error_Bottom_Center(msg);
+                    }
+                } catch (err) {
+                    showToasinette_Error_Bottom_Center('Lỗi khi thực hiện sao chép: ' + err);
+                } finally {
+                    textarea.style.display = 'none';
+                    document.body.removeChild(textarea);
                 }
-                else {
-                    showToasinette_Error_Bottom_Center(msg);
-                }
-            } catch (err) {
-                showToasinette_Error_Bottom_Center(msg);
-            }
-            document.body.removeChild(textarea);
+            });
         }
 
         function executionCheckboxAll(argsChecked) {
