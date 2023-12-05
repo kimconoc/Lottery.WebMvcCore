@@ -19,8 +19,8 @@
 
 .title-page {
     padding: 3px 10px 3px 5px;
-    display: grid;
-    grid-template-columns: 2.5fr 0.75fr 0.75fr 0.75fr 1fr;
+    display: flex;
+    justify-content: space-between;
 }
 
 .title-page-text {
@@ -29,7 +29,7 @@
 }
 
 .container-listMessages {
-    padding: 65px 10px 0px 10px;
+    padding: 45px 0px 0px 0px;
 }
 
 .somebutton {
@@ -46,6 +46,11 @@
     .somebutton span {
         font-size: 16px;
     }
+
+.box-message-content {
+    padding: 10px;
+    margin-top: 10px;
+}
 
 .mainContent-message {
     margin-top: 5px;
@@ -89,30 +94,42 @@
     flex-flow: column;
 }
 
-.button-icon-danger {
+.box-event-header {
+    background-color: #dee8fc;
     display: flex;
-    flex-flow: column;
+    height: 42px;
+    align-items: center;
+    justify-content: end;
+    padding-right: 20px;
+    gap: 50px;
+    width: 100%;
+}
+
+.button-icon-danger {
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-align: end;
 }
 
 .icon-danger-delete {
-    color: white;
+    color: #e3165b;
     font-size: 28px;
     cursor: pointer;
-    margin-top: 6px;
 }
 
 .icon-danger-copy {
-    color: white;
+    color: #e3165b;
     font-size: 24px;
     cursor: pointer;
-    margin-top: 8px;
 }
 
 .icon-danger-checkbox-all {
-    color: white;
+    color: #e3165b;
     font-size: 27px;
     cursor: pointer;
-    margin-top: 8px;
 }
 
 .input-check-box {
