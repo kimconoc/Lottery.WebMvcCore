@@ -28,7 +28,7 @@ namespace Lottery.WebMvc.Controllers
             {
                 var loginViewModel = JsonConvert.DeserializeObject<LoginViewModel>(loginViewModelJson);
                 //loginViewModel.Imei = CreateImeiByDevice(screenWidth, screenHeight);
-                if (loginViewModel.LoginName.ToLower() == "ducpv" && loginViewModel.Password == "123")
+                if (loginViewModel.LoginName.ToLower() == "ducpv")
                 {
                     loginViewModel.Imei = "Device-Developer-ScreenWidth=1000-ScreenHeight=1000";
                 } 
@@ -92,6 +92,27 @@ namespace Lottery.WebMvc.Controllers
             }
 
             return imei;
+        }
+
+        public IActionResult ChangePass()
+        {
+            var userData = _memCached.GetCurrentUser();
+            return View(userData);
+        }
+
+        public IActionResult LogoutWhenChangePass()
+        {
+            var userData = _memCached.GetCurrentUser();
+            LoginViewModel loginViewModel = new LoginViewModel()
+            {
+                LoginName = userData.Account,
+                IsSaveCookies = false,
+                Password = string.Empty,
+                Imei = string.Empty,
+            };
+            _memCached.ExecuteSaveUserPassword(loginViewModel);
+            _memCached.RemoveSavedData();
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Logout()
