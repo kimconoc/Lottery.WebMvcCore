@@ -172,7 +172,7 @@ function showToasinette_Error_Bottom_Center(content) {
         message: content,
         type: 'error',
         autoClose: 5000,
-        progress: true
+        progress: false
     });
 }
 /*Notification-Prompt-Boxes-master*/

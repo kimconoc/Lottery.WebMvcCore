@@ -118,6 +118,7 @@ namespace Lottery.WebMvc.Controllers
         public IActionResult Logout()
         {
             _memCached.RemoveSavedData();
+            RemoveSavedDateSession();
             return RedirectToAction("Login", "Account");
         }
     }

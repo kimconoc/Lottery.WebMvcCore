@@ -16,9 +16,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="~/css/listMessages.css" rel="stylesheet" />
+    <link href="~/css/listMessages.css?v=@Default.VersionApp" rel="stylesheet" />
     <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
-    <script src="~/js/constant.js"></script>
+    <script src="~/js/constant.js?v=@Default.VersionApp"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <link href="~/css/site.css" rel="stylesheet" />
     @*master-plan*@
@@ -42,7 +42,22 @@
     <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
     <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
-        
+        .e-checkbox-wrapper .e-frame, .e-css.e-checkbox-wrapper .e-frame {
+            background-color: #fff;
+            border-color: blue;
+            width: 20px;
+            height: 20px;
+        }
+
+        .input-check-box-all .e-checkbox-wrapper .e-check::before, .e-css.e-checkbox-wrapper .e-check::before {
+            font-size: 20px;
+        }
+
+        .input-check-box-all .e-checkbox-wrapper .e-frame, .e-css.e-checkbox-wrapper .e-frame {
+            border-color: #e3165b;
+            width: 22px;
+            height: 22px;
+        }
     </style>
 </head>
 <body>
@@ -76,47 +91,108 @@
         </div>
     </header>
     <div class="container-listMessages">
-        @{
-            if (Model.Item2 == null || Model.Item2.Count == 0)
-            {
-                <div class="box-no-data-found">
-                    <img src="~/lottery/empty-order/empty-order.png">
-                    <span>Không có tin nhắn</span>
-                </div>
-            }
-            else
-            {
-                foreach (var item in Model.Item2)
+        <div class="box-event-header">
+            <button class="button-icon-danger" style="margin-top:-2px;">
+                <i onclick="deleteMessage()" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+            </button>
+
+            <button class="button-icon-danger" style="margin-top:-2px;">
+                <i onclick="executionMessageCopy()" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
+            </button>
+
+            <div class="input-check-box-all" style="margin-top:3px;">
+                <input id="checkbox_all" type="checkbox" />
+            </div>
+        </div>
+        <div class="box-message-content">
+            @{
+                if (Model.Item2 == null || Model.Item2.Count == 0)
                 {
-                    <div class="div-list-message">
-                        <div class="avatar">
-                            <i class="fa fa-comments-o"></i>
-                        </div>
-                        <div style="flex: 1;">
-                            <div class="info-detail">
-                                <strong style="font-size:16px;">
-                                    <strong style="color:#e3165b">Xử lý:</strong>
-                                    @string.Format(item.HandlDate.ToString("dd/MM/yyyy HH:mm"))
-                                </strong>
-                                <div class="mainContent-message">
-                                    @item.Message
-                                </div>
-                            </div>
-                            <i id="delete-@item.ID" onclick="deleteMessage(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                            <i id="copy-@item.ID" onclick="executionMessageCopy(this)" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
-                            <i id="edit-@item.ID" onclick="executionMessageEdit(this)" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
-                            <div style="margin-bottom:20px;" class="border-bottom-row"></div>
-                        </div>
+                    <div class="box-no-data-found">
+                        <img src="~/lottery/empty-order/empty-order.png">
+                        <span>Không có tin nhắn</span>
                     </div>
                 }
+                else
+                {
+                    int row = 0;
+                    foreach (var item in Model.Item2)
+                    {
+                        row++;
+                        <div class="div-list-message">
+                            <div class="box-icon-msg">
+                                <i class="fa fa-comments-o"></i>
+                                @if (row < 10)
+                                {
+                                    <strong>@row</strong>
+                                }
+                                else
+                                {
+                                    <strong style="left:6px">@row</strong>
+                                }
+                            </div>
+                            <div style="flex: 1;">
+                                <div class="info-detail">
+                                    <strong style="font-size:16px;">
+                                        <strong style="color:#e3165b">Xử lý:</strong>
+                                        @string.Format(item.HandlDate.ToString("dd/MM/yyyy HH:mm"))
+                                    </strong>
+                                    <div class="mainContent-message">
+                                        @item.Message
+                                    </div>
+                                </div>
+                                <div class="input-check-box">
+                                    <input id="checkbox-@item.ID" type="checkbox" />
+                                </div>
+                                <i id="edit-@item.ID" onclick="executionMessageEdit(this)" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>
+                                <div style="margin-bottom:20px;" class="border-bottom-row"></div>
+                            </div>
+                        </div>
+                    }
+                }
             }
-        }
-        <input id="datetimepicker" style="display:none;" type="text">
+            <input id="datetimepicker" style="display:none;" type="text">
+        </div>
     </div>
 
     <script>
         var model1 = @Html.Raw(serializedModel1);
         var model2 = @Html.Raw(serializedModel2);
+
+        var checkboxAll = new ej.buttons.CheckBox();
+        checkboxAll.appendTo('#checkbox_all');
+        checkboxAll.change = function (args) {
+            executionCheckboxAll(args.checked);
+        };
+
+        var prefix = "checkbox-";
+        for (let i = 0; i < model2.length; i++) {
+            var idCheckbox = prefix + model2[i].ID
+            var checkbox = new ej.buttons.CheckBox();
+            checkbox.appendTo('#' + idCheckbox);
+            checkbox.change = function (args) {
+                isCheckboxAll(args.checked);
+            };
+        }
+
+        function isCheckboxAll(argsChecked){
+            var prefix = "checkbox-";
+            var isSelectedCheckboxAll = 0;
+            for (let i = 0; i < model2.length; i++) {
+                var idCheckbox = prefix + model2[i].ID
+                var checkbox = document.getElementById(idCheckbox);
+                if (checkbox.checked) {
+                    isSelectedCheckboxAll++;
+                }
+            }
+            if (isSelectedCheckboxAll == model2.length){
+                document.getElementById('checkbox_all').ej2_instances[0].checked = true;
+            }
+            else{
+                document.getElementById('checkbox_all').ej2_instances[0].checked = false;
+            }
+        }
+
         jQuery.datetimepicker.setLocale('vi');
         jQuery('#datetimepicker').datetimepicker({
             timepicker: false,
@@ -143,20 +219,36 @@
         });
 
         function deleteMessage(dom) {
-            var prefix = "delete-";
-            var id = dom.id.substring(prefix.length);
-            if (confirm("Bạn muốn xóa tin nhắn này?")) {
-                executeConfirm(id);
+            var prefix = "checkbox-";
+            var listmessageId = [];
+            var isSelectedCheckbox = false;
+            for (let i = 0; i < model2.length; i++) {
+                var idCheckbox = prefix + model2[i].ID
+                var checkbox = document.getElementById(idCheckbox);
+                if (checkbox.checked) {
+                    listmessageId.push(model2[i].ID);
+                    isSelectedCheckbox = true;
+                }
             }
+
+            if (!isSelectedCheckbox) {
+                showToasinette_Error_Bottom_Center('Vui lòng chọn tin nhắn!');
+                return;
+            }
+
+            if (confirm("Bạn muốn xóa tin nhắn này?")) {
+                executeConfirm(listmessageId);
+            }  
         }
-        function executeConfirm(messageId) {
+        function executeConfirm(listmessageId) {
+            listmessageIdModelJson = JSON.stringify(listmessageId);
             ShowOverlay(true);
             $.ajax({
                 type: "POST",
                 traditional: true,
                 data:
                 {
-                    "messageId": messageId,
+                    "listmessageIdJson": listmessageIdModelJson,
                 },
                 url: "@Url.Action("DELETEHandlMessage", "PlayerMessages")",
                 success: function (data) {
@@ -174,52 +266,83 @@
                         }).then(res => window.location.reload())
                     }
                     else {
-                        var message = "Đã có lỗi xảy ra."
-                        if (!isNullOrEmpty(data.Message)) {
-                            message = data.message;
+                        if (data.redirectTo) {
+                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Đã có lỗi xảy ra."
+                            if (!isNullOrEmpty(data.message)) {
+                                message = data.message;
+                            }
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: message,
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
                         }
-                        awesomeAlert({
-                            header: true,
-                            type: 'error',
-                            title: 'Có lỗi!',
-                            message: message,
-                            //bgColor: '#2dd284',
-                            img: '/assets/images/icon/error.svg',
-                            buttonOK: 'Oke!',
-                            closeStyle: 'circle'
-                        }).then(res => false)
                     }
                 },
             })
         }
         
-        function executionMessageCopy(dom) {
-            var prefix = "copy-";
-            var id = dom.id.substring(prefix.length);
+        function executionMessageCopy() {
+            var prefix = "checkbox-";
             var synTaxValue = "";
+            var isSelectedCheckbox = false;
             for (let i = 0; i < model2.length; i++) {
-                if (model2[i].ID == id) {
-                    synTaxValue = model2[i].Message;
-                    break
+                var idCheckbox = prefix + model2[i].ID
+                var checkbox = document.getElementById(idCheckbox);
+                if (checkbox.checked)
+                {
+                    synTaxValue = synTaxValue + model2[i].Message + "\n" ;
+                    isSelectedCheckbox = true;
                 }
+            }
+            if (!isSelectedCheckbox){
+                showToasinette_Error_Bottom_Center('Vui lòng chọn tin nhắn!');
+                return;
             }
             const textarea = document.createElement('textarea');
             textarea.value = synTaxValue;
             document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                var successful = document.execCommand('copy');
-                var msg = successful ? 'Đã sao chép nội dung tin nhắn.' : 'Trình duyệt chặn sao chép.';
-                if (successful) {
-                    showToasinette_Success_Bottom_Center(msg);
+            // Sử dụng requestAnimationFrame để giảm giật màn hình
+            requestAnimationFrame(() => {
+                textarea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    var msg = successful ? 'Đã sao chép nội dung tin nhắn.' : 'Trình duyệt chặn sao chép.';
+                    if (successful) {
+                        showToasinette_Success_Bottom_Center(msg);
+                    } else {
+                        showToasinette_Error_Bottom_Center(msg);
+                    }
+                } catch (err) {
+                    showToasinette_Error_Bottom_Center('Lỗi khi thực hiện sao chép: ' + err);
+                } finally {
+                    textarea.style.display = 'none';
+                    document.body.removeChild(textarea);
                 }
-                else {
-                    showToasinette_Error_Bottom_Center(msg);
+            });
+        }
+
+        function executionCheckboxAll(argsChecked) {
+            var prefix = "checkbox-";
+            for (let i = 0; i < model2.length; i++) {
+                var idCheckbox = prefix + model2[i].ID
+                var checkbox = document.getElementById(idCheckbox).ej2_instances[0];
+                if (checkbox && argsChecked) {
+                    checkbox.checked = true;
                 }
-            } catch (err) {
-                showToasinette_Error_Bottom_Center(msg);
+                else if (checkbox) {
+                    checkbox.checked = false;
+                }
             }
-            document.body.removeChild(textarea);
         }
 
         function executionMessageEdit(dom) {

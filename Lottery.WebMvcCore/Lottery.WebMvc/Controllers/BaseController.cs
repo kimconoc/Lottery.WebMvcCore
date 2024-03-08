@@ -41,13 +41,51 @@ namespace Lottery.WebMvc.Controllers
             if ((controller != null && userData == null && !context.HttpContext.Request.Path.Equals("/Account/Login") && !context.HttpContext.Request.Path.Equals("/Account/ExecuteLogin"))
                 || (userData != null && !userData.IsAdmin && (context.HttpContext.Request.Path.Equals("/Administrator/UserListing") || context.HttpContext.Request.Path.Equals("/Administrator/AddUser") || context.HttpContext.Request.Path.Equals("/Administrator/ExtendExpireDate") || context.HttpContext.Request.Path.Equals("/Administrator/ChangePassword"))))
             {
-                context.Result = new RedirectResult("/Account/Login");
+                if (context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    // Xử lý chuyển hướng Ajax bằng cách trả về một phản hồi JSON
+                    context.Result = new JsonResult(new { redirectTo = "/Account/Login" });
+                }
+                else
+                {
+                    // Xử lý chuyển hướng thông thường
+                    context.Result = new RedirectResult("/Account/Login");
+                }
                 return;
             }
 
             // Thực thi action
             var resultContext = await next();
             // Đoạn code sau khi action được thực thi
+        }
+
+        protected void ExecuteSaveDateSession(DateTime date)
+        {
+            string jsonDate = JsonConvert.SerializeObject(date);
+            HttpContext.Session.SetString(Default.Get_Signin_Date, jsonDate);
+        }
+
+        protected DateTime GetDateSession()
+        {
+            DateTime date = Constant.ConvertStringToDateTime();
+            try
+            {
+                string jsonValue = HttpContext.Session.GetString(Default.Get_Signin_Date);
+                if (!string.IsNullOrEmpty(jsonValue))
+                {
+                    date = JsonConvert.DeserializeObject<DateTime>(jsonValue);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return date;
+        }
+
+        public void RemoveSavedDateSession()
+        {
+            HttpContext.Session.Remove(Default.Get_Signin_Date);
         }
 
         protected DataResponse<TRequest> Success_Request<TRequest>(TRequest data)

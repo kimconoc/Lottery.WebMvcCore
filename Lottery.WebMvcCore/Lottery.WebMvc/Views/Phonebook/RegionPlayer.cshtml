@@ -54,7 +54,7 @@
                 }
             </strong>
         </div>
-        @if (phonebooks != null)
+        @if (phonebooks != null && phonebooks.Count > 0)
         {
             foreach (var item in phonebooks)
             {
@@ -86,6 +86,13 @@
                     </div>
                 </div>
             }
+        }
+        else
+        {
+            <div class="box-no-data-found">
+                <img src="~/lottery/empty-order/empty-order.png">
+                <span>Không có danh bạ</span>
+            </div>
         }
     </div>
     <script>

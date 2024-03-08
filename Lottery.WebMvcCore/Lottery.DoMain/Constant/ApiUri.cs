@@ -20,6 +20,7 @@ namespace Lottery.DoMain.Constant
         public const string POST_HandlMessagemessageByDay = "HandlMessage/message-by-day";
         public const string Get_HandlMessage = "HandlMessage";
         public const string DELETE_HandlMessage = "HandlMessage";
+        public const string DELETE_HandlMessageDelete_Multi = "HandlMessage/delete-multi";
         public const string POST_HandlMessagehandlMessage = "HandlMessage/handl-message";
         public const string POST_HandlMessageCountByDay = "HandlMessage/count-by-day";
         public const string POST_HandlMessageCountManyDay = "HandlMessage/count-many-day";

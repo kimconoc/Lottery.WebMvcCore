@@ -1,6 +1,7 @@
 ﻿using Lottery.DoMain.Constant;
 using Lottery.DoMain.Enum;
 using Lottery.DoMain.Extentions;
+using Lottery.DoMain.FileLog;
 using Lottery.DoMain.Models;
 using Lottery.Service.ServiceProvider.Interface;
 using Lottery.WebMvc.MemCached.Interface;
@@ -24,18 +25,22 @@ namespace Lottery.WebMvc.Controllers
 
         public IActionResult MessagesByDay(int idPlayer, string namePlayer, int region, double cachTrungDaThang, double cachTrungDaXien, string strDateTime)
         {
+            MessgeByDay messgeByDay = new MessgeByDay();
             DateTime dateTime = Constant.ConvertStringToDateTime(strDateTime);
+            if (string.IsNullOrEmpty(strDateTime))
+            {
+                dateTime = GetDateSession();
+            }    
+            else
+            {
+                ExecuteSaveDateSession(dateTime);
+            }    
             MessgeByDayModel messgeByDayModel = new MessgeByDayModel()
             {
                 HandlDate = dateTime,
                 IDKhach = idPlayer,
                 Mien = region
             };
-            var messgeByDayBase = _provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
-            if (messgeByDayBase == null || messgeByDayBase.Result == null || messgeByDayBase.Result.Data == null)
-            {
-                return Json(Server_Error("Đã có lỗi xảy ra!"));
-            }
             MessgeByDaySession messgeByDaySession = new MessgeByDaySession()
             {
                 IdPlayer = idPlayer,
@@ -45,7 +50,19 @@ namespace Lottery.WebMvc.Controllers
                 CachTrungDaXien = cachTrungDaXien,
                 HandlDate = dateTime,
             };
-            var messgeByDay = messgeByDayBase.Result.Data;
+            try
+            {
+                var messgeByDayBase = _provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
+                if (messgeByDayBase == null || messgeByDayBase.Result == null || messgeByDayBase.Result.Data == null)
+                {
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                }
+                messgeByDay = messgeByDayBase.Result.Data;
+            }
+            catch (Exception ex)
+            {
+                FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
+            }
             messgeByDay.MessgeByDaySession = messgeByDaySession;
             return View(messgeByDay);
         }
@@ -67,9 +84,9 @@ namespace Lottery.WebMvc.Controllers
         [HttpPost]
         public IActionResult ExecuteSyntaxPlayer(string calculation3Json)
         {
+            var calculation3 = JsonConvert.DeserializeObject<Calculation3Model>(calculation3Json);
             try
             {
-                var calculation3 = JsonConvert.DeserializeObject<Calculation3Model>(calculation3Json);
                 var userData = _memCached.GetCurrentUser();
                 calculation3.UserID = userData.Id;
                 var dataBase = _provider.PostAsync<Cal3DetailDto>(ApiUri.POST_CalculationCal3, calculation3);
@@ -81,6 +98,7 @@ namespace Lottery.WebMvc.Controllers
             }
             catch (Exception ex)
             {
+                FileHelper.GeneratorFileByDay(ex.ToString() + Environment.NewLine + calculation3.SynTax, MethodBase.GetCurrentMethod().Name);
                 return Json(Server_Error("Đã có lỗi hệ thông!"));
             }
         }
@@ -138,11 +156,13 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult DELETEHandlMessage(int messageId)
+        public IActionResult DELETEHandlMessage(string listmessageIdJson)
         {
             try
             {
-                var dataBase = _provider.DeleteAsync(string.Format(ApiUri.DELETE_HandlMessage + "/{0}", messageId));
+                var listmessageId = JsonConvert.DeserializeObject<List<int>>(listmessageIdJson);
+                DeleteMulti deleteMulti = new DeleteMulti() { Ids = listmessageId };
+                var dataBase = _provider.PostAsync<object>(ApiUri.DELETE_HandlMessageDelete_Multi, deleteMulti);
                 if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));

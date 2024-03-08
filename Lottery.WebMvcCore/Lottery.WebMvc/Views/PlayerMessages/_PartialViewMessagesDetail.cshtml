@@ -2,6 +2,7 @@
 @using Lottery.DoMain.Models;
 @using System;
 @using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Extentions;
 @model Cal3DetailDto
 <style>
 
@@ -145,12 +146,35 @@
                         </tr>
                         @foreach (var item in Model.Details)
                         {
+                            string cachChoi = string.Empty;
+                            if (item.CachChoi >= (int)CachChoiEnum.BaoLoDau)
+                            {
+                                switch (item.CachChoi)
+                                {
+                                    case (int)CachChoiEnum.BaoLoDau:
+                                        cachChoi = string.Format(CachChoiEnum.BaoLoDau.GetDescription(), item.SlBaoLo);
+                                        break;
+                                    case (int)CachChoiEnum.BaoLoDuoi:
+                                        cachChoi = string.Format(CachChoiEnum.BaoLoDuoi.GetDescription(), item.SlBaoLo);
+                                        break;
+                                    case (int)CachChoiEnum.BaoBaConDau:
+                                        cachChoi = string.Format(CachChoiEnum.BaoBaConDau.GetDescription(), item.SlBaoLo);
+                                        break;
+                                    default:
+                                        cachChoi = string.Format(CachChoiEnum.BaoBaConDuoi.GetDescription(), item.SlBaoLo);
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                cachChoi = Enum.GetName(typeof(CachChoiEnum), @item.CachChoi);
+                            }
                             if (item.SlTrung > 0)
                             {
                                 <tr style="color:#e3165b;">
                                     <td>@item.Dai</td>
                                     <td>@string.Join(", ", item.So)</td>
-                                    <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    <td>@cachChoi</td>
                                     <td>@item.SoTien</td>
                                 </tr>
                             }
@@ -159,7 +183,7 @@
                                  <tr>
                                     <td>@item.Dai</td>
                                     <td>@string.Join(", ", item.So)</td>
-                                    <td>@Enum.GetName(typeof(CachChoiEnum), @item.CachChoi)</td>
+                                    <td>@cachChoi</td>
                                     <td>@item.SoTien</td>
                                 </tr>
                             }
