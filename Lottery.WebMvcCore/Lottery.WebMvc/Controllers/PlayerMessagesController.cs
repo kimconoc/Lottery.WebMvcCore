@@ -82,6 +82,28 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
+        public IActionResult ExecuteFilteringSyntaxPlayer(string calculation3Json)
+        {
+            var calculation3 = JsonConvert.DeserializeObject<Calculation3Model>(calculation3Json);
+            try
+            {
+                var userData = _memCached.GetCurrentUser();
+                calculation3.UserID = userData.Id;
+                var dataBase = _provider.PostAsync<Cal3Filter>(ApiUri.POST_CalculationCalFilter, calculation3);
+                if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
+                {
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                }
+                return Json(Success_Request(dataBase.Result.Data));
+            }
+            catch (Exception ex)
+            {
+                FileHelper.GeneratorFileByDay(ex.ToString() + Environment.NewLine + calculation3.SynTax, MethodBase.GetCurrentMethod().Name);
+                return Json(Server_Error("Đã có lỗi hệ thông!"));
+            }
+        }
+
+        [HttpPost]
         public IActionResult ExecuteSyntaxPlayer(string calculation3Json)
         {
             var calculation3 = JsonConvert.DeserializeObject<Calculation3Model>(calculation3Json);

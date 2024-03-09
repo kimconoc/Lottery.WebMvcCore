@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Lottery.DoMain.Models
 {
+    public class Cal3Filter
+    {
+        public string Sys { get; set; }
+        public Error Error { get; set; }
+    }
     public class Cal3DetailDto
     {
         public Summary Xac { get; set; }
