@@ -41,7 +41,10 @@
     <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
     <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
-        
+        .border-bottom-row {
+            margin-top: 0px;
+            margin-bottom: 5px !important;
+        }
     </style>
 </head>
 <body>
@@ -204,7 +207,7 @@
                     if (@Model.IsThu)
                     {
                         <span>
-                            <span style="color:blue;font-weight:700;font-size: 18px;">
+                            <span style="color:blue;font-weight:700;font-size: 17px;">
                                 Thu:
                             </span>
                             @Model.Message
@@ -213,7 +216,7 @@
                     else
                     {
                         <span>
-                            <span style="color:red;font-weight:700;font-size: 18px;">
+                            <span style="color:red;font-weight:700;font-size: 17px;">
                                 Bù:
                             </span>
                             @Model.Message
@@ -225,9 +228,21 @@
         </div>
         <div style="overflow:auto;height:85vh">
             @{
-                int marginTop = 185;
+                int marginTop = 200;
                 int distance = 20;
-                if (@Model.Total.Xac.HaiCB <= 0 && @Model.Total.Xac.HaiCD <= 0 && @Model.Total.Xac.DaT <= 0 && @Model.Total.Xac.DaX <= 0)
+                if (@Model.Total.Xac.HaiCB <= 0)
+                {
+                    marginTop = marginTop - distance;
+                }
+                if (@Model.Total.Xac.HaiCD <= 0 )
+                {
+                    marginTop = marginTop - distance;
+                }
+                 if (@Model.Total.Xac.DaT <= 0)
+                {
+                    marginTop = marginTop - distance;
+                }
+                if (@Model.Total.Xac.DaX <= 0)
                 {
                     marginTop = marginTop - distance;
                 }
