@@ -100,6 +100,18 @@ namespace Lottery.WebMvc.Controllers
             return View(userManagement);
         }
 
+        public IActionResult UpdateUser(int userId, string name, string account, string note)
+        {
+            UserManagement userManagement = new UserManagement()
+            {
+                Id = userId,
+                Name = name,
+                Account = account,
+                Note = note,
+            };
+            return View(userManagement);
+        }
+
         [HttpPost]
         public IActionResult ExecuteChangePassword(int userId, string newPass)
         {
@@ -113,6 +125,33 @@ namespace Lottery.WebMvc.Controllers
                 };
 
                 var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminChangePass, newPassModel);
+                if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
+                {
+                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                }
+                return Json(Success_Request(dataBase.Result.IsSuccessful));
+            }
+            catch (Exception ex)
+            {
+                return Json(Server_Error("Đã có lỗi hệ thông!"));
+            }
+        }
+
+        [HttpPost]
+        public IActionResult ExecuteUpdateUser(int userId, string newNote)
+        {
+            if (newNote == null)
+                newNote = "";
+            try
+            {
+                UserUpdateModel userUpdateModel = new UserUpdateModel()
+                {
+                    UserId = userId,
+                    Note = newNote,
+
+                };
+
+                var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminUpdate, userUpdateModel);
                 if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
                 {
                     return Json(Server_Error("Đã có lỗi xảy ra!"));

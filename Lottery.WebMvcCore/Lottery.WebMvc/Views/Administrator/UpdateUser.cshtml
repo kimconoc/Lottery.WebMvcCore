@@ -1,0 +1,168 @@
+﻿@using Lottery.DoMain.Enum;
+@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@{
+    Layout = null;
+}
+@model UserManagement
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/css/updateUser.css?v=@Default.VersionApp" rel="stylesheet" />
+    <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
+    <script src="~/js/constant.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link href="~/css/site.css?v=@Default.VersionApp" rel="stylesheet" />
+    @*master-plan*@
+    <script src="~/assets/helpers/master-plan/adr_common.js"></script>
+    <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>
+    <link href="~/assets//helpers/master-plan/style.css" rel="stylesheet" />
+    @*cssscript*@
+    <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
+    <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
+    <link rel="stylesheet" href="~/assets/helpers/toastinette-notification-main/assets/css/toastinette.min.css">
+    <script src="~/assets/helpers/toastinette-notification-main/assets/js/toastinette.js"></script>
+    @*Syncfusion*@
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-base/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-inputs/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-dropdowns/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-buttons/styles/material.css" rel="stylesheet">
+    <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">*@
+    @*datetimepicker*@
+    <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
+    <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
+    <style>
+
+        input {
+            padding: 0px 0px 0px 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header-page">
+        <div class="title-page">
+            <div onclick="window.location.href='/Administrator/UserListing';" class="title-page-text">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                Quản lý - Tài khoản
+            </div>
+        </div>
+    </header>
+    <div class="container-addUser">
+        <div class="wrapper div-form-account">
+            <div class="icon-account">
+                <i class="fa fa-user-circle"></i>
+            </div>
+            <form id="executeChangeUpdateUserForm">
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Tên:
+                        </span>
+                        <input tabindex="1" id="up_name" readonly required value="@Model.Name">
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Tài khoản:
+                        </span>
+                        <input tabindex="1" id="up_account" readonly required value="@Model.Account">
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Ghi chú:
+                        </span>
+                        <input tabindex="1" id="up_note" value="@Model.Note">
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <input type="submit" tabindex="1" value="Cập nhật">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <script>
+
+        // Bắt sự kiện submit của biểu mẫu create
+        document.getElementById("executeChangeUpdateUserForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
+
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    userId: @Model.Id,
+                    newNote: document.getElementById("up_note").value,
+                },
+                url: "@Url.Action("ExecuteUpdateUser", "Administrator")",
+                success: function (data) {
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Cập nhật thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location = "/Administrator/UserListing")
+                    }
+                    else {
+                        if (data.redirectTo) {
+                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Đã có lỗi xảy ra."
+                            if (!isNullOrEmpty(data.message)) {
+                                message = data.message;
+                            }
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: message,
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    awesomeAlert({
+                        header: true,
+                        type: 'error',
+                        title: 'Có lỗi!',
+                        message: 'Lỗi hệ thống',
+                        //bgColor: '#2dd284',
+                        img: '/assets/images/icon/error.svg',
+                        buttonOK: 'Oke!',
+                        closeStyle: 'circle'
+                    }).then(res => false)
+                },
+                complete: function () {
+                    hideOverlay();
+                }
+            })
+        });
+    </script>
+</body>
+</html>
+
+
+

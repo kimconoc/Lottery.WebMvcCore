@@ -20,4 +20,9 @@
         public int UserId { get; set; }
         public string NewPass { get; set; }
     }
+    public class UserUpdateModel
+    {
+        public int UserId { get; set; }
+        public string Note { get; set; }
+    }
 }
