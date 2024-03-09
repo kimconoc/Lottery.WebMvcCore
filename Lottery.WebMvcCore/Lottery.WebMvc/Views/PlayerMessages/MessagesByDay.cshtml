@@ -204,7 +204,7 @@
                     if (@Model.IsThu)
                     {
                         <span>
-                            <span style="color:blue;font-weight:700;font-size: 19px;">
+                            <span style="color:blue;font-weight:700;font-size: 18px;">
                                 Thu:
                             </span>
                             @Model.Message
@@ -213,7 +213,7 @@
                     else
                     {
                         <span>
-                            <span style="color:red;font-weight:700;font-size: 19px;">
+                            <span style="color:red;font-weight:700;font-size: 18px;">
                                 Bù:
                             </span>
                             @Model.Message
@@ -225,8 +225,8 @@
         </div>
         <div style="overflow:auto;height:85vh">
             @{
-                int marginTop = 230;
-                int distance = 25;
+                int marginTop = 185;
+                int distance = 20;
                 if (@Model.Total.Xac.HaiCB <= 0 && @Model.Total.Xac.HaiCD <= 0 && @Model.Total.Xac.DaT <= 0 && @Model.Total.Xac.DaX <= 0)
                 {
                     marginTop = marginTop - distance;
