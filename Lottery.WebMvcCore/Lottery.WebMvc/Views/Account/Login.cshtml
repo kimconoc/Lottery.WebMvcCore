@@ -1,4 +1,5 @@
-﻿@using Lottery.WebMvc.MemCached.Interface;
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.WebMvc.MemCached.Interface;
 @inject IMemCached memCached
 @{
     Layout = null;
@@ -12,13 +13,13 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="~/css/login.css" rel="stylesheet" />
+<link href="~/css/login.css?v=@Default.VersionApp" rel="stylesheet" />
 <html>
 <head>
     <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
     <script src="~/js/constant.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
-    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/site.css?v=@Default.VersionApp" rel="stylesheet" />
     @*master-plan*@
     <script src="~/assets/helpers/master-plan/adr_common.js"></script>
     <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>

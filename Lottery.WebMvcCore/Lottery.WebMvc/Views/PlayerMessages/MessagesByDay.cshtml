@@ -15,11 +15,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="~/css/messagesByDay.css" rel="stylesheet" />
+    <link href="~/css/messagesByDay.css?v=@Default.VersionApp" rel="stylesheet" />
     <script src="~/Scripts/jquery/jquery-3.3.1.js"></script>
     <script src="~/js/constant.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
-    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/site.css?v=@Default.VersionApp" rel="stylesheet" />
     @*master-plan*@
     <script src="~/assets/helpers/master-plan/adr_common.js"></script>
     <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>
@@ -82,72 +82,118 @@
             <div class="synthesis-parameter-messages">
                 <div class="div-xac">
                     <strong class="title">Xác</strong>
-                    <span>
-                        2CB:
-                        <strong>@Model.Total.Xac.HaiCB</strong>
-                    </span>
-                    <span>
-                        2CĐ:
-                        <strong>@Model.Total.Xac.HaiCD</strong>
-                    </span>
-                    <span>
-                        ĐáT:
-                        <strong>@Model.Total.Xac.DaT</strong>
-                    </span>
-                    <span>
-                        ĐáX:
-                        <strong>@Model.Total.Xac.DaX</strong>
-                    </span>
-                    <span>
-                        3C:
-                        <strong>@Model.Total.Xac.BaCon</strong>
-                    </span>
-                    <span>
-                        4C:
-                        <strong>@Model.Total.Xac.BonCon</strong>
-                    </span>
+                    @if (@Model.Total.Xac.HaiCB > 0)
+                    {
+                        <span>
+                            2CB:
+                            <strong>@Model.Total.Xac.HaiCB</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.HaiCD > 0)
+                    {
+                        <span>
+                            2CĐ:
+                            <strong>@Model.Total.Xac.HaiCD</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.DaT > 0)
+                    {
+                        <span>
+                            ĐáT:
+                            <strong>@Model.Total.Xac.DaT</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.DaX > 0)
+                    {
+                        <span>
+                            ĐáX:
+                            <strong>@Model.Total.Xac.DaX</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.BaCon > 0)
+                    {
+                        <span>
+                            3C:
+                            <strong>@Model.Total.Xac.BaCon</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.BonCon > 0)
+                    {
+                        <span>
+                            4C:
+                            <strong>@Model.Total.Xac.BonCon</strong>
+                        </span>
+                    }
                 </div>
                 <div class="div-quaCo">
                     <strong class="title">Qua Cò</strong>
-                    <span>
-                        2CB:
-                        <strong>@Model.Total.QuaCo.HaiCon</strong>
-                    </span>
-                    <span>
-                        3C:
-                        <strong>@Model.Total.QuaCo.BaCon</strong>
-                    </span>
-                    <span>
-                        4C:
-                        <strong>@Model.Total.QuaCo.BonCon</strong>
-                    </span>
+                    @if (@Model.Total.Xac.HaiCB > 0 || @Model.Total.Xac.HaiCD > 0 || @Model.Total.Xac.DaT > 0 || @Model.Total.Xac.DaX > 0)
+                    {
+                        <span>
+                            2CB:
+                            <strong>@Model.Total.QuaCo.HaiCon</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.BaCon > 0)
+                    {
+                        <span>
+                            3C:
+                            <strong>@Model.Total.QuaCo.BaCon</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.BonCon > 0)
+                    {
+                        <span>
+                            4C:
+                            <strong>@Model.Total.QuaCo.BonCon</strong>
+                        </span>
+                    }
                 </div>
                 <div class="div-trung">
                     <strong class="title">Trúng</strong>
-                    <span>
-                        2CB:
-                        <strong>@Model.Total.Trung.HaiCB</strong>
-                    </span>
-                    <span>
-                        2CĐ:
-                        <strong>@Model.Total.Trung.HaiCD</strong>
-                    </span>
-                    <span>
-                        ĐáT:
-                        <strong>@Model.Total.Trung.DaT</strong>
-                    </span>
-                    <span>
-                        ĐáX:
-                        <strong>@Model.Total.Trung.DaX</strong>
-                    </span>
-                    <span>
-                        3C:
-                        <strong>@Model.Total.Trung.BaCon</strong>
-                    </span>
-                    <span>
-                        4C:
-                        <strong>@Model.Total.Trung.BonCon</strong>
-                    </span>
+                    @if (@Model.Total.Xac.HaiCB > 0)
+                    {
+                        <span>
+                            2CB:
+                            <strong>@Model.Total.Trung.HaiCB</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.HaiCD > 0)
+                    {
+                        <span>
+                            2CĐ:
+                            <strong>@Model.Total.Trung.HaiCD</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.DaT > 0)
+                    {
+                        <span>
+                            ĐáT:
+                            <strong>@Model.Total.Trung.DaT</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.DaX > 0)
+                    {
+                        <span>
+                            ĐáX:
+                            <strong>@Model.Total.Trung.DaX</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.BaCon > 0)
+                    {
+                        <span>
+                            3C:
+                            <strong>@Model.Total.Trung.BaCon</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.BonCon > 0)
+                    {
+                        <span>
+                            4C:
+                            <strong>@Model.Total.Trung.BonCon</strong>
+                        </span>
+                    }
+                    
                 </div>
             </div>
             <div class="synthesis-result-messages">
@@ -158,7 +204,7 @@
                     if (@Model.IsThu)
                     {
                         <span>
-                            <span style="color:blue;font-weight:700;font-size: 18px;">
+                            <span style="color:blue;font-weight:700;font-size: 19px;">
                                 Thu:
                             </span>
                             @Model.Message
@@ -167,7 +213,7 @@
                     else
                     {
                         <span>
-                            <span style="color:red;font-weight:700;font-size: 18px;">
+                            <span style="color:red;font-weight:700;font-size: 19px;">
                                 Bù:
                             </span>
                             @Model.Message
@@ -178,7 +224,25 @@
             </div>
         </div>
         <div style="overflow:auto;height:85vh">
-            <div class="list-detailMessage-messages">
+            @{
+                int marginTop = 230;
+                int distance = 25;
+                if (@Model.Total.Xac.HaiCB <= 0 && @Model.Total.Xac.HaiCD <= 0 && @Model.Total.Xac.DaT <= 0 && @Model.Total.Xac.DaX <= 0)
+                {
+                    marginTop = marginTop - distance;
+                }
+                if (@Model.Total.Xac.BaCon <= 0)
+                {
+                    marginTop = marginTop - distance;
+                }
+                if (@Model.Total.Xac.BonCon <= 0)
+                {
+                    marginTop = marginTop - distance;
+                }
+
+                string strMarginTop = marginTop + "px";
+            }
+            <div style="margin-top:@strMarginTop;" class="list-detailMessage-messages">
             @{
                  if (Model.DetailMessage == null || Model.DetailMessage.Count == 0)
                  {
@@ -204,30 +268,48 @@
                              <div>
                                  <div class="div-xac">
                                      @*<strong class="title">Xác</strong>*@
-                                     <span>
-                                         2CB:
-                                         <strong>@item.Xac.HaiCB</strong>
-                                     </span>
-                                     <span>
-                                         2CĐ:
-                                         <strong>@item.Xac.HaiCD</strong>
-                                     </span>
-                                     <span>
-                                         ĐáT:
-                                         <strong>@item.Xac.DaT</strong>
-                                     </span>
-                                     <span>
-                                         ĐáX:
-                                         <strong>@item.Xac.DaX</strong>
-                                     </span>
-                                     <span>
-                                         3C:
-                                         <strong>@item.Xac.BaCon</strong>
-                                     </span>
-                                     <span>
-                                         4C:
-                                         <strong>@item.Xac.BonCon</strong>
-                                     </span>
+                                     @if (@item.Xac.HaiCB > 0)
+                                     {
+                                         <span>
+                                             2CB:
+                                             <strong>@item.Xac.HaiCB</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.HaiCD > 0)
+                                     {
+                                         <span>
+                                             2CĐ:
+                                             <strong>@item.Xac.HaiCD</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.DaT > 0)
+                                     {
+                                         <span>
+                                             ĐáT:
+                                             <strong>@item.Xac.DaT</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.DaX > 0)
+                                     {
+                                         <span>
+                                             ĐáX:
+                                             <strong>@item.Xac.DaX</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.BaCon > 0)
+                                     {
+                                         <span>
+                                             3C:
+                                             <strong>@item.Xac.BaCon</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.BonCon > 0)
+                                     {
+                                         <span>
+                                             4C:
+                                             <strong>@item.Xac.BonCon</strong>
+                                         </span>
+                                     }
                                  </div>
                              </div>
                              <div>
@@ -235,30 +317,48 @@
                              <div>
                                  <div class="div-trung">
                                      @*<strong class="title">Xác</strong>*@
-                                     <span>
-                                         2CB:
-                                         <strong>@item.Trung.HaiCB</strong>
-                                     </span>
-                                     <span>
-                                         2CĐ:
-                                         <strong>@item.Trung.HaiCD</strong>
-                                     </span>
-                                     <span>
-                                         ĐáT:
-                                         <strong>@item.Trung.DaT</strong>
-                                     </span>
-                                     <span>
-                                         ĐáX:
-                                         <strong>@item.Trung.DaX</strong>
-                                     </span>
-                                     <span>
-                                         3C:
-                                         <strong>@item.Trung.BaCon</strong>
-                                     </span>
-                                     <span>
-                                         4C:
-                                         <strong>@item.Trung.BonCon</strong>
-                                     </span>
+                                     @if (@item.Xac.HaiCB > 0)
+                                     {
+                                         <span>
+                                             2CB:
+                                             <strong>@item.Trung.HaiCB</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.HaiCD > 0)
+                                     {
+                                         <span>
+                                             2CĐ:
+                                             <strong>@item.Trung.HaiCD</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.DaT > 0)
+                                     {
+                                         <span>
+                                             ĐáT:
+                                             <strong>@item.Trung.DaT</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.DaX > 0)
+                                     {
+                                         <span>
+                                             ĐáX:
+                                             <strong>@item.Trung.DaX</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.BaCon > 0)
+                                     {
+                                         <span>
+                                             3C:
+                                             <strong>@item.Trung.BaCon</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.BonCon > 0)
+                                     {
+                                         <span>
+                                             4C:
+                                             <strong>@item.Trung.BonCon</strong>
+                                         </span>
+                                     }                                   
                                  </div>
                              </div>
                          </div>

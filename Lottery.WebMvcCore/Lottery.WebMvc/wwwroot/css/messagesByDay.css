@@ -18,6 +18,7 @@
 
 .container-messagesByDay {
     padding-top: 40px;
+    font-size:17px;
 }
 
 .title-page {
@@ -54,7 +55,7 @@
     }
 
         .synthesis-parameter-messages div .title {
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 2px;
             text-decoration: underline;
         }
@@ -69,7 +70,7 @@
 }
 
 .list-detailMessage-messages {
-    margin-top: 230px;
+    /*margin-top: 230px;*/
     padding: 5px;
 }
 
@@ -91,7 +92,7 @@
     }
 
         .parameter-messages div .title {
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 2px;
             text-decoration: underline;
         }
