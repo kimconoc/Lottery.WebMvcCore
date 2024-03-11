@@ -75,8 +75,8 @@
         </div>
         <div style="padding:0px 10px 0px 10px">
             <div class="div-list-btn-event">
-                <button id="character_filtering"></button>
-                <button onclick="characterFilteringSyntax()" id="syntax_check"></button>
+                <button onclick="characterFilteringSyntax()" id="character_filtering"></button>
+                <button onclick="characterCheckingSyntax()" id="syntax_check"></button>
                 <button onclick="saveDataSyntax()" id="save_data"></button>
             </div>
             <div class="div-text-import-multiline">
@@ -131,6 +131,7 @@
                     this.element.style.height = "auto";
                     this.element.style.height = (this.element.scrollHeight) + "px";
                     buttonSave_data.disabled = true;
+                    buttonCharacter_filtering.disabled = false;
                     buttonSyntax_check.disabled = false;
                 },
                 change: function (args) {
@@ -143,6 +144,87 @@
             textareaObject.appendTo('#text_import_multiline');
         });
         function characterFilteringSyntax() {
+            document.getElementById("error_message").textContent = "";
+            document.getElementById("div_success_message").style.display = "none";
+            var selectedRadio_CoN = document.querySelector('input[name="radiobutton_co_n_or_ca_2"]:checked');
+            if (isNullOrEmpty(textareaObject.value)) {
+                return
+            }
+            var calculation3Model = {
+                idMessage: null,
+                idKhach: model.IdPlayer,
+                mien: model.Region,
+                handlByDate: model.HandlDate,
+                cachTrungDaThang: model.CachTrungDaThang,
+                cachTrungDaXien: model.CachTrungDaXien,
+                isSave: false,
+                coN: selectedRadio_CoN.value,
+                synTax: textareaObject.value,
+            }
+            calculation3ModelJson = JSON.stringify(calculation3Model);
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    "calculation3Json": calculation3ModelJson,
+                },
+                url: "@Url.Action("ExecuteFilteringSyntaxPlayer", "PlayerMessages")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        if (data.data.error != null) {
+                            document.getElementById("error_message").textContent = data.data.error.message;
+                            if ('@user.UserAgent' == '@((int)UserAgentEnum.MobileIphone)') {
+                                awesomeAlert({
+                                    header: false,
+                                    type: 'error',
+                                    title: '',
+                                    message: 'Lỗi cú pháp!',
+                                    //bgColor: '#2dd284',
+                                    img: '/assets/images/icon/error.svg',
+                                    buttonOK: 'Oke!',
+                                    closeStyle: 'circle'
+                                }).then(res => setSelectionRangeError(data.data.error.startIndex, data.data.error.count))
+                            }
+                            else {
+                                setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            }
+                            //let timeoutID = setTimeout(function () {
+                            //    setSelectionRangeError(data.data.error.startIndex, data.data.error.count);
+                            //    clearTimeout(timeoutID);
+                            //}, 100);
+                        }
+                        else {
+                            buttonCharacter_filtering.disabled = true;
+                            textareaObject.value = data.data.sys;
+                        }
+                    }
+                    else {
+                        if (data.redirectTo) {
+                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Đã có lỗi xảy ra."
+                            if (!isNullOrEmpty(data.message)) {
+                                message = data.message;
+                            }
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: message,
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
+                        }
+                    }
+                },
+            })
+        }
+        function characterCheckingSyntax() {
             document.getElementById("error_message").textContent = "";
             document.getElementById("div_success_message").style.display = "none";
             var selectedRadio_CoN = document.querySelector('input[name="radiobutton_co_n_or_ca_2"]:checked');
