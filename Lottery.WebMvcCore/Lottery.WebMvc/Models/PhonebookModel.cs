@@ -19,6 +19,8 @@
         public int NCachTrungDaXien { get; set; }
         public double NCoBaCon { get; set; }
         public double NTrungBaCon { get; set; }
+        public double NCoXiuChu { get; set; }
+        public double NTrungXiuChu { get; set; }
         public double NCoBonCon { get; set; }
         public double NTrungBonCon { get; set; }
         public double NPhanTramTong { get; set; }
@@ -34,6 +36,8 @@
         public int TCachTrungDaXien { get; set; }
         public double TCoBaCon { get; set; }
         public double TTrungBaCon { get; set; }
+        public double TCoXiuChu { get; set; }
+        public double TTrungXiuChu { get; set; }
         public double TCoBonCon { get; set; }
         public double TTrungBonCon { get; set; }
         public double TPhanTramTong { get; set; }
@@ -46,6 +50,8 @@
         public int BCachTrungDaThang { get; set; }
         public double BCoBaCon { get; set; }
         public double BTrungBaCon { get; set; }
+        public double BCoXiuChu { get; set; }
+        public double BTrungXiuChu { get; set; }
         public double BCoBonCon { get; set; }
         public double BTrungBonCon { get; set; }
         public double BPhanTramTong { get; set; }

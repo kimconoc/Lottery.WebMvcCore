@@ -193,6 +193,20 @@
                 <div class="div-row-input-val">
                     <div class="row row-input-val">
                         <span>
+                            Cò xỉu chủ:
+                        </span>
+                        <input type="number" step="any" tabindex="1" id="cr_nCoXiuChu" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.NCoBaCon)">
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng xỉu chủ:
+                        </span>
+                        <input type="number" step="any" tabindex="1" id="cr_nTrungXiuChu" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.NTrungBaCon)">
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
                             Cò bốn con:
                         </span>
                         <input type="number" step="any" tabindex="1" id="cr_nCoBonCon" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.NCoBonCon)">
@@ -313,6 +327,20 @@
                 <div class="div-row-input-val">
                     <div class="row row-input-val">
                         <span>
+                            Cò Xỉu Chủ:
+                        </span>
+                        <input type="number" step="any" tabindex="1" id="cr_tCoXiuChu" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.TCoBaCon)">
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng Xỉu Chủ:
+                        </span>
+                        <input type="number" step="any" tabindex="1" id="cr_tTrungXiuChu" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.TTrungBaCon)">
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
                             Cò bốn con:
                         </span>
                         <input type="number" step="any" tabindex="1" id="cr_tCoBonCon" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.TCoBonCon)">
@@ -402,6 +430,20 @@
                             Trúng ba con:
                         </span>
                         <input type="number" step="any" tabindex="1" id="cr_bTrungBaCon" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.BTrungBaCon)">
+                    </div>
+                </div>
+                <div class="div-row-input-val">
+                    <div class="row row-input-val">
+                        <span>
+                            Cò Xỉu Chủ:
+                        </span>
+                        <input type="number" step="any" tabindex="1" id="cr_bCoXiuChu" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.BCoBaCon)">
+                    </div>
+                    <div class="row row-input-val">
+                        <span>
+                            Trúng Xỉu Chủ:
+                        </span>
+                        <input type="number" step="any" tabindex="1" id="cr_bTrungXiuChu" required value="@(string.IsNullOrEmpty(Model.Name) &&  !Model.IsCopy ? "" : Model.BTrungBaCon)">
                     </div>
                 </div>
                 <div class="div-row-input-val">
@@ -677,6 +719,8 @@
                 nCachTrungDaXien: selectedRadioCr_nCachTrungDaXien.value,
                 nCoBaCon: document.getElementById("cr_nCoBaCon").value,
                 nTrungBaCon: document.getElementById("cr_nTrungBaCon").value,
+                nCoBaCon: document.getElementById("cr_nCoXiuChu").value,
+                nTrungBaCon: document.getElementById("cr_nTrungXiuChu").value,
                 nCoBonCon: document.getElementById("cr_nCoBonCon").value,
                 nTrungBonCon: document.getElementById("cr_nTrungBonCon").value,
                 nPhanTramTong: document.getElementById("cr_nPhanTramTong").value,
@@ -692,6 +736,8 @@
                 tCachTrungDaXien: selectedRadioCr_tCachTrungDaXien.value,
                 tCoBaCon: document.getElementById("cr_tCoBaCon").value,
                 tTrungBaCon: document.getElementById("cr_tTrungBaCon").value,
+                tCoBaCon: document.getElementById("cr_tCoXiuChu").value,
+                tTrungBaCon: document.getElementById("cr_tTrungXiuChu").value,
                 tCoBonCon: document.getElementById("cr_tCoBonCon").value,
                 tTrungBonCon: document.getElementById("cr_tTrungBonCon").value,
                 tPhanTramTong: document.getElementById("cr_tPhanTramTong").value,
@@ -704,6 +750,8 @@
                 bCachTrungDaThang: selectedRadioCr_bCachTrungDaThang.value,
                 bCoBaCon: document.getElementById("cr_bCoBaCon").value,
                 bTrungBaCon: document.getElementById("cr_bTrungBaCon").value,
+                bCoBaCon: document.getElementById("cr_bCoXiuChu").value,
+                bTrungBaCon: document.getElementById("cr_bTrungXiuChu").value,
                 bCoBonCon: document.getElementById("cr_bCoBonCon").value,
                 bTrungBonCon: document.getElementById("cr_bTrungBonCon").value,
                 bPhanTramTong: document.getElementById("cr_bPhanTramTong").value,
