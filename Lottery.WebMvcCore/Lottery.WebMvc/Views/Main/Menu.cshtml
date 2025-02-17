@@ -22,8 +22,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="~/css/menu.css" rel="stylesheet" />
+    <link href="~/css/summaryByDay.css" rel="stylesheet" />
+    @*datetimepicker*@
+    <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
+    <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
-      
+
+        .xdsoft_datetimepicker {
+            left: 50% !important;
+            top: 250px !important;
+            margin-left: -120px !important;
+        }
+
     </style>
 </head>
 <body>
@@ -47,6 +57,15 @@
                 </div>
             </div>
         }
+        <div onclick="UpdateResultsDay()" class="div-menu">
+            <div class="border-bottom-row"></div>
+            <div class="row-menu">
+                <i class="fa fa-wrench" aria-hidden="true"></i>
+                <span>Cập nhật kết quả</span>
+                <input id="update_results_day" style="display:none;" type="text">
+                <div id="datepicker_open"></div>
+            </div>
+        </div>
         <div class="div-menu">
             <div class="border-bottom-row"></div>
             <div class="row-menu">
@@ -113,12 +132,90 @@
         </div>
     </div>
     <script>
+
         //document.addEventListener("DOMContentLoaded", function() {
         //    const currentPage = window.location.href;
         //    sessionStorage.setItem("menuPage", currentPage);
         //});
         $(document).ready(function () {
 
+        });
+
+        jQuery.datetimepicker.setLocale('vi');
+        jQuery('#update_results_day').datetimepicker({
+            timepicker: false,
+            value: '@DateTime.Now.ToString("yyyy/MM/dd HH:mm")',
+            onShow: function (ct, input) {
+                document.getElementById("datepicker_open").classList.add("datepicker-open");
+            },
+            onClose: function (current_time, input) {
+                document.getElementById("datepicker_open").classList.remove("datepicker-open");
+            }
+        });
+        function UpdateResultsDay() {
+            $('#update_results_day').datetimepicker('show');
+        }
+        $('#update_results_day').on('change', function () {
+            var dateString = $(this).val();
+            let dateParts = dateString.split(' ')[0].split('/');
+            let formattedDate = dateParts[1] + '/' + dateParts[2] + '/' + dateParts[0];
+            event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                data:
+                {
+                    date: formattedDate,
+                },
+                url: "@Url.Action("UpdateResultsDay", "Main")",
+                success: function (data) {
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Cập nhật thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location = "/Administrator/UserListing")
+                    }
+                    else {
+                        if (data.redirectTo) {
+                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Cập nhật thất bại."
+                            awesomeAlert({
+                                header: true,
+                                type: 'warning',
+                                title: 'Cảnh báo!',
+                                message: message,
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/warning.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    awesomeAlert({
+                        header: true,
+                        type: 'error',
+                        title: 'Có lỗi!',
+                        message: 'Lỗi hệ thống',
+                        //bgColor: '#2dd284',
+                        img: '/assets/images/icon/error.svg',
+                        buttonOK: 'Oke!',
+                        closeStyle: 'circle'
+                    }).then(res => false)
+                },
+                complete: function () {
+                    hideOverlay();
+                }
+            })
         });
 
     </script>
