@@ -26,7 +26,7 @@ namespace Lottery.WebMvc.Controllers
             try
             {
                 bool result = false;
-                var dataBase = _provider.GetAsync<bool>(string.Format(ApiUri.Get_UpdateDay + "?dayte={0}", date));
+                var dataBase = _provider.GetAsync<bool>(string.Format(ApiUri.Get_UpdateDay + "?date={0}", date));
                 if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
                 {
                     result = dataBase.Result.Data;
