@@ -57,15 +57,18 @@
                 </div>
             </div>
         }
-        <div onclick="UpdateResultsDay()" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-wrench" aria-hidden="true"></i>
-                <span>Cập nhật kết quả</span>
-                <input id="update_results_day" style="display:none;" type="text">
-                <div id="datepicker_open"></div>
+        @if (user.IsAdmin)
+        {
+            <div onclick="UpdateResultsDay()" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-wrench" aria-hidden="true"></i>
+                    <span>Cập nhật kết quả</span>
+                    <input id="update_results_day" style="display:none;" type="text">
+                    <div id="datepicker_open"></div>
+                </div>
             </div>
-        </div>
+        }
         <div class="div-menu">
             <div class="border-bottom-row"></div>
             <div class="row-menu">
@@ -159,6 +162,12 @@
             var dateString = $(this).val();
             let dateParts = dateString.split(' ')[0].split('/');
             let formattedDate = dateParts[1] + '/' + dateParts[2] + '/' + dateParts[0];
+            if (confirm(`Bạn muốn cập nhật ngày ${formattedDate} ?`)) {
+                executeUpdateResultsDay(formattedDate);
+            }
+        });
+
+        function executeUpdateResultsDay(date) {
             event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
             ShowOverlay(true);
             $.ajax({
@@ -216,7 +225,7 @@
                     hideOverlay();
                 }
             })
-        });
+        }
 
     </script>
 </body>
