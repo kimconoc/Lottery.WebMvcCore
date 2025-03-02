@@ -48,6 +48,7 @@ namespace Lottery.DoMain.Models
     {
         public double HaiCon { get; set; }
         public double BaCon { get; set; }
+        public double XiuChu { get; set; }
         public double BonCon { get; set; }
     }
 

@@ -120,6 +120,13 @@
                             <strong>@Model.Total.Xac.BaCon</strong>
                         </span>
                     }
+                    @if (@Model.Total.Xac.XiuChu > 0)
+                    {
+                        <span>
+                            3XC:
+                            <strong>@Model.Total.Xac.XiuChu</strong>
+                        </span>
+                    }
                     @if (@Model.Total.Xac.BonCon > 0)
                     {
                         <span>
@@ -142,6 +149,13 @@
                         <span>
                             3C:
                             <strong>@Model.Total.QuaCo.BaCon</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.XiuChu > 0)
+                    {
+                        <span>
+                            3XC:
+                            <strong>@Model.Total.QuaCo.XiuChu</strong>
                         </span>
                     }
                     @if (@Model.Total.Xac.BonCon > 0)
@@ -189,6 +203,13 @@
                             <strong>@Model.Total.Trung.BaCon</strong>
                         </span>
                     }
+                    @if (@Model.Total.Xac.XiuChu > 0)
+                    {
+                        <span>
+                            3XC:
+                            <strong>@Model.Total.Trung.XiuChu</strong>
+                        </span>
+                    }
                     @if (@Model.Total.Xac.BonCon > 0)
                     {
                         <span>
@@ -228,7 +249,7 @@
         </div>
         <div style="overflow:auto;height:85vh">
             @{
-                int marginTop = 205;
+                int marginTop = 225;
                 int distance = 20;
                 if (@Model.Total.Xac.HaiCB <= 0)
                 {
@@ -247,6 +268,10 @@
                     marginTop = marginTop - distance;
                 }
                 if (@Model.Total.Xac.BaCon <= 0)
+                {
+                    marginTop = marginTop - distance;
+                }
+                if (@Model.Total.Xac.XiuChu <= 0)
                 {
                     marginTop = marginTop - distance;
                 }
@@ -318,6 +343,13 @@
                                              <strong>@item.Xac.BaCon</strong>
                                          </span>
                                      }
+                                     @if (@item.Xac.XiuChu > 0)
+                                     {
+                                         <span>
+                                             3XC:
+                                             <strong>@item.Xac.XiuChu</strong>
+                                         </span>
+                                     }
                                      @if (@item.Xac.BonCon > 0)
                                      {
                                          <span>
@@ -365,6 +397,13 @@
                                          <span>
                                              3C:
                                              <strong>@item.Trung.BaCon</strong>
+                                         </span>
+                                     }
+                                     @if (@item.Xac.XiuChu > 0)
+                                     {
+                                         <span>
+                                             3XC:
+                                             <strong>@item.Trung.XiuChu</strong>
                                          </span>
                                      }
                                      @if (@item.Xac.BonCon > 0)
