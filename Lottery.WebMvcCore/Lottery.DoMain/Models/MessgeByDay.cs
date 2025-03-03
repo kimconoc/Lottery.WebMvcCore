@@ -41,7 +41,7 @@ namespace Lottery.DoMain.Models
     {
         public Summary Xac { get; set; }
         public Summary Trung { get; set; }
-        public QuaCo QuaCo { get; set; }
+        public Summary QuaCo { get; set; }
     }
 
     public class QuaCo

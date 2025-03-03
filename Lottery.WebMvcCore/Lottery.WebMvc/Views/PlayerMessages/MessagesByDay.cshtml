@@ -137,11 +137,32 @@
                 </div>
                 <div class="div-quaCo">
                     <strong class="title">Qua Cò</strong>
-                    @if (@Model.Total.Xac.HaiCB > 0 || @Model.Total.Xac.HaiCD > 0 || @Model.Total.Xac.DaT > 0 || @Model.Total.Xac.DaX > 0)
+                    @if (@Model.Total.Xac.HaiCB > 0)
                     {
                         <span>
                             2CB:
-                            <strong>@Model.Total.QuaCo.HaiCon</strong>
+                            <strong>@Model.Total.QuaCo.HaiCB</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.HaiCD > 0)
+                    {
+                        <span>
+                            2CD:
+                            <strong>@Model.Total.QuaCo.HaiCD</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.DaT > 0)
+                    {
+                        <span>
+                            ĐáT:
+                            <strong>@Model.Total.QuaCo.DaT</strong>
+                        </span>
+                    }
+                    @if (@Model.Total.Xac.DaX > 0)
+                    {
+                        <span>
+                            ĐáX:
+                            <strong>@Model.Total.QuaCo.DaX</strong>
                         </span>
                     }
                     @if (@Model.Total.Xac.BaCon > 0)
