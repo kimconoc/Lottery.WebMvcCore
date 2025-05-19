@@ -1,4 +1,10 @@
-﻿.container-menu {
+﻿@media (min-width: 768px) {
+    .hotline-fixed {
+        right: calc(100%/2 - 300px + 20px) !important;
+    }
+}
+
+.container-menu {
     margin-top: 10px;
 }
 
@@ -43,4 +49,55 @@
     .row-menu i {
         font-size: 22px;
         color: #e3165b;
+    }
+
+.hotline-fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    text-decoration: none;
+}
+
+.hotline {
+    display: flex;
+    align-items: center;
+    background: #e3165b;
+    color: white;
+    border-radius: 30px;
+    padding: 8px 16px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    .hotline:hover {
+        transform: scale(1.05);
+    }
+
+    .hotline .icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+    }
+
+        .hotline .icon i {
+            font-size: 20px;
+            color: #e3165b;
+        }
+
+    .hotline .text .label {
+        font-size: 14px;
+        line-height: 1;
+    }
+
+    .hotline .text .number {
+        font-weight: bold;
+        line-height: 1.2;
     }

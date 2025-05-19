@@ -21,8 +21,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="~/css/menu.css" rel="stylesheet" />
-    <link href="~/css/summaryByDay.css" rel="stylesheet" />
+    <link href="~/css/menu.css?v=@Default.VersionApp" rel="stylesheet" />
+    <link href="~/css/summaryByDay.css?v=@Default.VersionApp" rel="stylesheet" />
     @*datetimepicker*@
     <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
     <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
@@ -133,7 +133,24 @@
             </div>
             <div class="border-bottom-row"></div>
         </div>
+        @if (!string.IsNullOrEmpty(user?.Hotline))
+        {
+            <div>
+                <a href="tel:@user?.Hotline" class="hotline-fixed">
+                    <div class="hotline">
+                        <div class="icon">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                        </div>
+                        <div class="text">
+                            <div class="label">HotLine 24/7</div>
+                            <div class="number">@Constant.FormatPhoneWithDots(user?.Hotline)</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
     </div>
+
     <script>
 
         //document.addEventListener("DOMContentLoaded", function() {

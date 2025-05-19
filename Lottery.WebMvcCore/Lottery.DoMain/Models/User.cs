@@ -19,6 +19,7 @@ namespace Lottery.DoMain.Models
         public bool IsLoginSuccess { get; set; }
         public int UserAgent { get; set; }
         public bool IsAdmin { get; set; }
+        public string Hotline { get; set; }
     }
     public class UserManagement : VBaseModel<int>
     {
