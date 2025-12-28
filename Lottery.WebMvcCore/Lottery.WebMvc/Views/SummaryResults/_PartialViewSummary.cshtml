@@ -92,17 +92,35 @@
                                 <td>@item.MienNam</td>
                                 <td>@item.MienTrung</td>
                                 <td>@item.MienBac</td>
-                                @if (item.Total > 0)
+                                @if (Model.Item2.ToDate == null)
                                 {
-                                    <td style="color:blue;">@item.Total</td>
-                                }
-                                else if (item.Total < 0)
-                                {
-                                    <td style="color:red;">@item.Total</td>
+                                    @if (item.Total > 0)
+                                    {
+                                        <td style="color:blue;cursor:pointer;" onclick="window.location.href='/SummaryResults/SummaryCountDetailByDay?handlDate=@ViewBag.HandlDate&idKhach=@item.IDKhach&name=@item.Name';">@item.Total</td>
+                                    }
+                                    else if (item.Total < 0)
+                                    {
+                                        <td style="color:red;cursor:pointer;" onclick="window.location.href='/SummaryResults/SummaryCountDetailByDay?handlDate=@ViewBag.HandlDate&idKhach=@item.IDKhach&name=@item.Name';">@item.Total</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Total</td>
+                                    }
                                 }
                                 else
                                 {
-                                    <td>@item.Total</td>
+                                    @if (item.Total > 0)
+                                    {
+                                        <td style="color:blue;">@item.Total</td>
+                                    }
+                                    else if (item.Total < 0)
+                                    {
+                                        <td style="color:red;">@item.Total</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Total</td>
+                                    }
                                 }
                             </tr>
                         }

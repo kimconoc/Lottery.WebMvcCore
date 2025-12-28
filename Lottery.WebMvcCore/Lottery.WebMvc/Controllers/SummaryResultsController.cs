@@ -61,11 +61,12 @@ namespace Lottery.WebMvc.Controllers
             return View(compositeModel);
         }
 
-        public IActionResult GetPartialViewSummary(string summaryModelJson, string countManyDayModelJson)
+        public IActionResult GetPartialViewSummary(string summaryModelJson, string countManyDayModelJson, string strDateTime)
         {
             var summaryModel = JsonConvert.DeserializeObject<List<CountByDay>>(summaryModelJson);
             var countManyDayModel = JsonConvert.DeserializeObject<CountManyDayModel>(countManyDayModelJson);
             var compositeModel = new Tuple<List<CountByDay>, CountManyDayModel>(summaryModel, countManyDayModel);
+            ViewBag.HandlDate = strDateTime;   
             return PartialView("_PartialViewSummary", compositeModel);
         }
 
@@ -80,5 +81,27 @@ namespace Lottery.WebMvc.Controllers
             }    
             return Json(Success_Request(true));
         }
+
+        public IActionResult SummaryCountDetailByDay(string handlDate, int idKhach, string name)
+        {
+            DateTime dateTime = Constant.ConvertStringToDateTime(handlDate);
+            CountDetailByDayModel countDetailByDayModel = new CountDetailByDayModel()
+            {
+                HandlDate = dateTime,
+                IDKhach = idKhach,
+                UserID = _memCached.GetCurrentUser().Id,
+                Name = name,
+            };
+            var dataBase = _provider.PostAsync<CountDetailByDay>(ApiUri.GET_HandlMessageCountDetailByDay, countDetailByDayModel);
+            if (dataBase == null || dataBase.Result == null || dataBase.Result.Data == null)
+            {
+                return Json(Server_Error("Đã có lỗi xảy ra!"));
+            }
+
+            var compositeModel = new Tuple<CountDetailByDayModel, CountDetailByDay>(countDetailByDayModel, dataBase.Result.Data);
+
+            return View(compositeModel);
+        }
+
     }
 }

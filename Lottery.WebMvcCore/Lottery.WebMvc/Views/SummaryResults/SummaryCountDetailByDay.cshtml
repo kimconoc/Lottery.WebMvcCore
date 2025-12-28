@@ -1,0 +1,154 @@
+﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Enum;
+@using Lottery.Service.ServiceProvider;
+@using Lottery.Service.ServiceProvider.Interface;
+@using Lottery.WebMvc.MemCached.Interface;
+@model Tuple<CountDetailByDayModel, CountDetailByDay>
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/summaryCountDetailByDay.css?v=@Default.VersionApp" rel="stylesheet" />
+    <style>
+      
+    </style>
+</head>
+<body>
+    <div class="container-summaryCountDetailByDay">
+        <div class="info-page">
+            <div class="date">@Model.Item1.HandlDate.ToString("dd/MM/yyyy")</div>
+        </div>
+        <div style="margin-top:-20px;" class="customer-box">
+            <span class="icon">👤</span> @Model.Item1.Name
+        </div>
+        <!-- ===== MIỀN NAM ===== -->
+        <div style="margin-top: 15px;" class="region-card mn">
+            <div class="region-title mn">Miền nam</div>
+
+            <div class="region-body">
+
+                <div class="row">
+                    <div class="label">Đánh</div>
+                    <div class="value">@Model.Item2.MienNam.StrThu</div>
+                </div>
+
+                <div class="row bold">
+                    <div class="label">Thực thu</div>
+                    <div class="value">@Model.Item2.MienNam.ThucThu</div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Item2.MienNam.StrTrung))
+                {
+                    <div class="row bold">
+                        <div class="label">Trúng</div>
+                        <div class="value">@Model.Item2.MienNam.StrTrung</div>
+                    </div>
+                }
+
+                <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
+                    <div class="label">Cái lời</div>
+                    <div class="value">@Model.Item2.MienNam.Cai</div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ===== MIỀN TRUNG ===== -->
+        <div class="region-card mt">
+            <div class="region-title mt">Miền trung</div>
+
+            <div class="region-body">
+
+                <div class="row">
+                    <div class="label">Đánh</div>
+                    <div class="value">@Model.Item2.MienTrung.StrThu</div>
+                </div>
+
+                <div class="row bold">
+                    <div class="label">Thực thu</div>
+                    <div class="value">@Model.Item2.MienTrung.ThucThu</div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Item2.MienTrung.StrTrung))
+                {
+                    <div class="row bold">
+                        <div class="label">Trúng</div>
+                        <div class="value">@Model.Item2.MienTrung.StrTrung</div>
+                    </div>
+                }
+
+                <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
+                    <div class="label">Cái lời</div>
+                    <div class="value">@Model.Item2.MienTrung.Cai</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== MIỀN BẮC ===== -->
+        <div class="region-card mb">
+            <div class="region-title mb">Miền bắc</div>
+
+            <div class="region-body">
+
+                <div class="row">
+                    <div class="label">Đánh</div>
+                    <div class="value">@Model.Item2.MienBac.StrThu</div>
+                </div>
+
+                <div class="row bold">
+                    <div class="label">Thực thu</div>
+                    <div class="value">@Model.Item2.MienBac.ThucThu</div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Item2.MienBac.StrTrung))
+                {
+                    <div class="row bold">
+                        <div class="label">Trúng</div>
+                        <div class="value">@Model.Item2.MienBac.StrTrung</div>
+                    </div>
+                }
+
+                <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
+                    <div class="label">Cái lời</div>
+                    <div class="value">@Model.Item2.MienBac.Cai</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== TỔNG KẾT ===== -->
+        <div class="region-card total">
+            <div class="region-title total">Tổng kết</div>
+
+            <div class="region-body">
+
+                <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
+                    <div class="label">Tổng cái lời</div>
+                    <div class="value">@Model.Item2.Tong</div>
+                </div>
+
+                <div class="row bold">
+                    <div class="label">Nợ cũ</div>
+                    <div class="value">@Model.Item2.NoCu</div>
+                </div>
+
+                <div class="row bold @(Model.Item2.Total>=0?"profit":"loss")">
+                    <div class="label">Tổng cuối</div>
+                    <div class="value">@Model.Item2.Total</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script>
+       
+    </script>
+</body>
+</html>

@@ -56,9 +56,8 @@
             window.location.href = `/SummaryResults/SummaryByDay?strDateTime=${dateString}`;
         });
         function getPartialViewSummary(summaryJson, countManyDayJson) {
-            debugger
             var url = '@Url.Action("GetPartialViewSummary", "SummaryResults")';
-            $('#div_summary_results').load(url, { summaryModelJson: summaryJson, countManyDayModelJson: countManyDayJson }, function (response, status, xhr) { });
+            $('#div_summary_results').load(url, { summaryModelJson: summaryJson, countManyDayModelJson: countManyDayJson, strDateTime: $('#datetimepicker').val()}, function (response, status, xhr) { });
         }
     </script>
 </body>
