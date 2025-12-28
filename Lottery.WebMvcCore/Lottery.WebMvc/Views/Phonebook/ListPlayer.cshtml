@@ -28,7 +28,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="~/css/listPlayer.css" rel="stylesheet" />
     <style>
-        
+        .debt {
+        color: black;
+        position: absolute;
+        font-size: 16px;
+        top: 6px;
+        right: 165px;
+        cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +66,22 @@
                                 <strong style="font-size:18px;">@string.Format(item.Name)</strong>
                                 <span style="margin-top:5px;">@string.Format(item.PhoneNumber + " " + (item.IsChu? "(chủ)" : "(khách)"))</span>
                             </div>
+                            @{
+                                if (item.NoCu < 0)
+                                {
+                                    <div class="debt">
+                                        <span>Lời :</span>
+                                        <strong style="color:red">@item.NoCu</strong>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="debt">
+                                        <span>Nợ :</span>
+                                        <strong style="color:blue">@item.NoCu</strong>
+                                    </div>
+                                }
+                            }
                             <i id="@item.Id" onclick="deletePlayer(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id&isCopy=true';" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Phonebook/ExecutionPlayer?playerId=@item.Id';" class="icon-danger-info fa fa-pencil-square-o" aria-hidden="true"></i>

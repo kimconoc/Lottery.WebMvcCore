@@ -87,7 +87,7 @@
 }
 
 .loss .value {
-    color: #d43b3b;
+    color: red;
 }
 
 .profit .value {

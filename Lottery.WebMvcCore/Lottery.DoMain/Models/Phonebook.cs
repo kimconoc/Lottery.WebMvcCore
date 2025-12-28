@@ -13,6 +13,7 @@ namespace Lottery.DoMain.Models
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsChu { get; set; }
+        public double NoCu { get; set; }
         public double NCoBaoHaiCon { get; set; }
         public double NTrungBaoHaiCon { get; set; }
         public double NCoHaiConDD { get; set; }
