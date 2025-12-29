@@ -16,7 +16,7 @@ namespace Lottery.DoMain.Constant
         public const string POST_CalculationCal2 = "Calculation/cal-2";
         public const string POST_CalculationCal3 = "Calculation/cal-3";
         public const string POST_CalculationCalFilter = "Calculation/filter";
-        public const string POST_UserUpdatePhonebook = "User/update-phonebook";
+        public const string PUT_UserUpdatePhonebook = "User/update-phonebook";
         public const string PUT_UserUpdateNo = "User/update-no";
         public const string Get_Phonebook = "User/phone-book";
         public const string Get_UpdateDay = "Common/update-day";
