@@ -1,4 +1,22 @@
-﻿.customer-box {
+﻿@media (min-width: 768px) {
+    .region-title.mn {
+        width: 110px !important;
+    }
+
+    .region-title.mt {
+        width: 110px !important;
+    }
+
+    .region-title.mb {
+        width: 110px !important;
+    }
+
+    .region-title.total {
+        width: 110px !important;
+    }
+}
+
+.customer-box {
     background: #f2f2f5;
     border-radius: 14px;
     padding: 8px 14px;
@@ -49,18 +67,22 @@
 }
 
     .region-title.mn {
+        width: 100px;
         background: #e3165b;
     }
 
     .region-title.mt {
+        width: 100px;
         background: #e3165b;
     }
 
     .region-title.mb {
+        width: 100px;
         background: #e3165b;
     }
 
     .region-title.total {
+        width: 100px;
         background: #2f6edf;
     }
 
