@@ -49,29 +49,29 @@
 }
 
     .region-title.mn {
-        background: #2f6edf;
+        background: #e3165b;
     }
 
     .region-title.mt {
-        background: #3ea86b;
+        background: #e3165b;
     }
 
     .region-title.mb {
-        background: #d34747;
+        background: #e3165b;
     }
 
     .region-title.total {
-        background: #6c7a89;
+        background: #2f6edf;
     }
 
 .region-body {
-    padding: 10px 14px 14px 14px;
+    padding: 5px 14px 5px 14px;
 }
 
 .row {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
+    padding: 3px 0;
 }
 
 .label {
