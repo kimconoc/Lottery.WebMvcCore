@@ -62,14 +62,14 @@
                             @{
                                 if (item.NoCu < 0)
                                 {
-                                    <div class="debt">
+                                    <div onclick="openPopup('@item.Id', '@item.NoCu')" class="debt">
                                         <span>Lời :</span>
                                         <strong style="color:red">@item.NoCu</strong>
                                     </div>
                                 }
                                 else
                                 {
-                                    <div class="debt">
+                                    <div onclick="openPopup('@item.Id', '@item.NoCu')" class="debt">
                                         <span>Nợ :</span>
                                         <strong style="color:blue">@item.NoCu</strong>
                                     </div>
@@ -84,6 +84,32 @@
                 }
             }
         }  
+
+        <!-- ===== Overlay Popup ===== -->
+        <div id="popupDebt" class="popup-overlay">
+
+            <div class="popup-box">
+
+                <div class="popup-header">
+                    Cập nhật nợ cũ
+                    <span onclick="closePopup()" class="close-btn">&times;</span>
+                </div>
+
+                <div class="popup-body">
+
+                    <label>Số tiền</label>
+                    <input id="txtDebt" type="number" placeholder="Nhập số tiền..." />
+
+                    <div class="btn-group">
+                        <button onclick="submitDebt('no')" class="btn btn-no">Nợ</button>
+                        <button onclick="submitDebt('loi')" class="btn btn-loi">Lời</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
     <script>
@@ -141,6 +167,98 @@
                 },
             })
         }
+
+        function openPopup(playerId, oldDebt) {
+
+            document.getElementById("popupDebt").style.display = "flex";
+
+            // lưu ID khách đang sửa
+            window.currentPlayer = playerId;
+
+            // lưu nợ cũ
+            window.currentOldDebt = oldDebt ?? 0;
+
+            // gán mặc định vào ô nhập tiền
+            document.getElementById("txtDebt").value = window.currentOldDebt;
+
+            // nếu có label hiển thị nợ cũ thì set luôn
+            let lbl = document.getElementById("oldDebtLabel");
+            if (lbl) {
+                lbl.innerText = "Nợ cũ: " + window.currentOldDebt;
+            }
+        }
+
+        function closePopup() {
+            document.getElementById("popupDebt").style.display = "none";
+        }
+
+        function submitDebt(type) {
+
+            let amount = document.getElementById("txtDebt").value;
+
+            if (!amount) {
+                return;
+            }
+
+            // ===== chuẩn hóa dấu =====
+            if (type === 'no') {          // NỢ
+                amount = Math.abs(amount);
+            }
+            else if (type === 'loi') {    // LỜI
+                amount = -Math.abs(amount);
+            }
+            
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                data:
+                {
+                    "idKhach": window.currentPlayer,
+                    "noCu": amount,
+                },
+                url: "@Url.Action("ExecuteUpdateNo", "Phonebook")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Cập nhật nợ thành công.',
+                            //bgColor: '#2dd284',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(res => window.location = "/Phonebook/ListPlayer")
+                    }
+                    else {
+                        if (data.redirectTo) {
+                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Đã có lỗi xảy ra."
+                            if (!isNullOrEmpty(data.message)) {
+                                message = data.message;
+                            }
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: message,
+                                //bgColor: '#2dd284',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(res => false)
+                        }
+                    }
+                },
+            })
+
+            closePopup();
+        }
+
     </script>
 </body>
 </html>

@@ -68,7 +68,7 @@ namespace Lottery.WebMvc.Controllers
                 {
                     players[0].PhoneNumber = "";
                 }
-                var playerBase = _provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
+                var playerBase = _provider.PutAsync<object>(ApiUri.PUT_UserUpdatePhonebook, players);
                 if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
                 {
                     return Json(Success_Request(playerBase.Result.IsSuccessful));
@@ -99,13 +99,40 @@ namespace Lottery.WebMvc.Controllers
             players.Add(phonebook);
 
             // Xóa
-            var playerBase = _provider.PutAsync<object>(ApiUri.POST_UserUpdatePhonebook, players);
+            var playerBase = _provider.PutAsync<object>(ApiUri.PUT_UserUpdatePhonebook, players);
             if (playerBase != null || playerBase.Result != null || playerBase.Result.IsSuccessful)
             {
                 return Json(Success_Request(playerBase.Result.IsSuccessful));
             }
 
             return View(Server_Error());
+        }
+
+        [HttpPost]
+        public IActionResult ExecuteUpdateNo(int idKhach, double noCu)
+        {
+
+            try
+            {
+                var data = new
+                {
+                    IdKhach = idKhach,
+                    NoCu = noCu
+                };
+
+                var updateNo = _provider.PutAsync<object>(ApiUri.PUT_UserUpdateNo, data);
+                if (updateNo != null || updateNo.Result != null || updateNo.Result.IsSuccessful)
+                {
+                    return Json(Success_Request(updateNo.Result.IsSuccessful));
+                }
+            }
+            catch (Exception ex)
+            {
+                FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
+            }
+
+            return View(Server_Error());
+
         }
     }
 }
