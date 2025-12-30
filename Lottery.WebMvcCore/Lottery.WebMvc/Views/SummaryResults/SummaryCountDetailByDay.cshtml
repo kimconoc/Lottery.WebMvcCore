@@ -23,7 +23,7 @@
             <div style="font-size: 14px;" class="date">@Model.Item1.HandlDate.ToString("dd/MM/yyyy")</div>
         </div>
         <div style="margin-top:-20px;" class="customer-box">
-            <span class="icon">👤</span> @Model.Item1.Name
+            <span class="icon">👤</span> @Model.Item1.Name @(Model.Item1.IsChu ? "(chủ)" : "(khách)")
         </div>
         <!-- ===== MIỀN NAM ===== -->
         <div style="margin-top: 15px;" class="region-card mn">
@@ -50,19 +50,39 @@
                 }
 
                 @{
-                    if (Model.Item2.MienNam.Cai <= 0)
+                    if(Model.Item1.IsChu)
                     {
-                        <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
-                            <div class="label">Cái lời</div>
-                            <div class="value">@Model.Item2.MienNam.Cai</div>
-                        </div>
+                        if (Model.Item2.MienNam.Cai <= 0)
+                        {
+                            <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái lời</div>
+                                <div class="value">@Model.Item2.MienNam.Cai</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái Lỗ</div>
+                                <div class="value">@Model.Item2.MienNam.Cai</div>
+                            </div>
+                        }
                     }
                     else
                     {
-                        <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
-                            <div class="label">Cái Lỗ</div>
-                            <div class="value">@Model.Item2.MienNam.Cai</div>
-                        </div>
+                        if (Model.Item2.MienNam.Cai >= 0)
+                        {
+                            <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái lời</div>
+                                <div class="value">@Model.Item2.MienNam.Cai</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái Lỗ</div>
+                                <div class="value">@Model.Item2.MienNam.Cai</div>
+                            </div>
+                        }
                     }
                 }
             </div>
@@ -94,19 +114,39 @@
                 }
 
                 @{
-                    if (Model.Item2.MienTrung.Cai <= 0)
+                    if (Model.Item1.IsChu)
                     {
-                        <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
-                            <div class="label">Cái lời</div>
-                            <div class="value">@Model.Item2.MienTrung.Cai</div>
-                        </div>
+                        if (Model.Item2.MienTrung.Cai <= 0)
+                        {
+                            <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái lời</div>
+                                <div class="value">@Model.Item2.MienTrung.Cai</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái Lỗ</div>
+                                <div class="value">@Model.Item2.MienTrung.Cai</div>
+                            </div>
+                        }
                     }
                     else
                     {
-                        <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
-                            <div class="label">Cái Lỗ</div>
-                            <div class="value">@Model.Item2.MienTrung.Cai</div>
-                        </div>
+                        if (Model.Item2.MienTrung.Cai >= 0)
+                        {
+                            <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái lời</div>
+                                <div class="value">@Model.Item2.MienTrung.Cai</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái Lỗ</div>
+                                <div class="value">@Model.Item2.MienTrung.Cai</div>
+                            </div>
+                        }
                     }
                 }
 
@@ -138,19 +178,39 @@
                 }
 
                 @{
-                    if (Model.Item2.MienBac.Cai <= 0)
+                    if (Model.Item1.IsChu)
                     {
-                        <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
-                            <div class="label">Cái lời</div>
-                            <div class="value">@Model.Item2.MienBac.Cai</div>
-                        </div>
+                        if (Model.Item2.MienBac.Cai <= 0)
+                        {
+                            <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái lời</div>
+                                <div class="value">@Model.Item2.MienBac.Cai</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái Lỗ</div>
+                                <div class="value">@Model.Item2.MienBac.Cai</div>
+                            </div>
+                        }
                     }
                     else
                     {
-                        <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
-                            <div class="label">Cái Lỗ</div>
-                            <div class="value">@Model.Item2.MienBac.Cai</div>
-                        </div>
+                        if (Model.Item2.MienBac.Cai >= 0)
+                        {
+                            <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái lời</div>
+                                <div class="value">@Model.Item2.MienBac.Cai</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
+                                <div class="label">Cái Lỗ</div>
+                                <div class="value">@Model.Item2.MienBac.Cai</div>
+                            </div>
+                        }
                     }
                 }
 
@@ -163,10 +223,42 @@
 
             <div class="region-body">
 
-                <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
-                    <div class="label">Tổng cái lời</div>
-                    <div class="value">@Model.Item2.Tong</div>
-                </div>
+                @{
+                    if (Model.Item1.IsChu)
+                    {
+                        if (Model.Item2.Tong <= 0)
+                        {
+                            <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
+                                <div class="label">Tổng cái lời</div>
+                                <div class="value">@Model.Item2.Tong</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
+                                <div class="label">Tổng cái Lỗ</div>
+                                <div class="value">@Model.Item2.Tong</div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.Item2.Tong >= 0)
+                        {
+                            <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
+                                <div class="label">Tổng cái lời</div>
+                                <div class="value">@Model.Item2.Tong</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
+                                <div class="label">Tổng cái Lỗ</div>
+                                <div class="value">@Model.Item2.Tong</div>
+                            </div>
+                        }
+                    }
+                }
 
                 <div class="row bold">
                     <div class="label">Nợ cũ</div>

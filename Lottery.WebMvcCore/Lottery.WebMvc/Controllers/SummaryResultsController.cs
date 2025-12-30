@@ -82,7 +82,7 @@ namespace Lottery.WebMvc.Controllers
             return Json(Success_Request(true));
         }
 
-        public IActionResult SummaryCountDetailByDay(string handlDate, int idKhach, string name)
+        public IActionResult SummaryCountDetailByDay(string handlDate, int idKhach, string name, bool isChu)
         {
             DateTime dateTime = Constant.ConvertStringToDateTime(handlDate);
             CountDetailByDayModel countDetailByDayModel = new CountDetailByDayModel()
@@ -90,6 +90,7 @@ namespace Lottery.WebMvc.Controllers
                 HandlDate = dateTime,
                 IDKhach = idKhach,
                 UserID = _memCached.GetCurrentUser().Id,
+                IsChu = isChu,
                 Name = name,
             };
             var dataBase = _provider.PostAsync<CountDetailByDay>(ApiUri.GET_HandlMessageCountDetailByDay, countDetailByDayModel);

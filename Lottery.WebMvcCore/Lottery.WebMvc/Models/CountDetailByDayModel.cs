@@ -5,6 +5,7 @@
         public DateTime HandlDate { get; set; }
         public int UserID { get; set; }
         public int IDKhach { get; set; }
+        public bool IsChu { get; set; }
         public string Name { get; set; }
     }
 }

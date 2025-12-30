@@ -60,7 +60,7 @@
 }
 
 .region-title {
-    padding: 8px 14px;
+    padding: 6px 14px;
     color: white;
     font-weight: 700;
     border-radius: 14px 14px 0 0;
@@ -87,13 +87,13 @@
     }
 
 .region-body {
-    padding: 5px 14px 5px 14px;
+    padding: 4px 14px 4px 14px;
 }
 
 .row {
     display: flex;
     justify-content: space-between;
-    padding: 3px 0;
+    padding: 2px 0;
 }
 
 .label {
