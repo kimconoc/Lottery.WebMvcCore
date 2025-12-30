@@ -62,7 +62,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
-                                <div class="label">Cái Lỗ</div>
+                                <div class="label">Cái lỗ</div>
                                 <div class="value">@Model.Item2.MienNam.Cai</div>
                             </div>
                         }
@@ -79,7 +79,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.MienNam.Cai>=0?"profit":"loss")">
-                                <div class="label">Cái Lỗ</div>
+                                <div class="label">Cái lỗ</div>
                                 <div class="value">@Model.Item2.MienNam.Cai</div>
                             </div>
                         }
@@ -126,7 +126,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
-                                <div class="label">Cái Lỗ</div>
+                                <div class="label">Cái lỗ</div>
                                 <div class="value">@Model.Item2.MienTrung.Cai</div>
                             </div>
                         }
@@ -143,7 +143,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.MienTrung.Cai>=0?"profit":"loss")">
-                                <div class="label">Cái Lỗ</div>
+                                <div class="label">Cái lỗ</div>
                                 <div class="value">@Model.Item2.MienTrung.Cai</div>
                             </div>
                         }
@@ -190,7 +190,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
-                                <div class="label">Cái Lỗ</div>
+                                <div class="label">Cái lỗ</div>
                                 <div class="value">@Model.Item2.MienBac.Cai</div>
                             </div>
                         }
@@ -207,7 +207,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.MienBac.Cai>=0?"profit":"loss")">
-                                <div class="label">Cái Lỗ</div>
+                                <div class="label">Cái lỗ</div>
                                 <div class="value">@Model.Item2.MienBac.Cai</div>
                             </div>
                         }
@@ -236,7 +236,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
-                                <div class="label">Tổng cái Lỗ</div>
+                                <div class="label">Tổng cái lỗ</div>
                                 <div class="value">@Model.Item2.Tong</div>
                             </div>
                         }
@@ -253,7 +253,7 @@
                         else
                         {
                             <div class="row bold @(Model.Item2.Tong>=0?"profit":"loss")">
-                                <div class="label">Tổng cái Lỗ</div>
+                                <div class="label">Tổng cái lỗ</div>
                                 <div class="value">@Model.Item2.Tong</div>
                             </div>
                         }
@@ -265,10 +265,42 @@
                     <div class="value">@Model.Item2.NoCu</div>
                 </div>
 
-                <div class="row bold @(Model.Item2.Total>=0?"profit":"loss")">
-                    <div class="label">Tổng cuối</div>
-                    <div class="value">@Model.Item2.Total</div>
-                </div>
+                @{
+                    if (Model.Item1.IsChu)
+                    {
+                        if (Model.Item2.Total <= 0)
+                        {
+                            <div class="row bold @(Model.Item2.Total>=0?"profit":"loss")">
+                                <div class="label">Tổng cuối lời</div>
+                                <div class="value">@Model.Item2.Total</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.Total>=0?"profit":"loss")">
+                                <div class="label">Tổng cuối lỗ</div>
+                                <div class="value">@Model.Item2.Total</div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.Item2.Total >= 0)
+                        {
+                            <div class="row bold @(Model.Item2.Total>=0?"profit":"loss")">
+                                <div class="label">Tổng cuối lời</div>
+                                <div class="value">@Model.Item2.Total</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row bold @(Model.Item2.Total>=0?"profit":"loss")">
+                                <div class="label">Tổng cuối lỗ</div>
+                                <div class="value">@Model.Item2.Total</div>
+                            </div>
+                        }
+                    }
+                }
 
             </div>
         </div>
