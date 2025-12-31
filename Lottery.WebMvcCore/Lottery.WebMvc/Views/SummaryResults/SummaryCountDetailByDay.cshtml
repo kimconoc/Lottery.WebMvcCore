@@ -13,6 +13,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="~/css/summaryCountDetailByDay.css?v=@Default.VersionApp" rel="stylesheet" />
+    @*master-plan*@
+    <script src="~/assets/helpers/master-plan/adr_common.js"></script>
+    <script src="~/assets/helpers/master-plan/iosOverlay.js"></script>
+    <link href="~/assets//helpers/master-plan/style.css" rel="stylesheet" />
+    @*cssscript*@
+    <script src="~/assets/helpers/awesome-alert-main/awesomealert.js"></script>
+    <link rel="stylesheet" href="~/assets/helpers/awesome-alert-main/style.css" />
+    <link rel="stylesheet" href="~/assets/helpers/toastinette-notification-main/assets/css/toastinette.min.css">
+    <script src="~/assets/helpers/toastinette-notification-main/assets/js/toastinette.js"></script>
+    @*Syncfusion*@
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-base/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-inputs/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-dropdowns/styles/material.css" rel="stylesheet">
+    <link href="https://cdn.syncfusion.com/ej2/22.2.5/ej2-buttons/styles/material.css" rel="stylesheet">
+    <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/syncfusion-helper.js" type="text/javascript"></script>
     <style>
 
     </style>
@@ -20,11 +36,34 @@
 <body>
     <div class="container-summaryCountDetailByDay">
         <div class="info-page">
-            <div style="font-size: 14px;" class="date">@Model.Item1.HandlDate.ToString("dd/MM/yyyy")</div>
+            @{
+                string GetThu(DateTime d)
+                {
+                    switch (d.DayOfWeek)
+                    {
+                        case DayOfWeek.Monday: return "T2";
+                        case DayOfWeek.Tuesday: return "T3";
+                        case DayOfWeek.Wednesday: return "T4";
+                        case DayOfWeek.Thursday: return "T5";
+                        case DayOfWeek.Friday: return "T6";
+                        case DayOfWeek.Saturday: return "T7";
+                        case DayOfWeek.Sunday: return "CN";
+                        default: return "";
+                    }
+                }
+
+                var d = Model.Item1.HandlDate;
+            }
+            <div style="font-size: 14px;" class="date">
+                @d.ToString("dd/MM"), @GetThu(d)
+            </div>
         </div>
-        <div style="margin-top:-20px;" class="customer-box">
-            <span class="icon">👤</span> @Model.Item1.Name @(Model.Item1.IsChu ? "(chủ)" : "(khách)")
+        <div class="customer-box">
+            <span class="icon">👤</span>
+            @Model.Item1.Name @(Model.Item1.IsChu ? "(chủ)" : "(khách)")
+            <i onclick="executionMessageCopy()" class="icon-danger-copy fa fa-clone" aria-hidden="true"></i>
         </div>
+
         <!-- ===== MIỀN NAM ===== -->
         <div style="margin-top: 15px;" class="region-card mn">
             <div class="region-title mn">Miền nam</div>
@@ -307,7 +346,48 @@
 
     </div>
     <script>
-       
+        function executionMessageCopy() {
+            var synTaxValue = `
+        @Model.Item1.HandlDate.ToString("dd/MM"), @GetThu(d)
+        @Model.Item1.Name
+        MN: @Model.Item2.MienNam.StrThu (ThựcThu: @Model.Item2.MienNam.ThucThu)
+        Trúng:
+        Cái lời: @Model.Item2.MienNam.Cai
+        MT: @Model.Item2.MienTrung.StrThu (ThựcThu: @Model.Item2.MienTrung.ThucThu)
+        Trúng:
+        Cái lời: @Model.Item2.MienTrung.Cai
+        MB: @Model.Item2.MienBac.StrThu (ThựcThu: @Model.Item2.MienBac.ThucThu)
+        Trúng:
+        Cái lời: @Model.Item2.MienBac.Cai
+        Tổng: cái lời @Model.Item2.Tong
+        Tiền cũ: @Model.Item2.NoCu
+        Total: cái lời @Model.Item2.Total`
+                .replace(/^\s+/gm, '')   // ⭐ xoá indent mỗi dòng
+                .trim();                 // ⭐ xoá dòng trống đầu/cuối
+
+            const textarea = document.createElement('textarea');
+            textarea.value = synTaxValue;
+            document.body.appendChild(textarea);
+            // Sử dụng requestAnimationFrame để giảm giật màn hình
+            requestAnimationFrame(() => {
+                textarea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    var msg = successful ? 'Đã sao chép nội dung tin nhắn.' : 'Trình duyệt chặn sao chép.';
+                    if (successful) {
+                        showToasinette_Success_Bottom_Center(msg);
+                    } else {
+                        showToasinette_Error_Bottom_Center(msg);
+                    }
+                } catch (err) {
+                    showToasinette_Error_Bottom_Center('Lỗi khi thực hiện sao chép: ' + err);
+                } finally {
+                    textarea.style.display = 'none';
+                    document.body.removeChild(textarea);
+                }
+            });
+        }
     </script>
 </body>
 </html>

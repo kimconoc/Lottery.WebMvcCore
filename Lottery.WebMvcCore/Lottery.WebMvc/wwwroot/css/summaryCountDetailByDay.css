@@ -16,6 +16,12 @@
     }
 }
 
+.icon-danger-copy {
+    color: #e3165b;
+    font-size: 24px;
+    cursor: pointer;
+}
+
 .customer-box {
     background: #f2f2f5;
     border-radius: 14px;
@@ -25,7 +31,16 @@
     gap: 8px;
     font-size: 15px;
     color: #333;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: -20px;
 }
+
+    /* đẩy nút copy sang bên phải */
+    .customer-box .icon-danger-copy {
+        margin-left: auto;
+    }
 
 .icon {
     opacity: .6;
