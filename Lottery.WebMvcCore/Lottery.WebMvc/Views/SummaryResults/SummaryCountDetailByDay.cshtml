@@ -35,7 +35,7 @@
 </head>
 <body>
     <div class="container-summaryCountDetailByDay">
-        <div class="info-page">
+        <div class="info-page-detail">
             @{
                 string GetThu(DateTime d)
                 {
@@ -345,49 +345,82 @@
         </div>
 
     </div>
+    @{
+        var textLoiMN = (Model.Item1.IsChu && Model.Item2.MienNam.Cai < 0)
+        || (!Model.Item1.IsChu && Model.Item2.MienNam.Cai > 0)
+        ? "lời"
+        : "lỗ";
+    }
+    @{
+        var textLoiMT =
+        (Model.Item1.IsChu && Model.Item2.MienTrung.Cai < 0)
+        || (!Model.Item1.IsChu && Model.Item2.MienTrung.Cai > 0)
+        ? "lời"
+        : "lỗ";
+    }
+    @{
+        var textLoiMB =
+        (Model.Item1.IsChu && Model.Item2.MienBac.Cai < 0)
+        || (!Model.Item1.IsChu && Model.Item2.MienBac.Cai > 0)
+        ? "lời"
+        : "lỗ";
+    }
+    @{
+        var textTong =
+        (Model.Item1.IsChu && Model.Item2.Tong < 0)
+        || (!Model.Item1.IsChu && Model.Item2.Tong > 0)
+        ? "lời"
+        : "lỗ";
+    }
+    @{
+        var textTotal =
+        (Model.Item1.IsChu && Model.Item2.Total < 0)
+        || (!Model.Item1.IsChu && Model.Item2.Total > 0)
+        ? "lời"
+        : "lỗ";
+    }
     <script>
         function executionMessageCopy() {
+
             var synTaxValue = `
         @Model.Item1.HandlDate.ToString("dd/MM"), @GetThu(d)
         @Model.Item1.Name
         MN: @Model.Item2.MienNam.StrThu (ThựcThu: @Model.Item2.MienNam.ThucThu)
-        Trúng:
-        Cái lời: @Model.Item2.MienNam.Cai
+        Trúng: @Model.Item2.MienNam.StrTrung
+        Cái @Html.Raw(textLoiMN): @Model.Item2.MienNam.Cai
         MT: @Model.Item2.MienTrung.StrThu (ThựcThu: @Model.Item2.MienTrung.ThucThu)
-        Trúng:
-        Cái lời: @Model.Item2.MienTrung.Cai
+        Trúng: @Model.Item2.MienTrung.StrTrung
+        Cái @Html.Raw(textLoiMT): @Model.Item2.MienTrung.Cai
         MB: @Model.Item2.MienBac.StrThu (ThựcThu: @Model.Item2.MienBac.ThucThu)
-        Trúng:
-        Cái lời: @Model.Item2.MienBac.Cai
-        Tổng: cái lời @Model.Item2.Tong
+        Trúng: @Model.Item2.MienBac.StrTrung
+        Cái @Html.Raw(textLoiMB): @Model.Item2.MienBac.Cai
+        Tổng cái @Html.Raw(textTong): @Model.Item2.Tong
         Tiền cũ: @Model.Item2.NoCu
-        Total: cái lời @Model.Item2.Total`
-                .replace(/^\s+/gm, '')   // ⭐ xoá indent mỗi dòng
-                .trim();                 // ⭐ xoá dòng trống đầu/cuối
+        Total cái @Html.Raw(textTotal): @Model.Item2.Total`
+            .replace(/^\s+/gm, '')
+            .trim();
 
             const textarea = document.createElement('textarea');
             textarea.value = synTaxValue;
             document.body.appendChild(textarea);
-            // Sử dụng requestAnimationFrame để giảm giật màn hình
+
             requestAnimationFrame(() => {
                 textarea.select();
-
                 try {
                     var successful = document.execCommand('copy');
-                    var msg = successful ? 'Đã sao chép nội dung tin nhắn.' : 'Trình duyệt chặn sao chép.';
                     if (successful) {
-                        showToasinette_Success_Bottom_Center(msg);
+                        showToasinette_Success_Bottom_Center('Đã sao chép nội dung tin nhắn.');
                     } else {
-                        showToasinette_Error_Bottom_Center(msg);
+                        showToasinette_Error_Bottom_Center('Trình duyệt chặn sao chép.');
                     }
                 } catch (err) {
-                    showToasinette_Error_Bottom_Center('Lỗi khi thực hiện sao chép: ' + err);
+                    showToasinette_Error_Bottom_Center('Lỗi khi sao chép: ' + err);
                 } finally {
-                    textarea.style.display = 'none';
                     document.body.removeChild(textarea);
                 }
             });
         }
     </script>
+
 </body>
 </html>

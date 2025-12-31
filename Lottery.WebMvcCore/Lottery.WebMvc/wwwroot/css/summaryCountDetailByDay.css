@@ -1,18 +1,22 @@
 ﻿@media (min-width: 768px) {
     .region-title.mn {
         width: 110px !important;
+        height: 25px !important;
     }
 
     .region-title.mt {
         width: 110px !important;
+        height: 25px !important;
     }
 
     .region-title.mb {
         width: 110px !important;
+        height: 25px !important;
     }
 
     .region-title.total {
         width: 110px !important;
+        height: 25px !important;
     }
 }
 
