@@ -77,13 +77,6 @@ body {
     color: #e3165b;
     margin-bottom: 20px;
 }
-.info-page-detail {
-    justify-content: center;
-    display: flex;
-    font-size: 18px;
-    color: #e3165b;
-    margin-bottom: 12px;
-}
 
 .box-no-data-found {
     margin-top: 12px;
