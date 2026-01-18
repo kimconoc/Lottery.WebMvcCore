@@ -573,6 +573,7 @@
             radiobutton = new ej.buttons.RadioButton({ label: 'Ky rưỡi', name: 'cr_bCachTrungDaThang', value: '1', enableRtl: 'true' });
             radiobutton.appendTo('#cr_bCachTrungDaThang_kyRuoi');
             radiobutton = new ej.buttons.RadioButton({ label: 'Nhiều cặp', name: 'cr_bCachTrungDaThang', value: '2', enableRtl: 'true', checked: true });
+            radiobutton.appendTo('#cr_bCachTrungDaThang_nhieuCap');
 
             if (model.IsChu || model.Name != null) {
                 switch (model.NCachTrungDaThang) {
@@ -677,7 +678,6 @@
                 }
             }
 
-            radiobutton.appendTo('#cr_bCachTrungDaThang_nhieuCap');
             // Render initialized CheckBox.
             var checkbox = new ej.buttons.CheckBox({ label: 'Hiện đá xiên' });
             checkbox.appendTo('#cr_bcheckbox_show_daxien');
