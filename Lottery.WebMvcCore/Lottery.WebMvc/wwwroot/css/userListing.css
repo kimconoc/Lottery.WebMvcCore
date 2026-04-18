@@ -147,3 +147,81 @@
     right: 5px;
     cursor: pointer;
 }
+
+/* Quản lý đại lý — grid: cột trái text, cột phải hai hàng icon (không absolute) */
+.div-list-userListing.agent-listing-row {
+    padding-bottom: 52px;
+}
+
+.div-list-userListing.agent-listing-row .agent-listing-main {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min-content;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    align-items: start;
+    min-height: 88px;
+}
+
+.div-list-userListing.agent-listing-row .agent-listing-main .info-detail {
+    grid-column: 1;
+    grid-row: 1;
+    padding-right: 0;
+    margin-top: 3px;
+    flex: none;
+    min-width: 0;
+}
+
+.div-list-userListing.agent-listing-row .agent-rail {
+    grid-column: 2;
+    grid-row: 1;
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    margin-top: 2px;
+    float: none !important;
+    --agent-rail-col: 2.35rem;
+}
+
+/* Hai hàng cùng lưới 5 cột; inline-grid co theo nội dung — khớp align-items:flex-end của .agent-rail (căn phải, không dùng width/margin ép) */
+.div-list-userListing.agent-listing-row .agent-rail-row1,
+.div-list-userListing.agent-listing-row .agent-rail-row2 {
+    display: inline-grid;
+    grid-template-columns: repeat(5, var(--agent-rail-col));
+    justify-items: center;
+    align-items: center;
+    column-gap: 0;
+    vertical-align: top;
+}
+
+.div-list-userListing.agent-listing-row .agent-rail-row1 > i {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    margin: 0 !important;
+    float: none !important;
+}
+
+.div-list-userListing.agent-listing-row .agent-rail-row2 > i {
+    position: static !important;
+    float: none !important;
+    color: #555;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.div-list-userListing.agent-listing-row .agent-rail-slot-ph {
+    visibility: hidden;
+    pointer-events: none;
+    width: 100%;
+    min-height: 1px;
+}
+
+.div-list-userListing.agent-listing-row .agent-listing-border {
+    grid-column: 1 / -1;
+    grid-row: 2;
+}

@@ -1,0 +1,208 @@
+@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Newtonsoft.Json;
+@using Lottery.DoMain.Extentions;
+@using Lottery.DoMain.Enum;
+@model List<UserManagement>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/userListing.css?v=@Default.VersionApp" rel="stylesheet" />
+    <style></style>
+</head>
+<body>
+    <div class="container-userListing">
+        @{
+            if (Model == null || Model.Count == 0)
+            {
+                <div class="box-no-data-found">
+                    <img src="~/lottery/empty-order/empty-order.png" alt="">
+                    <span>Không có đại lý</span>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    string txtStatus = string.Empty;
+                    string colorStatus = string.Empty;
+                    switch (item.Status)
+                    {
+                        case (int)ActiveStatusEnum.Active:
+                            colorStatus = "#4CAF50";
+                            txtStatus = ActiveStatusEnum.Active.GetDescription();
+                            break;
+                        case (int)ActiveStatusEnum.ToExpire:
+                            colorStatus = "#FF9800";
+                            txtStatus = ActiveStatusEnum.ToExpire.GetDescription();
+                            break;
+                        case (int)ActiveStatusEnum.Expire:
+                            colorStatus = "#F44336";
+                            txtStatus = ActiveStatusEnum.Expire.GetDescription();
+                            break;
+                        default:
+                            colorStatus = "#9E9E9E";
+                            txtStatus = ActiveStatusEnum.NotUse.GetDescription();
+                            break;
+                    }
+                    <div class="div-list-userListing agent-listing-row">
+                        <div class="avatar">
+                            <i class="fa fa-user-circle"></i>
+                        </div>
+                        <div class="agent-listing-main">
+                            <div class="info-detail">
+                                <strong style="font-size:18px;">@item.Name</strong>
+                                <span style="margin-top:5px;">
+                                    Tài khoản:
+                                    <strong>@item.Account</strong>
+                                </span>
+                                <span style="margin-top:5px;">
+                                    Trạng thái:
+                                    <strong style="color:@colorStatus;">@txtStatus</strong>
+                                </span>
+                                <span style="margin-top:5px;">
+                                    Hết hạn:
+                                    <strong>@item.ExpireDate.ToString("dd/MM/yyyy")</strong>
+                                </span>
+                                @if (!string.IsNullOrEmpty(item.Note))
+                                {
+                                    <span style="margin-top:5px;">
+                                        Ghi chú:
+                                        <span>@item.Note</span>
+                                    </span>
+                                }
+                            </div>
+                            <div class="agent-rail">
+                                <div class="agent-rail-row1">
+                                    <i id="@item.Id" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                                    <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/UpdateUser?userId=@item.Id&name=@item.Name&account=@item.Account&note=@item.Note';" class="icon-danger-updateUser fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </div>
+                                <div class="agent-rail-row2">
+                                    <span class="agent-rail-slot-ph" aria-hidden="true"></span>
+                                    <span class="agent-rail-slot-ph" aria-hidden="true"></span>
+                                    <span class="agent-rail-slot-ph" aria-hidden="true"></span>
+                                    <i class="fa fa-history icon-agent-history" aria-hidden="true" title="(Chức năng sắp mở)"></i>
+                                    <i class="fa fa-address-card icon-agent-address-card" aria-hidden="true" title="(Chức năng sắp mở)"></i>
+                                </div>
+                            </div>
+                            <div class="agent-listing-border border-bottom-row" style="margin-bottom:20px;"></div>
+                        </div>
+                        <div style="background-color:@colorStatus;" class="status-dot"></div>
+                    </div>
+                }
+            }
+        }
+        <button type="button" onclick="window.location.href='/Administrator/AddUser';" class="floating-button">+</button>
+    </div>
+    <script>
+        var agentListingUrl = "/Administrator/AgentListing";
+
+        function deleteUser(dom) {
+            if (confirm("Bạn muốn xóa tài khoản này?")) {
+                executeDeleteUser(dom.id);
+            }
+        }
+
+        function executeDeleteUser(userId) {
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                data: { "userId": userId },
+                url: "@Url.Action("ExecuteDeleteUser", "Administrator")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Xóa tài khoản thành công.',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(function () { window.location = agentListingUrl; })
+                    }
+                    else {
+                        if (data.redirectTo) {
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Đã có lỗi xảy ra.";
+                            if (!isNullOrEmpty(data.message)) {
+                                message = data.message;
+                            }
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: message,
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(function () { return false; })
+                        }
+                    }
+                },
+            })
+        }
+
+        function refreshImeiUser(dom) {
+            if (confirm("Bạn muốn làm mới Imei tài khoản này?")) {
+                executeRefreshImeiUser(dom.id);
+            }
+        }
+
+        function executeRefreshImeiUser(userId) {
+            ShowOverlay(true);
+            $.ajax({
+                type: "POST",
+                traditional: true,
+                data: { "userId": userId },
+                url: "@Url.Action("ExecuteRefreshImeiUser", "Administrator")",
+                success: function (data) {
+                    hideOverlay();
+                    if (data.success && data.data) {
+                        awesomeAlert({
+                            header: true,
+                            type: 'success',
+                            title: 'Thành công!',
+                            message: 'Làm mới Imei thành công.',
+                            img: '/assets/images/icon/success.svg',
+                            buttonOK: 'Xong!',
+                            closeStyle: 'circle'
+                        }).then(function () { window.location = agentListingUrl; })
+                    }
+                    else {
+                        if (data.redirectTo) {
+                            window.location.href = data.redirectTo;
+                        } else {
+                            var message = "Đã có lỗi xảy ra.";
+                            if (!isNullOrEmpty(data.message)) {
+                                message = data.message;
+                            }
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: message,
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            }).then(function () { return false; })
+                        }
+                    }
+                },
+            })
+        }
+    </script>
+</body>
+</html>

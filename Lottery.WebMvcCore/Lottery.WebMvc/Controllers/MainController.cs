@@ -25,6 +25,11 @@ namespace Lottery.WebMvc.Controllers
         {
             try
             {
+                var current = _memCached.GetCurrentUser();
+                if (current == null || !(current.IsAdmin || current.Parent == 0))
+                {
+                    return Json(Bad_Request("Bạn không có quyền thực hiện thao tác này."));
+                }
                 bool result = false;
                 var dataBase = _provider.GetAsync<bool>(string.Format(ApiUri.Get_UpdateDay + "?date={0}", date));
                 if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)

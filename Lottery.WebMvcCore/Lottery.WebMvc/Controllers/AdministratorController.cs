@@ -19,7 +19,32 @@ namespace Lottery.WebMvc.Controllers
         public IActionResult UserListing()
         {
             List<UserManagement> users = new List<UserManagement>();
-            var dataBase = _provider.GetAsync<List<UserManagement>>(string.Format(ApiUri.GET_AdminListing));
+            var current = _memCached.GetCurrentUser();
+            if (current == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var dataBase = _provider.GetAsync<List<UserManagement>>(string.Format(ApiUri.GET_AdminListing, current.Id));
+            if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
+            {
+                users = dataBase.Result.Data;
+            }
+            return View(users);
+        }
+
+        public IActionResult AgentListing()
+        {
+            var current = _memCached.GetCurrentUser();
+            if (current == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (!current.IsAdmin)
+            {
+                return RedirectToAction("Menu", "Main");
+            }
+            List<UserManagement> users = new List<UserManagement>();
+            var dataBase = _provider.GetAsync<List<UserManagement>>(ApiUri.GET_AdminListingAgents);
             if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
             {
                 users = dataBase.Result.Data;
@@ -29,6 +54,8 @@ namespace Lottery.WebMvc.Controllers
 
         public IActionResult AddUser()
         {
+            var current = _memCached.GetCurrentUser();
+            ViewBag.ShowQuanLyCheckbox = current?.IsAdmin == true;
             return View();
         }
 
@@ -38,7 +65,22 @@ namespace Lottery.WebMvc.Controllers
             try
             {
                 var userManagementModel = JsonConvert.DeserializeObject<UserManagementModel>(userManagementJson);
+                var currentUser = _memCached.GetCurrentUser();
+                if (currentUser == null)
+                {
+                    return Json(Server_Error("Phiên đăng nhập không hợp lệ."));
+                }
                 userManagementModel.ExpireDate = Constant.ConvertStringToDateTime(userManagementModel.StrExpireDate);
+                if (currentUser.IsAdmin)
+                {
+                    userManagementModel.Parent = userManagementModel.IsQuanLy ? 0 : currentUser.Id;
+                    userManagementModel.IsAdmin = true;
+                }
+                else
+                {
+                    userManagementModel.Parent = currentUser.Id;
+                    userManagementModel.IsAdmin = false;
+                }
                 var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminAdd, userManagementModel);
                 if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
                 {

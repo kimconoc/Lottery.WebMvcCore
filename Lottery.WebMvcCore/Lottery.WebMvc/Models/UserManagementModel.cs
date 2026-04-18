@@ -9,6 +9,9 @@
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string Note { get; set; }
+        public bool IsQuanLy { get; set; }
+        public int Parent { get; set; }
+        public bool IsAdmin { get; set; }
     }
     public class ExtendExpireDateModel
     {
