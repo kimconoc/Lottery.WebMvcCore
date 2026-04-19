@@ -12,6 +12,33 @@ namespace Lottery.WebMvc.Controllers
 {
     public class AdministratorController : BaseController
     {
+        private static string SanitizeAccountManageReturnUrl(string? returnUrl)
+        {
+            if (string.IsNullOrWhiteSpace(returnUrl))
+            {
+                return Default.AdministratorAccount_Return_UserListing;
+            }
+            var t = returnUrl.Trim();
+            if (t.StartsWith(Default.AdministratorAccount_Return_AgentListing, StringComparison.OrdinalIgnoreCase)
+                && t.IndexOf("://", StringComparison.Ordinal) < 0)
+            {
+                return Default.AdministratorAccount_Return_AgentListing;
+            }
+            return Default.AdministratorAccount_Return_UserListing;
+        }
+
+        private static string AccountManageHeaderTitleForReturnUrl(string safeReturnUrl) =>
+            safeReturnUrl.Equals(Default.AdministratorAccount_Return_AgentListing, StringComparison.OrdinalIgnoreCase)
+                ? Default.AdministratorAccount_Header_AgentListingContext
+                : Default.AdministratorAccount_Header_UserListingContext;
+
+        private void SetAccountManageFlowViewData(string? returnUrl)
+        {
+            var safe = SanitizeAccountManageReturnUrl(returnUrl);
+            ViewBag.AccountManageReturnUrl = safe;
+            ViewBag.AccountManageHeaderTitle = AccountManageHeaderTitleForReturnUrl(safe);
+        }
+
         public AdministratorController(IProvider provider, IMemCached memCached) : base(provider, memCached)
         {
         }
@@ -29,6 +56,7 @@ namespace Lottery.WebMvc.Controllers
             {
                 users = dataBase.Result.Data;
             }
+            ViewBag.LayoutCenterTitle = Default.AdministratorAccount_Header_UserListingContext;
             return View(users);
         }
 
@@ -49,6 +77,7 @@ namespace Lottery.WebMvc.Controllers
             {
                 users = dataBase.Result.Data;
             }
+            ViewBag.LayoutCenterTitle = Default.AdministratorAccount_Header_AgentListingContext;
             return View(users);
         }
 
@@ -165,8 +194,9 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
-        public IActionResult ExtendExpireDate(int userId, string name, string account, DateTime expireDate, int parent)
+        public IActionResult ExtendExpireDate(int userId, string name, string account, DateTime expireDate, int parent, string? returnUrl = null)
         {
+            SetAccountManageFlowViewData(returnUrl);
             UserManagement userManagement = new UserManagement()
             {
                 Id = userId,
@@ -205,8 +235,9 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
-        public IActionResult ChangePassword(int userId, string name, string account)
+        public IActionResult ChangePassword(int userId, string name, string account, string? returnUrl = null)
         {
+            SetAccountManageFlowViewData(returnUrl);
             UserManagement userManagement = new UserManagement()
             {
                 Id = userId,
@@ -216,8 +247,9 @@ namespace Lottery.WebMvc.Controllers
             return View(userManagement);
         }
 
-        public IActionResult UpdateUser(int userId, string name, string account, string note)
+        public IActionResult UpdateUser(int userId, string name, string account, string note, string? returnUrl = null)
         {
+            SetAccountManageFlowViewData(returnUrl);
             UserManagement userManagement = new UserManagement()
             {
                 Id = userId,

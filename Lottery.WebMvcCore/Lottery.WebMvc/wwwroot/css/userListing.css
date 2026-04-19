@@ -333,6 +333,7 @@
     font-weight: 600;
     justify-content: center;
     width: 100%;
+    transform: translateX(-4ch);
 }
 
 .agent-logs-date-row td {

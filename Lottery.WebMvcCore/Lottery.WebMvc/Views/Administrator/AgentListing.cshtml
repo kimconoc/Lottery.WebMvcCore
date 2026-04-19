@@ -82,9 +82,9 @@
                                 <div class="agent-rail-row1">
                                     <i id="@item.Id" data-parent="@item.Parent" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
                                     <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
-                                    <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate&parent=@item.Parent';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
-                                    <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
-                                    <i onclick="window.location.href='/Administrator/UpdateUser?userId=@item.Id&name=@item.Name&account=@item.Account&note=@item.Note';" class="icon-danger-updateUser fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate&parent=@item.Parent&returnUrl=@Uri.EscapeDataString(Default.AdministratorAccount_Return_AgentListing)';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account&returnUrl=@Uri.EscapeDataString(Default.AdministratorAccount_Return_AgentListing)';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/UpdateUser?userId=@item.Id&name=@item.Name&account=@item.Account&note=@item.Note&returnUrl=@Uri.EscapeDataString(Default.AdministratorAccount_Return_AgentListing)';" class="icon-danger-updateUser fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </div>
                                 <div class="agent-rail-row2">
                                     <span class="agent-rail-slot-ph" aria-hidden="true"></span>
@@ -101,7 +101,6 @@
                 }
             }
         }
-        <button type="button" onclick="window.location.href='/Administrator/AddUser';" class="floating-button">+</button>
     </div>
     <script>
         var agentListingUrl = "/Administrator/AgentListing";
