@@ -8,7 +8,7 @@ namespace Lottery.DoMain.Constant
 {
     public class Default
     {
-        public const string VersionApp = "1.2.1";
+        public const string VersionApp = "1.2.2";
         public const int CachTrungDaXien = 2;
 
         /// <summary>Header back khi quản lý tài khoản từ UserListing.</summary>

@@ -321,8 +321,12 @@
 }
 
 .agent-logs-col-check {
-    width: 96px;
+    width: 148px;
+    min-width: 148px;
+    max-width: 40%;
     text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 .agent-logs-select-all-label {
@@ -332,8 +336,15 @@
     cursor: pointer;
     font-weight: 600;
     justify-content: center;
-    width: 100%;
-    transform: translateX(-4ch);
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-left: -4px;
+}
+
+.agent-logs-select-all-label span {
+    white-space: nowrap;
 }
 
 .agent-logs-date-row td {
