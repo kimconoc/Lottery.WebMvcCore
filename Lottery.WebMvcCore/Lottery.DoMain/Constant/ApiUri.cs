@@ -36,5 +36,7 @@ namespace Lottery.DoMain.Constant
         public const string POST_AdminReset = "Admin/Reset";
         public const string POST_AdminChangePass = "Admin/change-pass";
         public const string POST_AdminUpdate = "Admin/update";
+        public const string GET_CommonAgentLogs = "Common/agent-logs/{0}";
+        public const string POST_CommonDeleteLogs = "Common/delete-logs";
     }
 }

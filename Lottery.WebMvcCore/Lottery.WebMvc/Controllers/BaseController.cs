@@ -36,6 +36,8 @@ namespace Lottery.WebMvc.Controllers
         {
             "/Administrator/UserListing",
             "/Administrator/AgentListing",
+            "/Administrator/AgentUserLogs",
+            "/Administrator/AgentManagedUsers",
             "/Administrator/AddUser",
             "/Administrator/ExtendExpireDate",
             "/Administrator/ChangePassword",
@@ -45,6 +47,7 @@ namespace Lottery.WebMvc.Controllers
             "/Administrator/ExecuteUpdateUser",
             "/Administrator/ExecuteDeleteUser",
             "/Administrator/ExecuteRefreshImeiUser",
+            "/Administrator/ExecuteDeleteLogs",
         };
 
         //protected IProvider provider = new Provider();

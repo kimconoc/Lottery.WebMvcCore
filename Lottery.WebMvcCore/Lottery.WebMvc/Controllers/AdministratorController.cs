@@ -52,6 +52,77 @@ namespace Lottery.WebMvc.Controllers
             return View(users);
         }
 
+        /// <summary>Thông báo (log) theo đại lý — chỉ admin.</summary>
+        public IActionResult AgentUserLogs(int agentUserId)
+        {
+            var current = _memCached.GetCurrentUser();
+            if (current == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (!current.IsAdmin)
+            {
+                return RedirectToAction("Menu", "Main");
+            }
+            List<UserAgentLogItem> logs = new List<UserAgentLogItem>();
+            var dataBase = _provider.GetAsync<List<UserAgentLogItem>>(string.Format(ApiUri.GET_CommonAgentLogs, agentUserId));
+            if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
+            {
+                logs = dataBase.Result.Data;
+            }
+            ViewBag.AgentUserId = agentUserId;
+            ViewData["HideLayoutTopBar"] = true;
+            return View(logs);
+        }
+
+        /// <summary>Danh sách tài khoản con do đại lý quản lý — giống UserListing nhưng owner = đại lý.</summary>
+        public IActionResult AgentManagedUsers(int ownerUserId)
+        {
+            var current = _memCached.GetCurrentUser();
+            if (current == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (!current.IsAdmin)
+            {
+                return RedirectToAction("Menu", "Main");
+            }
+            List<UserManagement> users = new List<UserManagement>();
+            var dataBase = _provider.GetAsync<List<UserManagement>>(string.Format(ApiUri.GET_AdminListing, ownerUserId));
+            if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
+            {
+                users = dataBase.Result.Data;
+            }
+            ViewBag.OwnerUserId = ownerUserId;
+            ViewData["HideLayoutTopBar"] = true;
+            return View(users);
+        }
+
+        [HttpPost]
+        public IActionResult ExecuteDeleteLogs([FromBody] DeleteLogsRequestModel request)
+        {
+            var current = _memCached.GetCurrentUser();
+            if (current == null)
+            {
+                return Json(Server_Error("Phiên đăng nhập không hợp lệ."));
+            }
+            if (!current.IsAdmin)
+            {
+                return Json(Server_Error("Không có quyền."));
+            }
+            if (request?.Ids == null || request.Ids.Count == 0)
+            {
+                return Json(Bad_Request("Chưa chọn log để xóa."));
+            }
+            var dataBase = _provider.PostAsync<object>(ApiUri.POST_CommonDeleteLogs, new { Ids = request.Ids });
+            if (dataBase == null || dataBase.Result == null || !dataBase.Result.IsSuccessful)
+            {
+                var msg = dataBase?.Result?.Message;
+                return Json(Server_Error(string.IsNullOrEmpty(msg) ? "Đã có lỗi xảy ra!" : msg));
+            }
+            return Json(Success_Request(dataBase.Result.IsSuccessful));
+        }
+
         public IActionResult AddUser()
         {
             var current = _memCached.GetCurrentUser();
@@ -94,28 +165,31 @@ namespace Lottery.WebMvc.Controllers
             }
         }
 
-        public IActionResult ExtendExpireDate(int userId, string name, string account, DateTime expireDate)
+        public IActionResult ExtendExpireDate(int userId, string name, string account, DateTime expireDate, int parent)
         {
             UserManagement userManagement = new UserManagement()
             {
                 Id = userId,
                 Name = name,
                 Account = account,
-                ExpireDate = expireDate
+                ExpireDate = expireDate,
+                Parent = parent
             };
             return View(userManagement);
         }
 
         [HttpPost]
-        public IActionResult ExecuteExtendExpireDate(int userId, string strExtendExpireDate)
+        public IActionResult ExecuteExtendExpireDate(int userId, string strExtendExpireDate, int parent)
         {
             try
             {
+                var current = _memCached.GetCurrentUser();
                 ExtendExpireDateModel extendExpireDateModel = new ExtendExpireDateModel()
                 {
                     UserId = userId,
                     NewExpireDate = Constant.ConvertStringToDateTime(strExtendExpireDate),
-
+                    IsAdmin = current.IsAdmin,
+                    Parent = parent,
                 };
 
                 var dataBase = _provider.PostAsync<Object>(ApiUri.POST_AdminRenew, extendExpireDateModel);
@@ -218,9 +292,10 @@ namespace Lottery.WebMvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult ExecuteDeleteUser(int userId)
+        public IActionResult ExecuteDeleteUser(int userId, int parent)
         {
-            var dataBase = _provider.DeleteAsync(string.Format(ApiUri.DELETE_Admin + "/{0}", userId));
+            var current = _memCached.GetCurrentUser();
+            var dataBase = _provider.DeleteAsync(string.Format(ApiUri.DELETE_Admin + "/{0}/{1}/{2}", userId, parent, current.IsAdmin));
             if (dataBase != null && dataBase.Result != null && dataBase.Result.IsSuccessful)
             {
                 return Json(Success_Request(dataBase.Result.IsSuccessful));

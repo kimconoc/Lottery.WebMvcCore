@@ -17,6 +17,8 @@
     {
         public int UserId { get; set; }
         public DateTime NewExpireDate { get; set; }
+        public int Parent { get; set; }
+        public bool IsAdmin { get; set; }
     }
     public class NewPassModel
     {

@@ -208,7 +208,7 @@
 .div-list-userListing.agent-listing-row .agent-rail-row2 > i {
     position: static !important;
     float: none !important;
-    color: #555;
+    color: #4286f4;
     font-size: 20px;
     line-height: 1;
     cursor: pointer;
@@ -224,4 +224,187 @@
 .div-list-userListing.agent-listing-row .agent-listing-border {
     grid-column: 1 / -1;
     grid-row: 2;
+}
+
+/* Header một hàng — thay thế bar 24/7 của _Layout (MessagesByDay-style) */
+.header-page.agent-page-top-header {
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+}
+
+.header-page.agent-page-top-header .navbar {
+    display: none;
+}
+
+/* Cùng nhịp với MessagesByDay (title-page-text) */
+.agent-page-top-header .title-page-text {
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+.agent-page-header-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 0.35fr);
+    align-items: center;
+    height: 45px;
+    padding: 0 6px 0 4px;
+    font-size: 16px;
+    color: #fff;
+}
+
+.agent-page-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 6px 2px;
+}
+
+.agent-page-back .fa-chevron-left {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.agent-page-header-title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 0 4px;
+    margin-top: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.agent-page-header-spacer {
+    min-height: 1px;
+}
+
+/* Trang thông báo (log đại lý) */
+.agent-logs-container {
+    padding-bottom: 88px;
+}
+
+.agent-logs-table {
+    width: calc(100% - 24px);
+    margin: 12px;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.agent-logs-table thead th {
+    text-align: left;
+    padding: 10px 8px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
+}
+
+.agent-logs-table tbody td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.agent-logs-col-type {
+    width: 110px;
+    white-space: nowrap;
+}
+
+.agent-logs-col-check {
+    width: 96px;
+    text-align: center;
+}
+
+.agent-logs-select-all-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    justify-content: center;
+    width: 100%;
+}
+
+.agent-logs-date-row td {
+    background: #e3f2fd;
+    font-weight: 600;
+    color: #1565c0;
+    padding: 8px !important;
+}
+
+.agent-log-type-btn {
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: default;
+    border: 1px solid transparent;
+    line-height: 1.2;
+    background: transparent;
+}
+
+/* LogType 0: xanh dương — chỉ chữ + viền, nền trong suốt */
+.agent-log-type-btn-add {
+    color: #1976d2;
+    border-color: #1976d2;
+    background: transparent;
+}
+
+/* LogType 1: xanh nõn chuối — chỉ chữ + viền */
+.agent-log-type-btn-renew {
+    color: #c0ca33;
+    border-color: #cddc39;
+    background: transparent;
+}
+
+/* LogType 2: đỏ — chỉ chữ + viền */
+.agent-log-type-btn-del {
+    color: #c62828;
+    border-color: #e53935;
+    background: transparent;
+}
+
+.agent-logs-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 12px 16px;
+    background: rgba(255,255,255,.95);
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 900;
+}
+
+.agent-logs-delete-btn {
+    min-width: 120px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: #c62828;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.agent-logs-delete-btn:disabled {
+    background: #bdbdbd;
+    color: #757575;
+    cursor: not-allowed;
+}
+
+/* Danh sách tài khoản con đại lý — chỉ xem, không icon hành động */
+.div-list-userListing.agent-managed-readonly-row .info-detail {
+    padding-right: 0;
 }

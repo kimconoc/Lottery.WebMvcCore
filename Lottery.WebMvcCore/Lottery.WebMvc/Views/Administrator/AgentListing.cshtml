@@ -80,9 +80,9 @@
                             </div>
                             <div class="agent-rail">
                                 <div class="agent-rail-row1">
-                                    <i id="@item.Id" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                                    <i id="@item.Id" data-parent="@item.Parent" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
                                     <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
-                                    <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate&parent=@item.Parent';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
                                     <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
                                     <i onclick="window.location.href='/Administrator/UpdateUser?userId=@item.Id&name=@item.Name&account=@item.Account&note=@item.Note';" class="icon-danger-updateUser fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </div>
@@ -90,8 +90,8 @@
                                     <span class="agent-rail-slot-ph" aria-hidden="true"></span>
                                     <span class="agent-rail-slot-ph" aria-hidden="true"></span>
                                     <span class="agent-rail-slot-ph" aria-hidden="true"></span>
-                                    <i class="fa fa-history icon-agent-history" aria-hidden="true" title="(Chức năng sắp mở)"></i>
-                                    <i class="fa fa-address-card icon-agent-address-card" aria-hidden="true" title="(Chức năng sắp mở)"></i>
+                                    <i class="fa fa-history icon-agent-history" aria-hidden="true" title="Thông báo" onclick="window.location.href='/Administrator/AgentUserLogs?agentUserId=@item.Id';"></i>
+                                    <i class="fa fa-address-card icon-agent-address-card" aria-hidden="true" title="Tài khoản con" onclick="window.location.href='/Administrator/AgentManagedUsers?ownerUserId=@item.Id';"></i>
                                 </div>
                             </div>
                             <div class="agent-listing-border border-bottom-row" style="margin-bottom:20px;"></div>
@@ -108,16 +108,16 @@
 
         function deleteUser(dom) {
             if (confirm("Bạn muốn xóa tài khoản này?")) {
-                executeDeleteUser(dom.id);
+                executeDeleteUser(dom.id, dom.dataset.parent);
             }
         }
 
-        function executeDeleteUser(userId) {
+        function executeDeleteUser(userId, parent) {
             ShowOverlay(true);
             $.ajax({
                 type: "POST",
                 traditional: true,
-                data: { "userId": userId },
+                data: { "userId": userId, "parent": parent },
                 url: "@Url.Action("ExecuteDeleteUser", "Administrator")",
                 success: function (data) {
                     hideOverlay();

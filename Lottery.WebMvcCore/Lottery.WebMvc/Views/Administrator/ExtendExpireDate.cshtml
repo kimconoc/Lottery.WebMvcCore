@@ -141,6 +141,7 @@
                 {
                     userId: @Model.Id,
                     strExtendExpireDate: document.getElementById("extenddatetimepicker").value,
+                    parent: @Model.Parent,
                 },
                 url: "@Url.Action("ExecuteExtendExpireDate", "Administrator")",
                 success: function (data) {

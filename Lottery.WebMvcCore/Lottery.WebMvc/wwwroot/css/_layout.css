@@ -14,6 +14,11 @@
     padding-top: 55px;
 }
 
+/* Trang ẩn header 24/7 — chỉ còn header trong view (vd. AgentUserLogs) */
+.container-no-layout-topbar {
+    padding-top: 45px;
+}
+
 .overlay-expireDate {
     background-color: rgba(0, 0, 0, 0.3);
     position: fixed;

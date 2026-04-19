@@ -80,9 +80,9 @@
                                     </span>
                                 }  
                             </div>
-                            <i id="@item.Id" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                            <i id="@item.Id" data-parent="@item.Parent" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
                             <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
-                            <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
+                            <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate&parent=@item.Parent';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
                             <i onclick="window.location.href='/Administrator/UpdateUser?userId=@item.Id&name=@item.Name&account=@item.Account&note=@item.Note';" class="icon-danger-updateUser fa fa-pencil-square-o" aria-hidden="true"></i>
                             <div style="margin-bottom:20px;" class="border-bottom-row"></div>
@@ -97,11 +97,11 @@
     <script>
         function deleteUser(dom) {
             if (confirm("Bạn muốn xóa tài khoản này?")) {
-                executeDeleteUser(dom.id);
+                executeDeleteUser(dom.id, dom.dataset.parent);
             }
         }
 
-        function executeDeleteUser(userId) {
+        function executeDeleteUser(userId, parent) {
             ShowOverlay(true);
             $.ajax({
                 type: "POST",
@@ -109,6 +109,7 @@
                 data:
                 {
                     "userId": userId,
+                    "parent": parent,
                 },
                 url: "@Url.Action("ExecuteDeleteUser", "Administrator")",
                 success: function (data) {

@@ -86,48 +86,52 @@
                 <span>Kết Quả Xổ Số</span>
             </div>
         </div>
-        <div onclick="window.location.href='/Phonebook/ListPlayer';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-list-ol" aria-hidden="true"></i>
-                <span>Danh Bạ</span>
+        @* Đại lý: IsAdmin = false, Parent = 0 — không hiển thị danh bạ / xử lý miền / tổng kết *@
+        @if (user.IsAdmin || user.Parent != 0)
+        {
+            <div onclick="window.location.href='/Phonebook/ListPlayer';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                    <span>Danh Bạ</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienNam)';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calculator" aria-hidden="true"></i>
-                <span>Xử Lý Miền Nam</span>
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienNam)';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                    <span>Xử Lý Miền Nam</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienTrung)';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calculator" aria-hidden="true"></i>
-                <span>Xử Lý Miền Trung</span>
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienTrung)';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                    <span>Xử Lý Miền Trung</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienBac)';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calculator" aria-hidden="true"></i>
-                <span>Xử Lý Miền Bắc</span>
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienBac)';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                    <span>Xử Lý Miền Bắc</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/SummaryResults/SummaryByDay';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-usd" aria-hidden="true"></i>
-                <span>Tổng Kết Ngày</span>
+            <div onclick="window.location.href='/SummaryResults/SummaryByDay';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <span>Tổng Kết Ngày</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/SummaryResults/SummaryManyDay';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
-                <span>Tổng Kết Tuần - Tháng</span>
+            <div onclick="window.location.href='/SummaryResults/SummaryManyDay';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                    <span>Tổng Kết Tuần - Tháng</span>
+                </div>
             </div>
-        </div>
+        }
         <div onclick="window.location.href='/Account/ChangePass';" class="div-menu">
             <div class="border-bottom-row"></div>
             <div class="row-menu">
