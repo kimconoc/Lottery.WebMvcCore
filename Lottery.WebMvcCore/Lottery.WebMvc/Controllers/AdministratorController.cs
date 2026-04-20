@@ -72,7 +72,7 @@ namespace Lottery.WebMvc.Controllers
                 return RedirectToAction("Menu", "Main");
             }
             List<UserManagement> users = new List<UserManagement>();
-            var dataBase = _provider.GetAsync<List<UserManagement>>(ApiUri.GET_AdminListingAgents);
+            var dataBase = _provider.GetAsync<List<UserManagement>>(string.Format(ApiUri.GET_AdminListingAgents, current.Id));
             if (dataBase != null && dataBase.Result != null && dataBase.Result.Data != null)
             {
                 users = dataBase.Result.Data;
