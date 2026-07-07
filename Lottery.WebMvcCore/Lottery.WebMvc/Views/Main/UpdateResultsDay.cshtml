@@ -1,0 +1,190 @@
+@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@using Lottery.DoMain.Enum;
+@using Lottery.WebMvc.MemCached.Interface;
+@inject IMemCached memCached
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.LayoutCenterTitle = "Cập nhật kết quả";
+    User user = memCached.GetCurrentUser();
+    if (user == null || !user.IsAdmin)
+    {
+        HttpContextAccessor.HttpContext.Response.Redirect("/Account/Login");
+    }
+}
+
+<link href="~/css/extendExpireDate.css?v=@Default.VersionApp" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
+<script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
+<style>
+    .container-update-results {
+        padding: 10px;
+    }
+
+    .wrapper form .row select {
+        font-size: 15px;
+        height: 100%;
+        width: 100%;
+        outline: none;
+        border-radius: 5px;
+        border: 1px solid lightgrey;
+        padding: 0 5px;
+        background-color: #fff;
+    }
+
+    .wrapper form .row input[type="submit"]:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .xdsoft_datetimepicker {
+        left: 50% !important;
+        top: 250px !important;
+        margin-left: -120px !important;
+    }
+</style>
+
+<div class="container-update-results">
+    <div class="wrapper div-form-account">
+        <div class="icon-account">
+            <i class="fa fa-wrench" aria-hidden="true"></i>
+        </div>
+        <form id="updateResultsDayForm">
+            <div class="div-row-input-val">
+                <div class="row row-input-val">
+                    <span>Ngày cập nhật:</span>
+                    <input style="cursor:pointer;" tabindex="1" readonly id="update_date_display" placeholder="Chọn ngày" value="">
+                </div>
+            </div>
+            <div class="div-row-input-val">
+                <div class="row row-input-val">
+                    <span>Đài:</span>
+                    <select tabindex="2" id="update_dai" required>
+                        <option value="">Lựa chọn đài</option>
+                        <option value="@((int)DaiEnum.MinhNgoc)">Minh Ngọc</option>
+                        <option value="@((int)DaiEnum.DaiPhat)">Đại Phát</option>
+                        <option value="@((int)DaiEnum.MinhChinh)">Minh Chính</option>
+                    </select>
+                </div>
+            </div>
+            <div class="div-row-input-val">
+                <div class="row row-input-val">
+                    <input type="submit" tabindex="3" id="btn_update_results" value="Cập nhật" disabled>
+                </div>
+            </div>
+        </form>
+    </div>
+    <input id="update_results_day" style="display:none;" type="text">
+    <div id="datepicker_open"></div>
+</div>
+
+<script>
+    var selectedDate = '';
+
+    $(document).ready(function () {
+        validateForm();
+    });
+
+    jQuery.datetimepicker.setLocale('vi');
+    jQuery('#update_results_day').datetimepicker({
+        timepicker: false,
+        value: '@DateTime.Now.ToString("yyyy/MM/dd HH:mm")',
+        onShow: function () {
+            document.getElementById("datepicker_open").classList.add("datepicker-open");
+        },
+        onClose: function () {
+            document.getElementById("datepicker_open").classList.remove("datepicker-open");
+        }
+    });
+
+    $('#update_date_display').on('click', function () {
+        $('#update_results_day').datetimepicker('show');
+    });
+
+    $('#update_results_day').on('change', function () {
+        var dateString = $(this).val();
+        var dateParts = dateString.split(' ')[0].split('/');
+        var displayDate = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+        selectedDate = dateParts[1] + '/' + dateParts[2] + '/' + dateParts[0];
+        $('#update_date_display').val(displayDate);
+        validateForm();
+    });
+
+    $('#update_dai').on('change', function () {
+        validateForm();
+    });
+
+    function validateForm() {
+        var hasDate = selectedDate !== '';
+        var hasDai = $('#update_dai').val() !== '';
+        $('#btn_update_results').prop('disabled', !(hasDate && hasDai));
+    }
+
+    document.getElementById("updateResultsDayForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var dai = $('#update_dai').val();
+        var daiText = $('#update_dai option:selected').text();
+        var displayDate = $('#update_date_display').val();
+
+        if (!selectedDate || dai === '') {
+            return;
+        }
+
+        if (!confirm(`Bạn muốn cập nhật ngày ${displayDate} từ đài ${daiText}?`)) {
+            return;
+        }
+
+        ShowOverlay(true);
+        $.ajax({
+            type: "POST",
+            data: {
+                date: selectedDate,
+                dai: dai
+            },
+            url: "@Url.Action("UpdateResultsDay", "Main")",
+            success: function (data) {
+                if (data.success && data.data) {
+                    awesomeAlert({
+                        header: true,
+                        type: 'success',
+                        title: 'Thành công!',
+                        message: 'Cập nhật thành công.',
+                        img: '/assets/images/icon/success.svg',
+                        buttonOK: 'Xong!',
+                        closeStyle: 'circle'
+                    }).then(res => false);
+                }
+                else {
+                    if (data.redirectTo) {
+                        window.location.href = data.redirectTo;
+                    } else {
+                        awesomeAlert({
+                            header: true,
+                            type: 'warning',
+                            title: 'Cảnh báo!',
+                            message: 'Cập nhật thất bại.',
+                            img: '/assets/images/icon/warning.svg',
+                            buttonOK: 'Oke!',
+                            closeStyle: 'circle'
+                        }).then(res => false);
+                    }
+                }
+            },
+            error: function () {
+                awesomeAlert({
+                    header: true,
+                    type: 'error',
+                    title: 'Có lỗi!',
+                    message: 'Lỗi hệ thống',
+                    img: '/assets/images/icon/error.svg',
+                    buttonOK: 'Oke!',
+                    closeStyle: 'circle'
+                }).then(res => false);
+            },
+            complete: function () {
+                hideOverlay();
+            }
+        });
+    });
+</script>

@@ -91,4 +91,14 @@ namespace Lottery.DoMain.Enum
         [Description("Chưa dùng")]
         NotUse = 3,
     }
+
+    public enum DaiEnum
+    {
+        [Description("Minh Ngọc")]
+        MinhNgoc = 0,
+        [Description("Đại Phát")]
+        DaiPhat = 1,
+        [Description("Minh Chinh")]
+        MinhChinh = 2,
+    }
 }

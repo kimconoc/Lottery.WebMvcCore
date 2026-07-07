@@ -21,6 +21,7 @@ namespace Lottery.DoMain.Models
         public bool IsAdmin { get; set; }
         public string Hotline { get; set; }
         public int Parent { get; set; }
+        public bool? IsAllowCal { get; set; }
     }
     public class UserManagement : VBaseModel<int>
     {
