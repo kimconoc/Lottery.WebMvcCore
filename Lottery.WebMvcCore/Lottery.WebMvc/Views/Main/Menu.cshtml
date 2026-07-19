@@ -23,17 +23,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="~/css/menu.css?v=@Default.VersionApp" rel="stylesheet" />
     <link href="~/css/summaryByDay.css?v=@Default.VersionApp" rel="stylesheet" />
-    @*datetimepicker*@
-    <link rel="stylesheet" type="text/css" href="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.css" />
-    <script src="~/assets/helpers/datetimepicker-master/jquery.datetimepicker.full.min.js"></script>
     <style>
-
-        .xdsoft_datetimepicker {
-            left: 50% !important;
-            top: 250px !important;
-            margin-left: -120px !important;
+        .allow-cal-warning {
+            text-align: center;
+            color: #d9534f;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 8px 10px 16px;
         }
-
     </style>
 </head>
 <body>
@@ -47,7 +44,17 @@
                 <strong>Tài khoản: @string.Format(" " +user?.UserName)</strong>
             </div>
         </div>
-        @if(user.IsAdmin)
+        @if (user.IsAdmin)
+        {
+            <div onclick="window.location.href='/Administrator/AgentListing';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <span>Quản Lý Đại Lý</span>
+                </div>
+            </div>
+        }
+        @if (user.IsAdmin || user.Parent == 0)
         {
             <div onclick="window.location.href='/Administrator/UserListing';" class="div-menu">
                 <div class="border-bottom-row"></div>
@@ -59,13 +66,18 @@
         }
         @if (user.IsAdmin)
         {
-            <div onclick="UpdateResultsDay()" class="div-menu">
+            <div onclick="window.location.href='/Main/UpdateResultsDay';" class="div-menu">
                 <div class="border-bottom-row"></div>
                 <div class="row-menu">
                     <i class="fa fa-wrench" aria-hidden="true"></i>
                     <span>Cập nhật kết quả</span>
-                    <input id="update_results_day" style="display:none;" type="text">
-                    <div id="datepicker_open"></div>
+                </div>
+            </div>
+            <div onclick="window.location.href='/Main/Settings';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                    <span>Thiết lập</span>
                 </div>
             </div>
         }
@@ -76,48 +88,52 @@
                 <span>Kết Quả Xổ Số</span>
             </div>
         </div>
-        <div onclick="window.location.href='/Phonebook/ListPlayer';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-list-ol" aria-hidden="true"></i>
-                <span>Danh Bạ</span>
+        @* Đại lý: IsAdmin = false, Parent = 0 — không hiển thị danh bạ / xử lý miền / tổng kết *@
+        @if (user.IsAdmin || user.Parent != 0)
+        {
+            <div onclick="window.location.href='/Phonebook/ListPlayer';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                    <span>Danh Bạ</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienNam)';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calculator" aria-hidden="true"></i>
-                <span>Xử Lý Miền Nam</span>
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienNam)';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                    <span>Xử Lý Miền Nam</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienTrung)';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calculator" aria-hidden="true"></i>
-                <span>Xử Lý Miền Trung</span>
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienTrung)';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                    <span>Xử Lý Miền Trung</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienBac)';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calculator" aria-hidden="true"></i>
-                <span>Xử Lý Miền Bắc</span>
+            <div onclick="window.location.href='/Phonebook/RegionPlayer?region=@((int)RegionEnum.MienBac)';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calculator" aria-hidden="true"></i>
+                    <span>Xử Lý Miền Bắc</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/SummaryResults/SummaryByDay';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-usd" aria-hidden="true"></i>
-                <span>Tổng Kết Ngày</span>
+            <div onclick="window.location.href='/SummaryResults/SummaryByDay';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    <span>Tổng Kết Ngày</span>
+                </div>
             </div>
-        </div>
-        <div onclick="window.location.href='/SummaryResults/SummaryManyDay';" class="div-menu">
-            <div class="border-bottom-row"></div>
-            <div class="row-menu">
-                <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
-                <span>Tổng Kết Tuần - Tháng</span>
+            <div onclick="window.location.href='/SummaryResults/SummaryManyDay';" class="div-menu">
+                <div class="border-bottom-row"></div>
+                <div class="row-menu">
+                    <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+                    <span>Tổng Kết Tuần - Tháng</span>
+                </div>
             </div>
-        </div>
+        }
         <div onclick="window.location.href='/Account/ChangePass';" class="div-menu">
             <div class="border-bottom-row"></div>
             <div class="row-menu">
@@ -133,6 +149,12 @@
             </div>
             <div class="border-bottom-row"></div>
         </div>
+        @if (user.IsAdmin && user.IsAllowCal == false)
+        {
+            <div class="allow-cal-warning">
+                Cập nhật kết quả đang bị tắt
+            </div>
+        }
         @if (!string.IsNullOrEmpty(user?.Hotline))
         {
             <div>
@@ -151,99 +173,5 @@
         }
     </div>
 
-    <script>
-
-        //document.addEventListener("DOMContentLoaded", function() {
-        //    const currentPage = window.location.href;
-        //    sessionStorage.setItem("menuPage", currentPage);
-        //});
-        $(document).ready(function () {
-
-        });
-
-        jQuery.datetimepicker.setLocale('vi');
-        jQuery('#update_results_day').datetimepicker({
-            timepicker: false,
-            value: '@DateTime.Now.ToString("yyyy/MM/dd HH:mm")',
-            onShow: function (ct, input) {
-                document.getElementById("datepicker_open").classList.add("datepicker-open");
-            },
-            onClose: function (current_time, input) {
-                document.getElementById("datepicker_open").classList.remove("datepicker-open");
-            }
-        });
-        function UpdateResultsDay() {
-            $('#update_results_day').datetimepicker('show');
-        }
-        $('#update_results_day').on('change', function () {
-            var dateString = $(this).val();
-            let dateParts = dateString.split(' ')[0].split('/');
-            let formattedDate = dateParts[1] + '/' + dateParts[2] + '/' + dateParts[0];
-            if (confirm(`Bạn muốn cập nhật ngày ${formattedDate} ?`)) {
-                executeUpdateResultsDay(formattedDate);
-            }
-        });
-
-        function executeUpdateResultsDay(date) {
-            event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi mặc định
-            ShowOverlay(true);
-            $.ajax({
-                type: "POST",
-                data:
-                {
-                    date: date,
-                },
-                url: "@Url.Action("UpdateResultsDay", "Main")",
-                success: function (data) {
-                    if (data.success && data.data) {
-                        awesomeAlert({
-                            header: true,
-                            type: 'success',
-                            title: 'Thành công!',
-                            message: 'Cập nhật thành công.',
-                            //bgColor: '#2dd284',
-                            img: '/assets/images/icon/success.svg',
-                            buttonOK: 'Xong!',
-                            closeStyle: 'circle'
-                        }).then(res => false)
-                    }
-                    else {
-                        if (data.redirectTo) {
-                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
-                            window.location.href = data.redirectTo;
-                        } else {
-                            var message = "Cập nhật thất bại."
-                            awesomeAlert({
-                                header: true,
-                                type: 'warning',
-                                title: 'Cảnh báo!',
-                                message: message,
-                                //bgColor: '#2dd284',
-                                img: '/assets/images/icon/warning.svg',
-                                buttonOK: 'Oke!',
-                                closeStyle: 'circle'
-                            }).then(res => false)
-                        }
-                    }
-                },
-                error: function (xhr, status, error) {
-                    awesomeAlert({
-                        header: true,
-                        type: 'error',
-                        title: 'Có lỗi!',
-                        message: 'Lỗi hệ thống',
-                        //bgColor: '#2dd284',
-                        img: '/assets/images/icon/error.svg',
-                        buttonOK: 'Oke!',
-                        closeStyle: 'circle'
-                    }).then(res => false)
-                },
-                complete: function () {
-                    hideOverlay();
-                }
-            })
-        }
-
-    </script>
 </body>
 </html>

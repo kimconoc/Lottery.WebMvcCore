@@ -1,4 +1,4 @@
-﻿@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Constant;
 @using Lottery.DoMain.Models;
 @using Newtonsoft.Json;
 @using Lottery.DoMain.Extentions;
@@ -14,9 +14,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="~/css/userListing.css?v=@Default.VersionApp" rel="stylesheet" />
-    <style>
-        
-    </style>
+    <style></style>
 </head>
 <body>
     <div class="container-userListing">
@@ -24,8 +22,8 @@
             if (Model == null || Model.Count == 0)
             {
                 <div class="box-no-data-found">
-                    <img src="~/lottery/empty-order/empty-order.png">
-                    <span>Không có tài khoản</span>
+                    <img src="~/lottery/empty-order/empty-order.png" alt="">
+                    <span>Không có đại lý</span>
                 </div>
             }
             else
@@ -53,11 +51,11 @@
                             txtStatus = ActiveStatusEnum.NotUse.GetDescription();
                             break;
                     }
-                    <div class="div-list-userListing">
+                    <div class="div-list-userListing agent-listing-row">
                         <div class="avatar">
                             <i class="fa fa-user-circle"></i>
                         </div>
-                        <div style="flex: 1;">
+                        <div class="agent-listing-main">
                             <div class="info-detail">
                                 <strong style="font-size:18px;">@item.Name</strong>
                                 <span style="margin-top:5px;">
@@ -78,23 +76,35 @@
                                         Ghi chú:
                                         <span>@item.Note</span>
                                     </span>
-                                }  
+                                }
                             </div>
-                            <i id="@item.Id" data-parent="@item.Parent" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
-                            <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
-                            <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate&parent=@item.Parent';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
-                            <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
-                            <i onclick="window.location.href='/Administrator/UpdateUser?userId=@item.Id&name=@item.Name&account=@item.Account&note=@item.Note';" class="icon-danger-updateUser fa fa-pencil-square-o" aria-hidden="true"></i>
-                            <div style="margin-bottom:20px;" class="border-bottom-row"></div>
+                            <div class="agent-rail">
+                                <div class="agent-rail-row1">
+                                    <i id="@item.Id" data-parent="@item.Parent" onclick="deleteUser(this)" class="icon-danger-delete fa fa-trash" aria-hidden="true"></i>
+                                    <i id="@item.Id" onclick="refreshImeiUser(this)" class="icon-danger-refresh fa fa-refresh" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/ExtendExpireDate?userId=@item.Id&name=@item.Name&account=@item.Account&expireDate=@item.ExpireDate&parent=@item.Parent&returnUrl=@Uri.EscapeDataString(Default.AdministratorAccount_Return_AgentListing)';" class="icon-danger-expireDate fa fa-clock-o" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/ChangePassword?userId=@item.Id&name=@item.Name&account=@item.Account&returnUrl=@Uri.EscapeDataString(Default.AdministratorAccount_Return_AgentListing)';" class="icon-danger-password fa fa-key" aria-hidden="true"></i>
+                                    <i onclick="window.location.href='/Administrator/UpdateUser?userId=@item.Id&name=@item.Name&account=@item.Account&note=@item.Note&returnUrl=@Uri.EscapeDataString(Default.AdministratorAccount_Return_AgentListing)';" class="icon-danger-updateUser fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </div>
+                                <div class="agent-rail-row2">
+                                    <span class="agent-rail-slot-ph" aria-hidden="true"></span>
+                                    <span class="agent-rail-slot-ph" aria-hidden="true"></span>
+                                    <span class="agent-rail-slot-ph" aria-hidden="true"></span>
+                                    <i class="fa fa-history icon-agent-history" aria-hidden="true" title="Thông báo" onclick="window.location.href='/Administrator/AgentUserLogs?agentUserId=@item.Id';"></i>
+                                    <i class="fa fa-address-card icon-agent-address-card" aria-hidden="true" title="Tài khoản con" onclick="window.location.href='/Administrator/AgentManagedUsers?ownerUserId=@item.Id';"></i>
+                                </div>
+                            </div>
+                            <div class="agent-listing-border border-bottom-row" style="margin-bottom:20px;"></div>
                         </div>
                         <div style="background-color:@colorStatus;" class="status-dot"></div>
                     </div>
                 }
             }
         }
-        <button onclick="window.location.href='/Administrator/AddUser';" class="floating-button">+</button>
     </div>
     <script>
+        var agentListingUrl = "/Administrator/AgentListing";
+
         function deleteUser(dom) {
             if (confirm("Bạn muốn xóa tài khoản này?")) {
                 executeDeleteUser(dom.id, dom.dataset.parent);
@@ -106,11 +116,7 @@
             $.ajax({
                 type: "POST",
                 traditional: true,
-                data:
-                {
-                    "userId": userId,
-                    "parent": parent,
-                },
+                data: { "userId": userId, "parent": parent },
                 url: "@Url.Action("ExecuteDeleteUser", "Administrator")",
                 success: function (data) {
                     hideOverlay();
@@ -120,18 +126,16 @@
                             type: 'success',
                             title: 'Thành công!',
                             message: 'Xóa tài khoản thành công.',
-                            //bgColor: '#2dd284',
                             img: '/assets/images/icon/success.svg',
                             buttonOK: 'Xong!',
                             closeStyle: 'circle'
-                        }).then(res => window.location = "/Administrator/UserListing")
+                        }).then(function () { window.location = agentListingUrl; })
                     }
                     else {
                         if (data.redirectTo) {
-                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
                             window.location.href = data.redirectTo;
                         } else {
-                            var message = "Đã có lỗi xảy ra."
+                            var message = "Đã có lỗi xảy ra.";
                             if (!isNullOrEmpty(data.message)) {
                                 message = data.message;
                             }
@@ -140,11 +144,10 @@
                                 type: 'error',
                                 title: 'Có lỗi!',
                                 message: message,
-                                //bgColor: '#2dd284',
                                 img: '/assets/images/icon/error.svg',
                                 buttonOK: 'Oke!',
                                 closeStyle: 'circle'
-                            }).then(res => false)
+                            }).then(function () { return false; })
                         }
                     }
                 },
@@ -162,10 +165,7 @@
             $.ajax({
                 type: "POST",
                 traditional: true,
-                data:
-                {
-                    "userId": userId,
-                },
+                data: { "userId": userId },
                 url: "@Url.Action("ExecuteRefreshImeiUser", "Administrator")",
                 success: function (data) {
                     hideOverlay();
@@ -175,18 +175,16 @@
                             type: 'success',
                             title: 'Thành công!',
                             message: 'Làm mới Imei thành công.',
-                            //bgColor: '#2dd284',
                             img: '/assets/images/icon/success.svg',
                             buttonOK: 'Xong!',
                             closeStyle: 'circle'
-                        }).then(res => window.location = "/Administrator/UserListing")
+                        }).then(function () { window.location = agentListingUrl; })
                     }
                     else {
                         if (data.redirectTo) {
-                            // Chuyển hướng trình duyệt đến đường dẫn được chỉ định
                             window.location.href = data.redirectTo;
                         } else {
-                            var message = "Đã có lỗi xảy ra."
+                            var message = "Đã có lỗi xảy ra.";
                             if (!isNullOrEmpty(data.message)) {
                                 message = data.message;
                             }
@@ -195,11 +193,10 @@
                                 type: 'error',
                                 title: 'Có lỗi!',
                                 message: message,
-                                //bgColor: '#2dd284',
                                 img: '/assets/images/icon/error.svg',
                                 buttonOK: 'Oke!',
                                 closeStyle: 'circle'
-                            }).then(res => false)
+                            }).then(function () { return false; })
                         }
                     }
                 },

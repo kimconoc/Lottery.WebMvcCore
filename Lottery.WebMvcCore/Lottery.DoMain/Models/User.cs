@@ -20,6 +20,8 @@ namespace Lottery.DoMain.Models
         public int UserAgent { get; set; }
         public bool IsAdmin { get; set; }
         public string Hotline { get; set; }
+        public int Parent { get; set; }
+        public bool? IsAllowCal { get; set; }
     }
     public class UserManagement : VBaseModel<int>
     {
@@ -27,6 +29,17 @@ namespace Lottery.DoMain.Models
         public string Account { get; set; }
         public DateTime ExpireDate { get; set; }
         public int Status { get; set; }
+        public int Parent { get; set; }
         public string Note { get; set; }
+    }
+
+    /// <summary>Log thao tác trên tài khoản đại lý (API Common/agent-logs).</summary>
+    public class UserAgentLogItem
+    {
+        public int Id { get; set; }
+        public int? UserId { get; set; }
+        public int LogType { get; set; }
+        public string Content { get; set; } = string.Empty;
+        public DateTime? CreatedDate { get; set; }
     }
 }

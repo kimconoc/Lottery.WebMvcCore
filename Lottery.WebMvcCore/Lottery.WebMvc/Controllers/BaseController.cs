@@ -15,6 +15,41 @@ namespace Lottery.WebMvc.Controllers
 {
     public class BaseController : Controller, IAsyncActionFilter
     {
+        /// <summary>Quản lý tài khoản con: admin hệ thống hoặc tài khoản cấp quản lý (Parent = 0).</summary>
+        protected static bool CanManageStaffAccounts(User? user) =>
+            user != null && (user.IsAdmin || user.Parent == 0);
+
+        private static bool IsRestrictedAdministratorPath(PathString path)
+        {
+            var p = path.Value ?? string.Empty;
+            if (p.Length == 0) return false;
+            foreach (var seg in RestrictedAdministratorPathSegments)
+            {
+                if (p.Equals(seg, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>Không gồm ExecuteChangePassword — route đó dùng cho Account/ChangePass (đổi mật khẩu bản thân).</summary>
+        private static readonly string[] RestrictedAdministratorPathSegments =
+        {
+            "/Administrator/UserListing",
+            "/Administrator/AgentListing",
+            "/Administrator/AgentUserLogs",
+            "/Administrator/AgentManagedUsers",
+            "/Administrator/AddUser",
+            "/Administrator/ExtendExpireDate",
+            "/Administrator/ChangePassword",
+            "/Administrator/UpdateUser",
+            "/Administrator/ExecuteAddUser",
+            "/Administrator/ExecuteExtendExpireDate",
+            "/Administrator/ExecuteUpdateUser",
+            "/Administrator/ExecuteDeleteUser",
+            "/Administrator/ExecuteRefreshImeiUser",
+            "/Administrator/ExecuteDeleteLogs",
+        };
+
         //protected IProvider provider = new Provider();
         protected readonly IProvider _provider;
         protected readonly IMemCached _memCached;
@@ -39,7 +74,7 @@ namespace Lottery.WebMvc.Controllers
             var userData = _memCached.GetCurrentUser();
             var controller = context.Controller as Controller;
             if ((controller != null && userData == null && !context.HttpContext.Request.Path.Equals("/Account/Login") && !context.HttpContext.Request.Path.Equals("/Account/ExecuteLogin"))
-                || (userData != null && !userData.IsAdmin && (context.HttpContext.Request.Path.Equals("/Administrator/UserListing") || context.HttpContext.Request.Path.Equals("/Administrator/AddUser") || context.HttpContext.Request.Path.Equals("/Administrator/ExtendExpireDate") || context.HttpContext.Request.Path.Equals("/Administrator/ChangePassword"))))
+                || (userData != null && !CanManageStaffAccounts(userData) && IsRestrictedAdministratorPath(context.HttpContext.Request.Path)))
             {
                 if (context.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {

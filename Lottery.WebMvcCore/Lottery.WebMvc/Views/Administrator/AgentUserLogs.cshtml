@@ -1,0 +1,201 @@
+@using Lottery.DoMain.Constant;
+@using Lottery.DoMain.Models;
+@model List<UserAgentLogItem>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var agentUserId = ViewBag.AgentUserId as int? ?? 0;
+    var groups = (Model ?? new List<UserAgentLogItem>())
+        .GroupBy(l => (l.CreatedDate ?? DateTime.MinValue).Date)
+        .OrderByDescending(g => g.Key)
+        .ToList();
+}
+
+<!DOCTYPE html>
+<html lang="vi" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="~/css/userListing.css?v=@Default.VersionApp" rel="stylesheet" />
+</head>
+<body>
+    <header class="header-page agent-page-top-header">
+        <div class="agent-page-header-bar">
+            <div onclick="window.location.href='/Administrator/AgentListing';" class="agent-page-back title-page-text" role="link" tabindex="0">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                <span>Quản Lý Đại Lý</span>
+            </div>
+            <div class="agent-page-header-title">Thông báo</div>
+            <div class="agent-page-header-spacer" aria-hidden="true"></div>
+        </div>
+    </header>
+    <div class="container-userListing agent-logs-container">
+        @if (groups.Count == 0)
+        {
+            <div class="box-no-data-found">
+                <img src="~/lottery/empty-order/empty-order.png" alt="">
+                <span>Chưa có thông báo</span>
+            </div>
+        }
+        else
+        {
+            <table class="agent-logs-table">
+                <thead>
+                    <tr>
+                        <th class="agent-logs-col-type">Loại</th>
+                        <th class="agent-logs-col-content">Nội dung</th>
+                        <th class="agent-logs-col-check">
+                            <label class="agent-logs-select-all-label">
+                                <input type="checkbox" id="chkSelectAll" title="Chọn hết" />
+                                <span>Chọn hết</span>
+                            </label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var g in groups)
+                    {
+                        <tr class="agent-logs-date-row">
+                            <td colspan="3">@g.Key.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                        foreach (var log in g.OrderByDescending(x => x.CreatedDate))
+                        {
+                            <tr data-log-id="@log.Id">
+                                <td class="agent-logs-col-type">
+                                    @if (log.LogType == 0)
+                                    {
+                                        <button type="button" class="agent-log-type-btn agent-log-type-btn-add">Thêm mới</button>
+                                    }
+                                    else if (log.LogType == 1)
+                                    {
+                                        <button type="button" class="agent-log-type-btn agent-log-type-btn-renew">Gia hạn</button>
+                                    }
+                                    else if (log.LogType == 2)
+                                    {
+                                        <button type="button" class="agent-log-type-btn agent-log-type-btn-del">Xóa</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="agent-log-type-btn" disabled>@log.LogType</button>
+                                    }
+                                </td>
+                                <td class="agent-logs-col-content">@log.Content</td>
+                                <td class="agent-logs-col-check">
+                                    <input type="checkbox" class="chk-log" value="@log.Id" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        }
+
+        <div class="agent-logs-footer">
+            <button type="button" id="btnDeleteLogs" class="agent-logs-delete-btn" disabled>Xóa</button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var chkAll = document.getElementById('chkSelectAll');
+            var btnDelete = document.getElementById('btnDeleteLogs');
+            var agentUserId = @agentUserId;
+            var reloadUrl = '/Administrator/AgentUserLogs?agentUserId=' + agentUserId;
+
+            function getRowCheckboxes() {
+                return document.querySelectorAll('tbody .chk-log');
+            }
+
+            function updateDeleteButton() {
+                var any = false;
+                getRowCheckboxes().forEach(function (c) { if (c.checked) any = true; });
+                btnDelete.disabled = !any;
+            }
+
+            function syncSelectAll() {
+                var boxes = getRowCheckboxes();
+                if (!boxes.length) {
+                    if (chkAll) chkAll.checked = false;
+                    return;
+                }
+                var all = true;
+                boxes.forEach(function (c) { if (!c.checked) all = false; });
+                if (chkAll) chkAll.checked = all;
+            }
+
+            if (chkAll) {
+                chkAll.addEventListener('change', function () {
+                    getRowCheckboxes().forEach(function (c) { c.checked = chkAll.checked; });
+                    updateDeleteButton();
+                });
+            }
+
+            document.querySelectorAll('.chk-log').forEach(function (c) {
+                c.addEventListener('change', function () {
+                    syncSelectAll();
+                    updateDeleteButton();
+                });
+            });
+
+            if (btnDelete) {
+                btnDelete.addEventListener('click', function () {
+                    var ids = [];
+                    getRowCheckboxes().forEach(function (c) { if (c.checked) ids.push(parseInt(c.value, 10)); });
+                    if (!ids.length) return;
+                    if (!confirm('Bạn có chắc chắn muốn xóa log không?')) return;
+                    ShowOverlay(true);
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("ExecuteDeleteLogs", "Administrator")',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ Ids: ids }),
+                        success: function (data) {
+                            hideOverlay();
+                            if (data.success && data.data) {
+                                awesomeAlert({
+                                    header: true,
+                                    type: 'success',
+                                    title: 'Thành công!',
+                                    message: 'Đã xóa log.',
+                                    img: '/assets/images/icon/success.svg',
+                                    buttonOK: 'Xong!',
+                                    closeStyle: 'circle'
+                                }).then(function () { window.location.href = reloadUrl; });
+                            } else {
+                                if (data.redirectTo) {
+                                    window.location.href = data.redirectTo;
+                                } else {
+                                    var message = data.message || 'Đã có lỗi xảy ra.';
+                                    awesomeAlert({
+                                        header: true,
+                                        type: 'error',
+                                        title: 'Có lỗi!',
+                                        message: message,
+                                        img: '/assets/images/icon/error.svg',
+                                        buttonOK: 'Oke!',
+                                        closeStyle: 'circle'
+                                    });
+                                }
+                            }
+                        },
+                        error: function () {
+                            hideOverlay();
+                            awesomeAlert({
+                                header: true,
+                                type: 'error',
+                                title: 'Có lỗi!',
+                                message: 'Không kết nối được máy chủ.',
+                                img: '/assets/images/icon/error.svg',
+                                buttonOK: 'Oke!',
+                                closeStyle: 'circle'
+                            });
+                        }
+                    });
+                });
+            }
+
+            syncSelectAll();
+            updateDeleteButton();
+        })();
+    </script>
+</body>
+</html>

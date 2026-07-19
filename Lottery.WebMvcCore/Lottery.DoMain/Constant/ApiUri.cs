@@ -25,15 +25,21 @@ namespace Lottery.DoMain.Constant
         public const string DELETE_HandlMessage = "HandlMessage";
         public const string DELETE_HandlMessageDelete_Multi = "HandlMessage/delete-multi";
         public const string POST_HandlMessagehandlMessage = "HandlMessage/handl-message";
+        public const string POST_HandlMessageUpdateAll = "HandlMessage/update-all";
         public const string POST_HandlMessageCountByDay = "HandlMessage/count-by-day";
         public const string POST_HandlMessageCountManyDay = "HandlMessage/count-many-day";
         public const string GET_HandlMessageCountDetailByDay = "HandlMessage/count-detail-by-day";
-        public const string GET_AdminListing = "Admin/listing";
+        public const string GET_AdminListing = "Admin/listing/{0}";
+        public const string GET_AdminListingAgents = "Admin/listing-agents?userID={0}";
         public const string POST_AdminAdd = "Admin/add";
         public const string DELETE_Admin = "Admin";
         public const string POST_AdminRenew = "Admin/Renew";
         public const string POST_AdminReset = "Admin/Reset";
         public const string POST_AdminChangePass = "Admin/change-pass";
         public const string POST_AdminUpdate = "Admin/update";
+        public const string GET_AdminAllowCal = "Admin/allow-cal?userId={0}";
+        public const string POST_AdminAllowCal = "Admin/allow-cal";
+        public const string GET_CommonAgentLogs = "Common/agent-logs/{0}";
+        public const string POST_CommonDeleteLogs = "Common/delete-logs";
     }
 }
