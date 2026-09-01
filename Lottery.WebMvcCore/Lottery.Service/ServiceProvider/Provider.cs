@@ -7,8 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -23,6 +22,19 @@ namespace Lottery.Service.ServiceProvider
 
         // Instantiate a SafeHandle instance.
         private SafeHandle _safeHandle = new SafeFileHandle(IntPtr.Zero, true);
+
+        // Reuse one HttpClient — creating new HttpClient per call exhausts sockets and
+        // makes the site hang until the process is restarted.
+        private static readonly HttpClient SharedHttpClient = CreateHttpClient();
+
+        private static HttpClient CreateHttpClient()
+        {
+            var client = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(100) // giữ timeout mặc định cũ của HttpClient
+            };
+            return client;
+        }
 
         // Public implementation of Dispose pattern callable by consumers.
         public void Dispose() => Dispose(true);
@@ -61,18 +73,20 @@ namespace Lottery.Service.ServiceProvider
             try
             {
                 Uri urlapi = new Uri(uri);
-                using (var wc = new HttpClient())
+                using (var request = new HttpRequestMessage(HttpMethod.Get, urlapi))
                 {
-                    wc.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-                    var jsonResult = wc.GetAsync($@"{urlapi}").Result.Content.ReadAsStringAsync().Result;
-                    return Task.Run(() => JsonConvert.DeserializeObject<ResponseBase<TResult>>(jsonResult, _serializerSettings));
+                    if (!string.IsNullOrEmpty(token))
+                        request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {token}");
+                    var response = SharedHttpClient.SendAsync(request).GetAwaiter().GetResult();
+                    var jsonResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    return Task.FromResult(JsonConvert.DeserializeObject<ResponseBase<TResult>>(jsonResult, _serializerSettings));
                 }
             }
             catch (Exception ex)
             {
                 FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
             }
-            return default;
+            return Task.FromResult<ResponseBase<TResult>>(null);
         }
         public Task<ResponseBase<TResult>> PostAsync<TResult>(string uri, dynamic fromBody, string token = "")
         {
@@ -80,20 +94,22 @@ namespace Lottery.Service.ServiceProvider
             try
             {
                 Uri urlapi = new Uri(uri);
-                using (var wc = new HttpClient())
+                var modelString = JsonConvert.SerializeObject(fromBody);
+                using (var content = new StringContent(modelString, Encoding.UTF8, "application/json"))
+                using (var request = new HttpRequestMessage(HttpMethod.Post, urlapi) { Content = content })
                 {
-                    wc.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-                    var modelString = JsonConvert.SerializeObject(fromBody);
-                    var content = new StringContent(modelString, Encoding.UTF8, "application/json");
-                    var jsonResult = wc.PostAsync($@"{urlapi}", content).Result.Content.ReadAsStringAsync().Result;
-                    return Task.Run(() => JsonConvert.DeserializeObject<ResponseBase<TResult>>(jsonResult, _serializerSettings));
+                    if (!string.IsNullOrEmpty(token))
+                        request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {token}");
+                    var response = SharedHttpClient.SendAsync(request).GetAwaiter().GetResult();
+                    var jsonResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    return Task.FromResult(JsonConvert.DeserializeObject<ResponseBase<TResult>>(jsonResult, _serializerSettings));
                 }
             }
             catch (Exception ex)
             {
                 FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
             }
-            return default;
+            return Task.FromResult<ResponseBase<TResult>>(null);
         }
 
         public Task<ResponseBase<TResult>> PutAsync<TResult>(string uri, dynamic fromBody, string token = "")
@@ -102,20 +118,22 @@ namespace Lottery.Service.ServiceProvider
             try
             {
                 Uri urlapi = new Uri(uri);
-                using (var wc = new HttpClient())
+                var modelString = JsonConvert.SerializeObject(fromBody);
+                using (var content = new StringContent(modelString, Encoding.UTF8, "application/json"))
+                using (var request = new HttpRequestMessage(HttpMethod.Put, urlapi) { Content = content })
                 {
-                    wc.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-                    var modelString = JsonConvert.SerializeObject(fromBody);
-                    var content = new StringContent(modelString, Encoding.UTF8, "application/json");
-                    var jsonResult = wc.PutAsync($@"{urlapi}", content).Result.Content.ReadAsStringAsync().Result;
-                    return Task.Run(() => JsonConvert.DeserializeObject<ResponseBase<TResult>>(jsonResult, _serializerSettings));
+                    if (!string.IsNullOrEmpty(token))
+                        request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {token}");
+                    var response = SharedHttpClient.SendAsync(request).GetAwaiter().GetResult();
+                    var jsonResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    return Task.FromResult(JsonConvert.DeserializeObject<ResponseBase<TResult>>(jsonResult, _serializerSettings));
                 }
             }
             catch (Exception ex)
             {
                 FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
             }
-            return default;
+            return Task.FromResult<ResponseBase<TResult>>(null);
         }
 
         public Task<ResponseBase<bool>> DeleteAsync(string uri, string token = "")
@@ -124,18 +142,20 @@ namespace Lottery.Service.ServiceProvider
             try
             {
                 Uri urlapi = new Uri(uri);
-                using (var wc = new HttpClient())
+                using (var request = new HttpRequestMessage(HttpMethod.Delete, urlapi))
                 {
-                    wc.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
-                    var jsonResult = wc.DeleteAsync($@"{urlapi}").Result.Content.ReadAsStringAsync().Result;
-                    return Task.Run(() => JsonConvert.DeserializeObject<ResponseBase<bool>>(jsonResult, _serializerSettings));
+                    if (!string.IsNullOrEmpty(token))
+                        request.Headers.TryAddWithoutValidation("Authorization", $"Bearer {token}");
+                    var response = SharedHttpClient.SendAsync(request).GetAwaiter().GetResult();
+                    var jsonResult = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    return Task.FromResult(JsonConvert.DeserializeObject<ResponseBase<bool>>(jsonResult, _serializerSettings));
                 }
             }
             catch (Exception ex)
             {
                 FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
             }
-            return default;
+            return Task.FromResult<ResponseBase<bool>>(null);
         }
     }
 }

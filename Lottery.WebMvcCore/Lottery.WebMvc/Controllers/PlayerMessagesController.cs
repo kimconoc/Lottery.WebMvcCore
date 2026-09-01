@@ -55,13 +55,42 @@ namespace Lottery.WebMvc.Controllers
                 var messgeByDayBase = _provider.PostAsync<MessgeByDay>(ApiUri.POST_HandlMessagemessageByDay, messgeByDayModel);
                 if (messgeByDayBase == null || messgeByDayBase.Result == null || messgeByDayBase.Result.Data == null)
                 {
-                    return Json(Server_Error("Đã có lỗi xảy ra!"));
+                    // Full-page navigation: keep View alive (do not return JSON 500)
+                    FileHelper.GeneratorFileByDay(
+                        $"message-by-day failed. Code={messgeByDayBase?.Result?.Code} Msg={messgeByDayBase?.Result?.Message}",
+                        MethodBase.GetCurrentMethod().Name);
+                    messgeByDay = new MessgeByDay
+                    {
+                        DetailMessage = new System.Collections.Generic.List<DetailMessage>(),
+                        Total = new Total
+                        {
+                            QuaCo = new Summary(),
+                            Trung = new Summary(),
+                            Xac = new Summary()
+                        },
+                        Message = messgeByDayBase?.Result?.Message ?? "Đã có lỗi xảy ra!",
+                        MessgeByDaySession = messgeByDaySession
+                    };
+                    return View(messgeByDay);
                 }
                 messgeByDay = messgeByDayBase.Result.Data;
             }
             catch (Exception ex)
             {
                 FileHelper.GeneratorFileByDay(ex.ToString(), MethodBase.GetCurrentMethod().Name);
+                messgeByDay = new MessgeByDay
+                {
+                    DetailMessage = new System.Collections.Generic.List<DetailMessage>(),
+                    Total = new Total
+                    {
+                        QuaCo = new Summary(),
+                        Trung = new Summary(),
+                        Xac = new Summary()
+                    },
+                    Message = "Đã có lỗi xảy ra!",
+                    MessgeByDaySession = messgeByDaySession
+                };
+                return View(messgeByDay);
             }
             messgeByDay.MessgeByDaySession = messgeByDaySession;
             return View(messgeByDay);
